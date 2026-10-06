@@ -1,3 +1,7 @@
+/* =========================================
+   CONFIGURACIÓN GENERAL
+   ========================================= */
+
 * {
     margin: 0;
     padding: 0;
@@ -5,114 +9,396 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
+    font-family: Arial, Helvetica, sans-serif;
+
     min-height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    background-color: #f2f2f2;
+
+    background:
+        radial-gradient(circle at top left, #e8eefc, transparent 40%),
+        radial-gradient(circle at bottom right, #f1e5ff, transparent 40%),
+        #f5f7fb;
+
+    color: #222;
 }
 
-.portada,
-.audios {
+
+/* =========================================
+   PORTADA
+   ========================================= */
+
+.portada {
+    min-height: 100vh;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: center;
+
     text-align: center;
 }
 
-h1 {
-    font-size: 48px;
-    margin-bottom: 30px;
+.portada h1 {
+    font-size: 52px;
+    margin-bottom: 35px;
     color: #222;
 }
 
-.audios p {
-    font-size: 20px;
-    margin-bottom: 30px;
-    color: #555;
-}
+
+/* =========================================
+   BOTONES
+   ========================================= */
 
 .boton {
     display: inline-block;
+
     padding: 15px 30px;
-    background-color: #333;
+
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+
     color: white;
+
     text-decoration: none;
-    border-radius: 8px;
+
+    border-radius: 12px;
+
     font-size: 18px;
-    transition: background-color 0.3s;
+    font-weight: bold;
+
+    box-shadow:
+        0 8px 20px rgba(79, 70, 229, 0.25);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
 }
 
 .boton:hover {
-    background-color: #555;
+    transform: translateY(-3px);
+
+    box-shadow:
+        0 12px 25px rgba(79, 70, 229, 0.35);
 }
 
-/* =========================
-   PÁGINA DE GRABACIONES
-   ========================= */
+
+/* =========================================
+   PÁGINA DE AUDIOS
+   ========================================= */
 
 .audios {
-    width: 90%;
-    max-width: 800px;
-    padding: 40px 0;
+    width: 92%;
+    max-width: 850px;
+
+    margin: 0 auto;
+
+    padding: 60px 0;
 }
 
-.descripcion {
+
+/* =========================================
+   ENCABEZADO
+   ========================================= */
+
+.encabezado-audios {
+    text-align: center;
+
+    margin-bottom: 40px;
+}
+
+.icono-musical {
+    width: 70px;
+    height: 70px;
+
+    margin: 0 auto 20px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 50%;
+
+    background: linear-gradient(
+        135deg,
+        #4f46e5,
+        #7c3aed
+    );
+
+    color: white;
+
+    font-size: 38px;
+
+    box-shadow:
+        0 10px 30px rgba(79, 70, 229, 0.25);
+}
+
+.encabezado-audios h1 {
+    font-size: 44px;
+
+    margin-bottom: 12px;
+
+    color: #202124;
+}
+
+.encabezado-audios p {
     font-size: 18px;
-    color: #555;
-    margin-bottom: 30px;
+
+    color: #6b7280;
 }
 
 
-/* Secciones desplegables */
+/* =========================================
+   SECCIONES
+   ========================================= */
 
 .seccion {
-    background-color: white;
-    margin-bottom: 15px;
-    border-radius: 10px;
+    background: white;
+
+    margin-bottom: 18px;
+
+    border-radius: 16px;
+
     overflow: hidden;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.07);
+
+    border: 1px solid rgba(0, 0, 0, 0.05);
+
+    transition:
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+}
+
+.seccion:hover {
+    transform: translateY(-2px);
+
+    box-shadow:
+        0 10px 28px rgba(0, 0, 0, 0.10);
 }
 
 
-/* Título de cada sección */
+/* =========================================
+   CABECERA DE LA SECCIÓN
+   ========================================= */
 
 .seccion summary {
-    padding: 20px;
+    list-style: none;
+
+    cursor: pointer;
+
+    min-height: 82px;
+
+    padding: 16px 22px;
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 18px;
+
+    user-select: none;
+}
+
+
+/* Quitar triángulo predeterminado */
+
+.seccion summary::-webkit-details-marker {
+    display: none;
+}
+
+
+/* =========================================
+   ICONO DE SECCIÓN
+   ========================================= */
+
+.icono-seccion {
+    width: 52px;
+    height: 52px;
+
+    flex-shrink: 0;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    border-radius: 14px;
+
+    color: white;
+
+    font-size: 27px;
+
+    box-shadow:
+        0 5px 12px rgba(0, 0, 0, 0.12);
+}
+
+
+/* =========================================
+   NOMBRE DE SECCIÓN
+   ========================================= */
+
+.nombre-seccion {
+    flex: 1;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 5px;
+
     font-size: 20px;
     font-weight: bold;
-    cursor: pointer;
-    color: #222;
-    background-color: #ffffff;
+
+    color: #202124;
+}
+
+.nombre-seccion small {
+    font-size: 13px;
+
+    font-weight: normal;
+
+    color: #8a8f98;
 }
 
 
-/* Efecto al pasar el mouse */
+/* =========================================
+   FLECHA
+   ========================================= */
 
-.seccion summary:hover {
-    background-color: #f5f5f5;
+.flecha {
+    font-size: 28px;
+
+    color: #8a8f98;
+
+    transition:
+        transform 0.3s ease;
 }
 
 
-/* Contenido de la sección */
+/* Girar flecha cuando se abre */
+
+.seccion[open] .flecha {
+    transform: rotate(180deg);
+}
+
+
+/* =========================================
+   COLORES DE CADA SECCIÓN
+   ========================================= */
+
+/* Mujeres */
+
+.mujeres {
+    border-left: 5px solid #db2777;
+}
+
+.mujeres .icono-seccion {
+    background: linear-gradient(
+        135deg,
+        #ec4899,
+        #be185d
+    );
+}
+
+
+/* Varones */
+
+.varones {
+    border-left: 5px solid #2563eb;
+}
+
+.varones .icono-seccion {
+    background: linear-gradient(
+        135deg,
+        #3b82f6,
+        #1d4ed8
+    );
+}
+
+
+/* Coro */
+
+.coro {
+    border-left: 5px solid #7c3aed;
+}
+
+.coro .icono-seccion {
+    background: linear-gradient(
+        135deg,
+        #8b5cf6,
+        #6d28d9
+    );
+}
+
+
+/* Niños */
+
+.ninos {
+    border-left: 5px solid #f59e0b;
+}
+
+.ninos .icono-seccion {
+    background: linear-gradient(
+        135deg,
+        #fbbf24,
+        #d97706
+    );
+}
+
+
+/* Jóvenes */
+
+.jovenes {
+    border-left: 5px solid #059669;
+}
+
+.jovenes .icono-seccion {
+    background: linear-gradient(
+        135deg,
+        #10b981,
+        #047857
+    );
+}
+
+
+/* =========================================
+   GRABACIONES
+   ========================================= */
 
 .grabaciones {
-    padding: 10px 20px 20px 20px;
+    padding: 5px 22px 22px;
+
+    background: #fafafa;
+
+    border-top: 1px solid #eeeeee;
 }
 
 
 /* Cada grabación */
 
 .grabacion {
-    padding: 15px;
-    margin-top: 10px;
-    background-color: #f5f5f5;
-    border-radius: 8px;
+    margin-top: 15px;
+
+    padding: 18px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    border: 1px solid #eeeeee;
+
+    box-shadow:
+        0 2px 8px rgba(0, 0, 0, 0.04);
 }
 
-
 .grabacion h3 {
-    margin-bottom: 10px;
-    font-size: 17px;
-    color: #333;
+    margin-bottom: 12px;
+
+    font-size: 16px;
+
+    color: #444;
 }
 
 
@@ -123,9 +409,63 @@ h1 {
 }
 
 
-/* Botón volver */
+/* =========================================
+   BOTÓN VOLVER
+   ========================================= */
 
 .volver {
-    margin-top: 30px;
+    display: block;
+
+    width: fit-content;
+
+    margin: 35px auto 0;
 }
 
+
+/* =========================================
+   CELULARES
+   ========================================= */
+
+@media (max-width: 600px) {
+
+    .audios {
+        width: 94%;
+        padding: 35px 0;
+    }
+
+    .encabezado-audios h1 {
+        font-size: 34px;
+    }
+
+    .encabezado-audios p {
+        font-size: 16px;
+    }
+
+    .seccion summary {
+        padding: 14px;
+        gap: 12px;
+    }
+
+    .icono-seccion {
+        width: 45px;
+        height: 45px;
+
+        font-size: 23px;
+    }
+
+    .nombre-seccion {
+        font-size: 17px;
+    }
+
+    .nombre-seccion small {
+        font-size: 12px;
+    }
+
+    .grabaciones {
+        padding: 5px 14px 15px;
+    }
+
+    .grabacion {
+        padding: 14px;
+    }
+}
