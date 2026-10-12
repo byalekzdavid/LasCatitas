@@ -1,1 +1,15 @@
+```css
+/* ========================================
+   ESTILOS DE PRUEBA - GRABACIONES
+   Archivo: style-prueba.css
+   ======================================== */
 
+/* Configuración general */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font
