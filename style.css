@@ -128,13 +128,22 @@ body {
 
 /* Efecto al pasar el mouse */
 
+
 .portada .boton:hover {
     transform: translateY(-4px) scale(1.03);
 
+    background: linear-gradient(
+        135deg,
+        #06b6d4,
+        #0d9488,
+        #22c55e
+    );
+
+    background-size: 200% 200%;
     background-position: 100% 50%;
 
     box-shadow:
-        0 14px 30px rgba(79, 70, 229, 0.38);
+        0 14px 30px rgba(13, 148, 136, 0.4);
 }
 
 .portada .boton:hover::before {
