@@ -1,0 +1,212 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bienvenidos</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="google-site-verification" content="pQMq-683FjbEJwTVSkE0yGTZrfJ89ELk6pMtQ3Ei-Q4">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body.portada-elegante {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #fffaf0;
+            background:
+                radial-gradient(ellipse at center, #244b7d, transparent 65%),
+                linear-gradient(135deg, #071426, #102b4c, #071426);
+        }
+
+        .portada-elegante .portada {
+            min-height: 100vh;
+            padding: 60px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            isolation: isolate;
+        }
+
+        .portada-elegante .portada::before {
+            content: "";
+            position: absolute;
+            inset: 22px;
+            border: 1px solid #c6a45c;
+            border-radius: 18px;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .portada-elegante .portada::after {
+            content: "";
+            position: absolute;
+            width: 260px;
+            height: 260px;
+            border: 1px solid rgba(218, 181, 105, 0.16);
+            border-radius: 50%;
+            box-shadow:
+                0 0 0 24px rgba(218, 181, 105, 0.035),
+                0 0 0 50px rgba(218, 181, 105, 0.025);
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .portada-elegante .detalle {
+            color: #e4c47e;
+            font-size: 12px;
+            letter-spacing: 5px;
+            margin-bottom: 25px;
+        }
+
+        .portada-elegante h1 {
+            color: #fffaf0;
+            font-size: clamp(42px, 8vw, 72px);
+            margin: 0;
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+        }
+
+        .portada-elegante .linea {
+            width: 100px;
+            height: 2px;
+            margin: 25px;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                #e4c47e,
+                transparent
+            );
+        }
+
+        .portada-elegante .mensaje {
+            max-width: 480px;
+            color: #d3deeb;
+            line-height: 1.8;
+            margin: 0 0 35px;
+            font-size: 16px;
+        }
+
+        .portada-elegante .boton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 58px;
+            padding: 17px 28px;
+            border: 1px solid #e1c17b;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #e4c984, #c6a45c);
+            color: #10233b;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: bold;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .portada-elegante .boton:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .portada-elegante .boton:focus-visible {
+            outline: 3px solid #fff;
+            outline-offset: 5px;
+        }
+
+        .portada-elegante .icono-audio {
+            font-size: 20px;
+            line-height: 1;
+        }
+
+        .portada-elegante .pie {
+            margin-top: 55px;
+            color: #aebdd0;
+            font-size: 11px;
+            letter-spacing: 3px;
+        }
+
+        @media (max-width: 480px) {
+            .portada-elegante .portada {
+                padding: 45px 24px;
+            }
+
+            .portada-elegante .portada::before {
+                inset: 12px;
+                border-radius: 14px;
+            }
+
+            .portada-elegante .detalle {
+                font-size: 10px;
+                letter-spacing: 3px;
+            }
+
+            .portada-elegante .mensaje {
+                font-size: 15px;
+            }
+
+            .portada-elegante .boton {
+                width: min(100%, 290px);
+                padding: 15px 20px;
+                font-size: 15px;
+            }
+
+            .portada-elegante .pie {
+                font-size: 10px;
+                letter-spacing: 2px;
+            }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .portada-elegante .boton {
+                transition: none;
+            }
+
+            .portada-elegante .boton:hover {
+                transform: none;
+            }
+        }
+    </style>
+</head>
+
+<body class="portada-elegante">
+
+    <main class="portada">
+
+        <div class="detalle">UN ESPACIO PARA ESCUCHAR</div>
+
+        <h1>Bienvenidos</h1>
+
+        <div class="linea"></div>
+
+        <p class="mensaje">
+            Un lugar para disfrutar y compartir grabaciones.
+        </p>
+
+        <a href="audios.html" class="boton">
+            <span class="icono-audio" aria-hidden="true">♫</span>
+            Escuchar Grabaciones
+        </a>
+
+        <div class="pie">
+            GRACIAS POR VISITARNOS
+        </div>
+
+    </main>
+
+</body>
+</html>
