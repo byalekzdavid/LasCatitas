@@ -1,9 +1,15 @@
 /* =========================================================
    LAS CATITAS — HOJA DE ESTILOS GENERAL
    Los estilos están separados por página y función.
-   ========================================================= */
+   =========================================================
 
-/* =========================================================
+GUÍA RÁPIDA
+   1. Reglas generales
+   2. Portada — index.html
+   3. Grabaciones — audios.html
+   4. Reproductor de audio
+
+   =========================================================
    1. REGLAS GENERALES
    Compartidas por index.html y audios.html
    ========================================================= */
@@ -13,7 +19,8 @@
 }
 
 /* =========================================================
-   2. PÁGINA DE INICIO — index.html
+   2. PORTADA — index.html
+   Fondo, tarjeta, textos, botón y ajustes para celulares.
    ========================================================= */
 
 body.portada-elegante {
@@ -181,7 +188,8 @@ body.portada-elegante {
         }
 
 /* =========================================================
-   3. PÁGINA DE GRABACIONES — audios.html
+   3. GRABACIONES — audios.html
+   Encabezado, reproductor, categorías, grabaciones y retorno.
    ========================================================= */
 
 body.pagina-audios {
@@ -518,7 +526,8 @@ body.pagina-audios {
         }
 
 /* =========================================================
-   4. REPRODUCTOR DE AUDIO — ajustes complementarios
+   4. REPRODUCTOR DE AUDIO
+   Nombre de la grabación y controles.
    ========================================================= */
 
 /* =========================================
