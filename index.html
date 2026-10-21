@@ -21,10 +21,121 @@
 
         <div class="linea"></div>
 
-        <a href="audios.html" class="boton">
-            Escuchar Grabaciones
-        </a>
+        <a href="audios.html" class="boton" id="boton-audios">
+    Escuchar Grabaciones
+</a>
     </main>
 
+    <script>
+        const botonAudios = document.getElementById("boton-audios");
+
+        botonAudios.addEventListener("click", async function (evento) {
+            evento.preventDefault();
+
+            // Evita pulsaciones repetidas durante la melodía.
+            if (botonAudios.dataset.reproduciendo === "si") {
+                return;
+            }
+
+            botonAudios.dataset.reproduciendo = "si";
+            botonAudios.setAttribute("aria-busy", "true");
+
+            let contexto;
+
+            try {
+                const AudioContextClass =
+                    window.AudioContext || window.webkitAudioContext;
+
+                // Si el navegador no admite audio generado por código,
+                // se continúa directamente a la página de grabaciones.
+                if (!AudioContextClass) {
+                    window.location.href = "audios.html";
+                    return;
+                }
+
+                contexto = new AudioContextClass();
+                await contexto.resume();
+
+                // Notas DO, RE y MI de la cuarta octava.
+                const notas = [
+                    { frecuencia: 261.63, nombre: "DO" },
+                    { frecuencia: 293.66, nombre: "RE" },
+                    { frecuencia: 329.63, nombre: "MI" }
+                ];
+
+                // Sonido de órgano mediante varios armónicos.
+                function tocarNota(frecuencia, duracion) {
+                    return new Promise(resolve => {
+                        const inicio = contexto.currentTime;
+                        const volumen = contexto.createGain();
+
+                        volumen.gain.setValueAtTime(0.0001, inicio);
+                        volumen.gain.linearRampToValueAtTime(
+                            0.12, inicio + 0.035
+                        );
+                        volumen.gain.setValueAtTime(
+                            0.12, inicio + duracion - 0.06
+                        );
+                        volumen.gain.linearRampToValueAtTime(
+                            0.0001, inicio + duracion
+                        );
+
+                        volumen.connect(contexto.destination);
+
+                        const fundamental = contexto.createOscillator();
+                        const armonico = contexto.createOscillator();
+
+                        const mezclaArmonico = contexto.createGain();
+                        mezclaArmonico.gain.value = 0.28;
+
+                        fundamental.type = "sine";
+                        fundamental.frequency.value = frecuencia;
+
+                        armonico.type = "sine";
+                        armonico.frequency.value = frecuencia * 2;
+
+                        fundamental.connect(volumen);
+                        armonico.connect(mezclaArmonico);
+                        mezclaArmonico.connect(volumen);
+
+                        fundamental.start(inicio);
+                        armonico.start(inicio);
+
+                        fundamental.stop(inicio + duracion);
+                        armonico.stop(inicio + duracion);
+
+                        fundamental.addEventListener("ended", () => {
+                            resolve();
+                        }, { once: true });
+                    });
+                }
+
+                // Toca DO–RE–MI y espera que termine cada nota.
+                for (const nota of notas) {
+                    await tocarNota(nota.frecuencia, 0.38);
+                    await new Promise(resolve => setTimeout(resolve, 60));
+                }
+
+                await contexto.close();
+                contexto = null;
+
+                // Navega una vez terminada la secuencia.
+                window.location.href = "audios.html";
+
+            } catch (error) {
+                // Si ocurre un error de audio, no se bloquea la visita.
+                if (contexto && contexto.state !== "closed") {
+                    try {
+                        await contexto.close();
+                    } catch (errorCierre) {
+                        // La navegación continúa aunque falle el cierre.
+                    }
+                }
+
+                window.location.href = "audios.html";
+            }
+        });
+    </script>
+    
 </body>
 </html>
