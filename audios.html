@@ -495,7 +495,7 @@
         <a href="index.html" class="volver">← Volver al inicio</a>
     </main>
 
-    <script>
+    <!-- <script>
         const reproductor = document.getElementById("reproductor");
         const nombreAudio = document.getElementById("nombre-audio");
 
@@ -522,7 +522,52 @@
                 // pulsa el control Reproducir.
             });
         });
-    </script>
+    </script>  -->
+
+<script>
+    const reproductor = document.getElementById("reproductor");
+    const nombreAudio = document.getElementById("nombre-audio");
+
+    // Permitir que solo una categoría esté abierta a la vez
+    const categorias = document.querySelectorAll(".seccion");
+
+    categorias.forEach(categoria => {
+        categoria.addEventListener("toggle", function () {
+            if (this.open) {
+                categorias.forEach(otraCategoria => {
+                    if (otraCategoria !== this) {
+                        otraCategoria.open = false;
+                    }
+                });
+            }
+        });
+    });
+
+    // Funcionamiento del reproductor
+    document.querySelectorAll(".boton-grabacion").forEach(boton => {
+        boton.addEventListener("click", function () {
+            const titulo = this.dataset.titulo;
+            const archivo = this.dataset.audio;
+
+            nombreAudio.textContent = titulo;
+
+            if (reproductor.getAttribute("src") !== archivo) {
+                reproductor.src = archivo;
+                reproductor.load();
+            }
+
+            // Resaltar la grabación seleccionada
+            document.querySelectorAll(".boton-grabacion").forEach(elemento => {
+                elemento.classList.remove("seleccionada");
+            });
+
+            this.classList.add("seleccionada");
+
+            // El audio no comienza automáticamente.
+        });
+    });
+</script>
+    
 
 </body>
 </html>
