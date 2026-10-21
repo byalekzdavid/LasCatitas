@@ -182,10 +182,29 @@ if ("serviceWorker" in navigator) {
 
     const botonInstalar = document.getElementById("instalar-app");
 
+    function verificarInstalacion() {
+        const instaladaComoApp =
+            window.matchMedia("(display-mode: standalone)").matches ||
+            window.navigator.standalone === true;
+
+        if (instaladaComoApp) {
+            botonInstalar.hidden = true;
+        }
+
+        return instaladaComoApp;
+    }
+
+    verificarInstalacion();
+
+    window.addEventListener("pageshow", verificarInstalacion);
+
     window.addEventListener("beforeinstallprompt", function (evento) {
         evento.preventDefault();
         instalacionPendiente = evento;
-        botonInstalar.hidden = false;
+
+        if (!verificarInstalacion()) {
+            botonInstalar.hidden = false;
+        }
     });
 
     botonInstalar.addEventListener("click", async function () {
@@ -198,6 +217,7 @@ if ("serviceWorker" in navigator) {
         await instalacionPendiente.userChoice;
 
         instalacionPendiente = null;
+        verificarInstalacion();
         botonInstalar.hidden = true;
     });
 
