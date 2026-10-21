@@ -1,0 +1,41 @@
+
+/* =========================================
+   NOMBRE DE LA GRABACIÓN SELECCIONADA
+   ========================================= */
+
+#nombre-audio {
+    display: block;
+    margin: 0;
+    color: #c5d2e2;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+
+/* =========================================
+   REPRODUCTOR DE AUDIO
+   ========================================= */
+
+#reproductor {
+    display: block;
+    width: 100%;
+    height: 48px;
+    margin-top: 10px;
+}
+
+
+/* =========================================
+   ADAPTACIÓN PARA CELULARES
+   ========================================= */
+
+@media (max-width: 480px) {
+    #nombre-audio {
+        font-size: 13px;
+    }
+
+    #reproductor {
+        height: 44px;
+    }
+}
