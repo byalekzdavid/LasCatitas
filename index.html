@@ -27,12 +27,32 @@
         <div class="linea"></div>
 
         <a href="audios.html" class="boton" id="boton-audios">
-    Escuchar Grabaciones
-</a>
+    Escuchar Grabaciones</a>
+        <button
+    id="instalar-app"
+    class="boton"
+    type="button"
+    hidden
+    style="
+        position: fixed;
+        top: 15px;
+        right: 15px;
+        z-index: 1000;
+        padding: 10px 14px;
+        border: 1px solid #d6b56d;
+        border-radius: 8px;
+        background: #10243e;
+        color: #ffffff;
+        font-size: 14px;
+        cursor: pointer;
+    ">
+    📲 Instalar Las Catitas
+        </button>
     </main>
 
     
 <script>
+    // ########## PARA QUE EL BOTON GRABACIONES SUENE DO_RE_MI
         const botonAudios = document.getElementById("boton-audios");
 
         botonAudios.addEventListener("click", async function (evento) {
@@ -141,16 +161,47 @@
                 window.location.href = "audios.html";
             }
         });
-    </script>
+</script>
 
-    <script>
-        // ###### para WPA app en movil
+<script>
+        // ###### PARA WPA en CELULAR
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker.register("./service-worker.js")
             .catch(error => console.error(error));
     });
 }
+</script>
+
+<script>
+        // ################ PARA EL BOTON INSTALAR WPA
+    let instalacionPendiente = null;
+
+    const botonInstalar = document.getElementById("instalar-app");
+
+    window.addEventListener("beforeinstallprompt", function (evento) {
+        evento.preventDefault();
+        instalacionPendiente = evento;
+        botonInstalar.hidden = false;
+    });
+
+    botonInstalar.addEventListener("click", async function () {
+        if (!instalacionPendiente) {
+            return;
+        }
+
+        instalacionPendiente.prompt();
+
+        await instalacionPendiente.userChoice;
+
+        instalacionPendiente = null;
+        botonInstalar.hidden = true;
+    });
+
+    window.addEventListener("appinstalled", function () {
+        botonInstalar.hidden = true;
+        instalacionPendiente = null;
+    });
 </script>
     
 </body>
