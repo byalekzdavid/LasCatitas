@@ -26,116 +26,122 @@
 </a>
     </main>
 
-    <script>
-        const botonAudios = document.getElementById("boton-audios");
+    
+<script>
+    const botonAudios = document.getElementById("boton-audios");
 
-        botonAudios.addEventListener("click", async function (evento) {
-            evento.preventDefault();
+    botonAudios.addEventListener("click", async function (evento) {
+        evento.preventDefault();
 
-            // Evita pulsaciones repetidas durante la melodía.
-            if (botonAudios.dataset.reproduciendo === "si") {
+        if (botonAudios.dataset.reproduciendo === "si") {
+            return;
+        }
+
+        botonAudios.dataset.reproduciendo = "si";
+        botonAudios.setAttribute("aria-busy", "true");
+
+        let contexto;
+
+        try {
+            const AudioContextClass =
+                window.AudioContext || window.webkitAudioContext;
+
+            if (!AudioContextClass) {
+                window.location.href = "audios.html";
                 return;
             }
 
-            botonAudios.dataset.reproduciendo = "si";
-            botonAudios.setAttribute("aria-busy", "true");
+            contexto = new AudioContextClass();
+            await contexto.resume();
 
-            let contexto;
+            // Frecuencias de DO, RE y MI.
+            const notas = [
+                261.63,
+                293.66,
+                329.63
+            ];
 
-            try {
-                const AudioContextClass =
-                    window.AudioContext || window.webkitAudioContext;
+            // Simula una cuerda pulsada de guitarra criolla.
+            function tocarNota(frecuencia, duracion) {
+                return new Promise(resolve => {
+                    const inicio = contexto.currentTime;
+                    const salida = contexto.createGain();
 
-                // Si el navegador no admite audio generado por código,
-                // se continúa directamente a la página de grabaciones.
-                if (!AudioContextClass) {
-                    window.location.href = "audios.html";
-                    return;
-                }
+                    salida.gain.setValueAtTime(0.0001, inicio);
+                    salida.gain.linearRampToValueAtTime(
+                        0.32, inicio + 0.008
+                    );
+                    salida.gain.exponentialRampToValueAtTime(
+                        0.0001, inicio + duracion
+                    );
 
-                contexto = new AudioContextClass();
-                await contexto.resume();
+                    salida.connect(contexto.destination);
 
-                // Notas DO, RE y MI de la cuarta octava.
-                const notas = [
-                    { frecuencia: 261.63, nombre: "DO" },
-                    { frecuencia: 293.66, nombre: "RE" },
-                    { frecuencia: 329.63, nombre: "MI" }
-                ];
+                    // Armónicos que dan un timbre de cuerda.
+                    const armonicos = [
+                        { multiplo: 1, volumen: 1.0 },
+                        { multiplo: 2, volumen: 0.45 },
+                        { multiplo: 3, volumen: 0.22 },
+                        { multiplo: 4, volumen: 0.10 },
+                        { multiplo: 5, volumen: 0.04 }
+                    ];
 
-                // Sonido de órgano mediante varios armónicos.
-                function tocarNota(frecuencia, duracion) {
-                    return new Promise(resolve => {
-                        const inicio = contexto.currentTime;
-                        const volumen = contexto.createGain();
+                    armonicos.forEach(dato => {
+                        const oscilador = contexto.createOscillator();
+                        const nivel = contexto.createGain();
 
-                        volumen.gain.setValueAtTime(0.0001, inicio);
-                        volumen.gain.linearRampToValueAtTime(
-                            0.12, inicio + 0.035
+                        oscilador.type = "triangle";
+                        oscilador.frequency.setValueAtTime(
+                            frecuencia * dato.multiplo,
+                            inicio
                         );
-                        volumen.gain.setValueAtTime(
-                            0.12, inicio + duracion - 0.06
-                        );
-                        volumen.gain.linearRampToValueAtTime(
-                            0.0001, inicio + duracion
-                        );
 
-                        volumen.connect(contexto.destination);
+                        nivel.gain.value = dato.volumen;
 
-                        const fundamental = contexto.createOscillator();
-                        const armonico = contexto.createOscillator();
+                        oscilador.connect(nivel);
+                        nivel.connect(salida);
 
-                        const mezclaArmonico = contexto.createGain();
-                        mezclaArmonico.gain.value = 0.28;
+                        oscilador.start(inicio);
+                        oscilador.stop(inicio + duracion);
 
-                        fundamental.type = "sine";
-                        fundamental.frequency.value = frecuencia;
-
-                        armonico.type = "sine";
-                        armonico.frequency.value = frecuencia * 2;
-
-                        fundamental.connect(volumen);
-                        armonico.connect(mezclaArmonico);
-                        mezclaArmonico.connect(volumen);
-
-                        fundamental.start(inicio);
-                        armonico.start(inicio);
-
-                        fundamental.stop(inicio + duracion);
-                        armonico.stop(inicio + duracion);
-
-                        fundamental.addEventListener("ended", () => {
-                            resolve();
-                        }, { once: true });
+                        if (dato.multiplo === 1) {
+                            oscilador.addEventListener(
+                                "ended",
+                                resolve,
+                                { once: true }
+                            );
+                        }
                     });
-                }
-
-                // Toca DO–RE–MI y espera que termine cada nota.
-                for (const nota of notas) {
-                    await tocarNota(nota.frecuencia, 0.38);
-                    await new Promise(resolve => setTimeout(resolve, 60));
-                }
-
-                await contexto.close();
-                contexto = null;
-
-                // Navega una vez terminada la secuencia.
-                window.location.href = "audios.html";
-
-            } catch (error) {
-                // Si ocurre un error de audio, no se bloquea la visita.
-                if (contexto && contexto.state !== "closed") {
-                    try {
-                        await contexto.close();
-                    } catch (errorCierre) {
-                        // La navegación continúa aunque falle el cierre.
-                    }
-                }
-
-                window.location.href = "audios.html";
+                });
             }
-        });
-    </script>
+
+            // Melodía DO–RE–MI.
+            for (const frecuencia of notas) {
+                await tocarNota(frecuencia, 0.48);
+                await new Promise(resolve =>
+                    setTimeout(resolve, 70)
+                );
+            }
+
+            await contexto.close();
+            contexto = null;
+
+            window.location.href = "audios.html";
+
+        } catch (error) {
+            if (contexto && contexto.state !== "closed") {
+                try {
+                    await contexto.close();
+                } catch (errorCierre) {
+                    // Se continúa con la navegación.
+                }
+            }
+
+            window.location.href = "audios.html";
+        }
+    });
+</script>
+
     
 </body>
 </html>
