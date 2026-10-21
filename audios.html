@@ -160,7 +160,7 @@
     const reproductor = document.getElementById("reproductor");
     const nombreAudio = document.getElementById("nombre-audio");
 
-    // Permitir que solo una categoría esté abierta a la vez
+    // ################ Permitir que solo una categoría esté abierta a la vez
     const categorias = document.querySelectorAll(".seccion");
 
     categorias.forEach(categoria => {
@@ -175,7 +175,7 @@
         });
     });
 
-    // Funcionamiento del reproductor
+    // ################ Funcionamiento del reproductor
     document.querySelectorAll(".boton-grabacion").forEach(boton => {
         boton.addEventListener("click", function () {
             const titulo = this.dataset.titulo;
@@ -188,14 +188,14 @@
                 reproductor.load();
             }
 
-            // Resaltar la grabación seleccionada
+            // ################ Resaltar la grabación seleccionada
             document.querySelectorAll(".boton-grabacion").forEach(elemento => {
                 elemento.classList.remove("seleccionada");
             });
 
             this.classList.add("seleccionada");
 
-            // El audio no comienza automáticamente.
+            // ################ El audio no comienza automáticamente.
         });
     });
 </script>
