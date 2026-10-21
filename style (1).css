@@ -1,0 +1,540 @@
+/* =========================================================
+   LAS CATITAS — HOJA DE ESTILOS PRINCIPAL
+   =========================================================
+
+   GUÍA RÁPIDA
+   1. Reglas generales
+   2. Portada — index.html
+   3. Grabaciones — audios.html
+   4. Reproductor de audio
+
+   Cada página utiliza una clase en <body> para mantener sus
+   estilos separados y evitar conflictos.
+   ========================================================= */
+
+
+/* =========================================================
+   1. REGLAS GENERALES
+   ========================================================= */
+
+* {
+    box-sizing: border-box;
+}
+
+
+/* =========================================================
+   2. PORTADA — index.html
+   Fondo, tarjeta, textos, botón y ajustes para celulares.
+   ========================================================= */
+
+body.portada-elegante {
+            margin: 0;
+            min-height: 100vh;
+            min-height: 100svh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 24px;
+            box-sizing: border-box;
+            background:
+                radial-gradient(ellipse at top, #243e60 0%, transparent 65%),
+                linear-gradient(145deg, #071426, #10243e 55%, #071321);
+            color: #f5f1e8;
+            font-family: "Segoe UI", Tahoma, Verdana, sans-serif;
+        }
+
+        .portada-elegante .portada {
+            width: 100%;
+            max-width: 650px;
+            box-sizing: border-box;
+            padding: 56px 28px;
+            text-align: center;
+            border: 1px solid rgba(220, 190, 120, 0.48);
+            border-radius: 22px;
+            background: rgba(8, 22, 40, 0.72);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.3);
+        }
+
+        .portada-elegante .detalle-superior {
+            margin: 0 0 22px;
+            color: #d7b96e;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+        }
+
+        .portada-elegante h1 {
+            margin: 0;
+            color: #f7f3e9;
+            font-size: clamp(38px, 8vw, 60px);
+            font-weight: 400;
+            letter-spacing: 1px;
+            line-height: 1.15;
+        }
+
+        .portada-elegante .linea-dorada {
+            width: 76px;
+            height: 2px;
+            margin: 26px auto;
+            background: #d7b96e;
+        }
+
+        .portada-elegante .descripcion {
+            max-width: 420px;
+            margin: 0 auto 34px;
+            color: #c6d2e0;
+            font-size: 16px;
+            line-height: 1.8;
+        }
+
+        .portada-elegante .boton {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            min-height: 54px;
+            padding: 0 28px;
+            box-sizing: border-box;
+            border: 1px solid #e8d49a;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #e6cd88, #c5a45d);
+            color: #102039;
+            font-family: inherit;
+            font-size: 15px;
+            font-weight: 700;
+            text-decoration: none;
+            cursor: pointer;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+            transition: transform 0.2s ease, filter 0.2s ease;
+        }
+
+        .portada-elegante .boton:hover {
+            transform: translateY(-2px);
+            filter: brightness(1.08);
+        }
+
+        .portada-elegante .boton:focus-visible {
+            outline: 3px solid #ffffff;
+            outline-offset: 4px;
+        }
+
+        .portada-elegante .boton:disabled {
+            cursor: wait;
+            opacity: 0.8;
+        }
+
+        .portada-elegante .pie {
+            margin: 36px 0 0;
+            color: #a9b8ca;
+            font-size: 11px;
+            letter-spacing: 3px;
+        }
+
+        /* Ajustes de la portada para celulares */
+@media (max-width: 480px) {
+            .portada-elegante .portada {
+                padding: 44px 20px;
+            }
+
+            .portada-elegante .detalle-superior {
+                font-size: 10px;
+                letter-spacing: 3px;
+            }
+
+            .portada-elegante .descripcion {
+                font-size: 14px;
+            }
+
+            .portada-elegante .boton {
+                width: 100%;
+                padding: 0 16px;
+            }
+        }
+
+        /* Accesibilidad: reducir animaciones */
+@media (prefers-reduced-motion: reduce) {
+            .portada-elegante .boton {
+                transition: none;
+            }
+        }
+
+
+/* =========================================================
+   3. GRABACIONES — audios.html
+   Encabezado, reproductor, categorías, grabaciones y retorno.
+   ========================================================= */
+
+/* Reglas de esta página */
+* {
+            box-sizing: border-box;
+        }
+
+        body.pagina-audios {
+            margin: 0;
+            min-height: 100vh;
+            font-family: "Segoe UI", Arial, sans-serif;
+            color: #fffaf0;
+            background:
+                radial-gradient(ellipse at center, #244b7d, transparent 65%),
+                linear-gradient(135deg, #071426, #102b4c, #071426);
+        }
+
+        .pagina-audios .audios {
+            position: relative;
+            isolation: isolate;
+            width: min(100% - 32px, 850px);
+            margin: auto;
+            padding: 35px 0 30px;
+        }
+
+        .pagina-audios .audios::before {
+            content: "";
+            position: absolute;
+            inset: 15px -10px;
+            border: 1px solid rgba(218, 181, 105, .35);
+            border-radius: 18px;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .pagina-audios .encabezado-audios {
+            text-align: center;
+            padding: 30px 20px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(218, 181, 105, .45);
+            border-radius: 16px;
+            background: rgba(7, 20, 38, .45);
+        }
+
+        .pagina-audios .detalle-encabezado,
+        .pagina-audios .etiqueta-reproductor {
+            color: #e4c47e;
+            font-size: 11px;
+            letter-spacing: 4px;
+        }
+
+        .pagina-audios .icono-musical {
+            display: grid;
+            place-items: center;
+            width: 65px;
+            height: 65px;
+            margin: 22px auto 15px;
+            border: 1px solid #c6a45c;
+            border-radius: 50%;
+            background: rgba(228, 201, 132, .10);
+            color: #e4c47e;
+            font-size: 34px;
+        }
+
+        .pagina-audios .encabezado-audios h1 {
+            margin: 0;
+            font-size: clamp(34px, 6vw, 52px);
+            font-weight: 600;
+            color: #fffaf0;
+        }
+
+        .pagina-audios .encabezado-audios p {
+            margin-bottom: 0;
+            color: #c5d2e2;
+            line-height: 1.7;
+        }
+
+        .pagina-audios .reproductor-principal {
+            margin-bottom: 22px;
+            padding: 24px;
+            border: 1px solid rgba(218, 181, 105, .4);
+            border-radius: 14px;
+            background: rgba(7, 20, 38, .65);
+        }
+
+        .pagina-audios .etiqueta-reproductor {
+            display: block;
+        }
+
+        .pagina-audios .titulo-reproductor {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin: 13px 0 18px;
+        }
+
+        .pagina-audios .icono-reproductor {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 50px;
+            height: 50px;
+            border: 1px solid #c6a45c;
+            border-radius: 12px;
+            background: rgba(228, 201, 132, .10);
+            color: #e4c47e;
+            font-size: 27px;
+        }
+
+        .pagina-audios .titulo-reproductor h2 {
+            margin: 0 0 6px;
+            color: #f8e6b5;
+            font-size: 22px;
+        }
+
+        .pagina-audios .seccion {
+            margin: 16px 0;
+            overflow: hidden;
+            border: 1px solid rgba(218, 181, 105, .4);
+            border-radius: 13px;
+            background: rgba(7, 20, 38, .72);
+            transition: border-color .2s ease;
+        }
+
+        .pagina-audios .seccion summary {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            min-height: 78px;
+            padding: 16px;
+            cursor: pointer;
+            list-style: none;
+        }
+
+        .pagina-audios .seccion summary::-webkit-details-marker {
+            display: none;
+        }
+
+        .pagina-audios .seccion summary::marker {
+            content: "";
+        }
+
+        .pagina-audios .seccion summary:hover {
+            background: rgba(228, 201, 132, .07);
+        }
+
+        .pagina-audios .icono-seccion {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 45px;
+            height: 45px;
+            border: 1px solid #c6a45c;
+            border-radius: 10px;
+            color: #e4c47e;
+            font-size: 25px;
+        }
+
+        .pagina-audios .nombre-seccion {
+            display: flex;
+            flex: 1;
+            flex-direction: column;
+            gap: 5px;
+            color: #fffaf0;
+            font-size: 18px;
+            font-weight: 600;
+        }
+
+        .pagina-audios .nombre-seccion small {
+            color: #aebdd0;
+            font-size: 12px;
+            font-weight: 400;
+        }
+
+        .pagina-audios .flecha {
+            flex-shrink: 0;
+            color: #e4c47e;
+            font-size: 25px;
+            transition: transform .2s ease;
+        }
+
+        .pagina-audios .seccion[open] .flecha {
+            transform: rotate(180deg);
+        }
+
+        .pagina-audios .lista-grabaciones {
+            display: flex;
+            flex-direction: column;
+            gap: 9px;
+            padding: 14px;
+            border-top: 1px solid rgba(218, 181, 105, .2);
+        }
+
+        .pagina-audios .boton-grabacion {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            width: 100%;
+            min-height: 54px;
+            padding: 12px 14px;
+            border: 1px solid rgba(218, 181, 105, .25);
+            border-radius: 9px;
+            background: rgba(255, 255, 255, .04);
+            color: #e7edf5;
+            font: inherit;
+            text-align: left;
+            cursor: pointer;
+            transition: background .2s ease, border-color .2s ease;
+        }
+
+        .pagina-audios .boton-grabacion > span:nth-child(2) {
+            flex: 1;
+            overflow-wrap: anywhere;
+        }
+
+        .pagina-audios .boton-grabacion > span:first-child,
+        .pagina-audios .accion-audio {
+            color: #e4c47e;
+        }
+
+        .pagina-audios .accion-audio {
+            display: grid;
+            place-items: center;
+            flex-shrink: 0;
+            width: 34px;
+            height: 34px;
+            border: 1px solid rgba(218, 181, 105, .35);
+            border-radius: 50%;
+            font-size: 13px;
+        }
+
+        .pagina-audios .boton-grabacion:hover,
+        .pagina-audios .boton-grabacion.seleccionada {
+            border-color: #c6a45c;
+            background: rgba(228, 201, 132, .12);
+        }
+
+        .pagina-audios .boton-grabacion.seleccionada .accion-audio {
+            background: #e4c47e;
+            color: #10233b;
+        }
+
+        .pagina-audios .boton-grabacion:focus-visible,
+        .pagina-audios .volver:focus-visible,
+        .pagina-audios .seccion summary:focus-visible {
+            outline: 3px solid #e4c47e;
+            outline-offset: 3px;
+        }
+
+        .pagina-audios .volver {
+            display: block;
+            width: fit-content;
+            margin: 30px auto 25px;
+            padding: 13px 23px;
+            border: 1px solid #c6a45c;
+            border-radius: 9px;
+            background: linear-gradient(135deg, #e4c984, #c6a45c);
+            color: #10233b;
+            text-decoration: none;
+            font-weight: 700;
+            transition: transform .2s ease;
+        }
+
+        .pagina-audios .volver:hover {
+            transform: translateY(-2px);
+        }
+
+        .pagina-audios .pie-pagina {
+            padding: 12px;
+            color: #aebdd0;
+            font-size: 10px;
+            letter-spacing: 3px;
+            text-align: center;
+        }
+
+        /* Ajustes de la página de grabaciones para celulares */
+@media (max-width: 480px) {
+            .pagina-audios .audios {
+                width: calc(100% - 32px);
+                padding-top: 25px;
+            }
+
+            .pagina-audios .encabezado-audios {
+                padding: 25px 12px;
+            }
+
+            .pagina-audios .detalle-encabezado {
+                font-size: 9px;
+                letter-spacing: 2px;
+            }
+
+            .pagina-audios .reproductor-principal {
+                padding: 18px;
+            }
+
+            .pagina-audios .titulo-reproductor {
+                gap: 12px;
+            }
+
+            .pagina-audios .titulo-reproductor h2 {
+                font-size: 19px;
+            }
+
+            .pagina-audios .seccion summary {
+                gap: 10px;
+                padding: 12px;
+            }
+
+            .pagina-audios .nombre-seccion {
+                font-size: 16px;
+            }
+
+            .pagina-audios .lista-grabaciones {
+                padding: 10px;
+            }
+
+            .pagina-audios .boton-grabacion {
+                gap: 9px;
+                padding: 11px;
+                font-size: 14px;
+            }
+
+            .pagina-audios .accion-audio {
+                width: 30px;
+                height: 30px;
+            }
+
+            .pagina-audios .volver {
+                max-width: 300px;
+            }
+        }
+
+        /* Accesibilidad: reducir animaciones */
+@media (prefers-reduced-motion: reduce) {
+            .pagina-audios *,
+            .pagina-audios *::before,
+            .pagina-audios *::after {
+                scroll-behavior: auto !important;
+                transition: none !important;
+            }
+        }
+
+
+/* =========================================================
+   4. REPRODUCTOR DE AUDIO
+   Nombre de la grabación y controles.
+   ========================================================= */
+
+#nombre-audio {
+    display: block;
+    margin: 0;
+    color: #c5d2e2;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+#reproductor {
+    display: block;
+    width: 100%;
+    height: 48px;
+    margin-top: 10px;
+}
+
+/* Ajustes del reproductor para celulares */
+@media (max-width: 480px) {
+    #nombre-audio {
+        font-size: 13px;
+    }
+
+    #reproductor {
+        height: 44px;
+    }
+}
