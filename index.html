@@ -61,9 +61,8 @@
         </button>
     </main>
 
-    
+<!-- ################ PARA QUE EL BOTON GRABACIONES SUENE DO_RE_MI ################ -->    
 <script>
-// ########## PARA QUE EL BOTON GRABACIONES SUENE DO_RE_MI
         const botonAudios = document.getElementById("boton-audios");
 
         botonAudios.addEventListener("click", async function (evento) {
@@ -174,8 +173,8 @@
         });
 </script>
 
+    <!-- ################ PARA WPA en CELULAR ################ -->    
 <script>
-// ###### PARA WPA en CELULAR
 if ("serviceWorker" in navigator) {
     window.addEventListener("load", () => {
         navigator.serviceWorker.register("./service-worker.js")
@@ -184,8 +183,8 @@ if ("serviceWorker" in navigator) {
 }
 </script>
 
+<!-- ################ PARA EL BOTON INSTALAR WPA ################ -->    
 <script>
-// ################ PARA EL BOTON INSTALAR WPA
     let instalacionPendiente = null;
 
     const botonInstalar = document.getElementById("instalar-app");
@@ -232,6 +231,71 @@ if ("serviceWorker" in navigator) {
     window.addEventListener("appinstalled", function () {
         botonInstalar.hidden = true;
         instalacionPendiente = null;
+    });
+</script>
+
+<!-- ################ POPUP DE ANUNCIOS LAS CATITAS ################ -->
+<div id="popup-anuncio" hidden>
+    <div class="popup-contenido" role="dialog"
+         aria-modal="true"
+         aria-labelledby="popup-titulo">
+
+        <button id="popup-cerrar"
+                type="button"
+                aria-label="Cerrar anuncio">×</button>
+
+        <div class="popup-icono" aria-hidden="true">♫</div>
+
+        <h2 id="popup-titulo"></h2>
+
+        <p id="popup-mensaje"></p>
+
+        <button id="popup-entendido" type="button">
+            Entendido
+        </button>
+    </div>
+</div>
+
+<script>
+    // ################ CONFIGURACIÓN DEL ANUNCIO ################
+    const anuncio = {
+        activo: false, // CAMBIAR a true para ver el anuncio
+        titulo: "¡Novedades de Las Catitas!", // CAMBIAR para el titulo del anuncio
+        mensaje: "Tenemos nueva información para compartir." // CAMBIAR para la información del anuncio
+    };
+
+    const popup = document.getElementById("popup-anuncio");
+
+    if (anuncio.activo) {
+        document.getElementById("popup-titulo").textContent =
+            anuncio.titulo;
+
+        document.getElementById("popup-mensaje").textContent =
+            anuncio.mensaje;
+
+        popup.hidden = false;
+    }
+
+    function cerrarPopup() {
+        popup.hidden = true;
+    }
+
+    document.getElementById("popup-cerrar")
+        .addEventListener("click", cerrarPopup);
+
+    document.getElementById("popup-entendido")
+        .addEventListener("click", cerrarPopup);
+
+    popup.addEventListener("click", function (evento) {
+        if (evento.target === popup) {
+            cerrarPopup();
+        }
+    });
+
+    document.addEventListener("keydown", function (evento) {
+        if (evento.key === "Escape" && !popup.hidden) {
+            cerrarPopup();
+        }
     });
 </script>
     
