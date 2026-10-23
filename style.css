@@ -729,8 +729,8 @@ body.pagina-audios {
 /* NUEVO BOTÓN INSTALAR APP */
 .boton-instalar {
   position: fixed;
-  top: 0px;
-  right: 0px;
+  top: 14px;
+  right: 14px;
   z-index: 1000;
 
   display: flex;
@@ -857,8 +857,8 @@ body.pagina-audios {
 
 @media (max-width: 600px) {
   .boton-instalar {
-    top: 0px;
-    right: 0px;
+    top: 14px;
+    right: 14px;
     width: 11rem;
     height: 2.8rem;
   }
