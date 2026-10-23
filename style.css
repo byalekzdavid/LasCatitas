@@ -730,7 +730,7 @@ body.pagina-audios {
 .boton-instalar {
   position: fixed;
   top: 20px;
-  right: 18px;
+  right: 20px;
   z-index: 1000;
 
   display: flex;
