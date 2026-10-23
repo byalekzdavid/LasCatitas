@@ -729,7 +729,7 @@ body.pagina-audios {
 /* NUEVO BOTÓN INSTALAR APP */
 .boton-instalar {
   position: fixed;
-  top: 18px;
+  top: 20px;
   right: 18px;
   z-index: 1000;
 
