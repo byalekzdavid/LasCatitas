@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10243e">
+  <title>Acceso administrativo | Las Catitas</title>
+  <link rel="stylesheet" href="admin-demo.css">
+</head>
+<body class="admin-demo">
+  <main class="admin-wrap">
+    <section class="admin-frame" aria-labelledby="titulo-acceso">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true">♫</div>
+        <h1>LAS CATITAS</h1>
+        <p>Administración de la aplicación</p>
+      </header>
+      <p class="eyebrow">Área privada</p>
+      <h2 class="page-title" id="titulo-acceso">Ingresar al panel</h2>
+      <p class="page-desc">Ingresá con las credenciales que te proporcionó el administrador principal.</p>
+      <form id="form-acceso">
+        <div class="field">
+          <label for="usuario">Nombre de usuario</label>
+          <input id="usuario" name="usuario" type="text" autocomplete="username" placeholder="Tu usuario" required>
+        </div>
+        <div class="field">
+          <label for="contrasena">Contraseña</label>
+          <input id="contrasena" name="contrasena" type="password" autocomplete="current-password" placeholder="Tu contraseña" required>
+        </div>
+        <button class="admin-button" type="submit">INGRESAR</button>
+      </form>
+      <div class="notice">Acceso reservado para personas autorizadas. Esta pantalla es una maqueta visual: todavía no verifica usuarios ni contraseñas reales.</div>
+      <div class="center"><a class="text-link" href="index.html">← Volver a Las Catitas</a></div>
+    </section>
+    <p class="footer-note">Las Catitas · Panel de administración</p>
+  </main>
+  <script>
+    // Demostración visual solamente. No autentica credenciales.
+    document.getElementById('form-acceso').addEventListener('submit', function(event) {
+      event.preventDefault();
+      window.location.href = 'PanelAdmin.html';
+    });
+  </script>
+</body>
+</html>
