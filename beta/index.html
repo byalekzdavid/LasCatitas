@@ -1,1 +1,317 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+    <title>Bienvenidos</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#10243e">
+<link rel="apple-touch-icon" href="icons/icon-192.png">
+
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="google-site-verification" content="pQMq-683FjbEJwTVSkE0yGTZrfJ89ELk6pMtQ3Ei-Q4">
+
+</head>
+
+<body class="portada-elegante">
+
+    <main class="portada">
+
+        <h1>Bienvenidos</h1>
+
+        <div class="linea"></div>
+
+        <a href="audios.html" class="boton" id="boton-audios">
+    Escuchar Grabaciones</a>
+        
+<button type="button" id="instalar-app" class="boton-instalar" hidden>
+  <strong>INSTALAR APP</strong>
+
+  <div class="instalar-container-stars">
+    <div class="instalar-stars"></div>
+  </div>
+
+  <div class="instalar-glow">
+    <div class="instalar-circle"></div>
+    <div class="instalar-circle"></div>
+  </div>
+</button>
+    <!--    
+     <button
+    id="instalar-app"
+    class="boton"
+    type="button"
+    hidden
+    style="
+        position: fixed;
+        top: 12px;
+        right: 12px;
+        z-index: 1000;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        width: auto;
+        max-width: max-content;
+        padding: 5px 8px;
+        margin: 0;
+        border: 1px solid #d6b56d;
+        border-radius: 6px;
+        background: #10243e;
+        color: #ffffff;
+        font-family: inherit;
+        font-size: 10px;
+        font-weight: 500;
+        line-height: 1.2;
+        cursor: pointer;
+        box-shadow: none;
+    ">
+    <span aria-hidden="true">📲</span>
+    Instalar APP
+        </button> -->
+    </main>
+
+<!-- ################ PARA QUE EL BOTON GRABACIONES SUENE DO_RE_MI ################ -->    
+<script>
+        const botonAudios = document.getElementById("boton-audios");
+
+        botonAudios.addEventListener("click", async function (evento) {
+            evento.preventDefault();
+
+            // Evita pulsaciones repetidas durante la melodía.
+            if (botonAudios.dataset.reproduciendo === "si") {
+                return;
+            }
+
+            botonAudios.dataset.reproduciendo = "si";
+            botonAudios.setAttribute("aria-busy", "true");
+
+            let contexto;
+
+            try {
+                const AudioContextClass =
+                    window.AudioContext || window.webkitAudioContext;
+
+                // Si el navegador no admite audio generado por código,
+                // se continúa directamente a la página de grabaciones.
+                if (!AudioContextClass) {
+                    window.location.href = "audios.html";
+                    return;
+                }
+
+                contexto = new AudioContextClass();
+                await contexto.resume();
+
+                // Notas DO, RE y MI de la cuarta octava.
+                const notas = [
+                    { frecuencia: 261.63, nombre: "DO" },
+                    { frecuencia: 293.66, nombre: "RE" },
+                    { frecuencia: 329.63, nombre: "MI" },
+                ];
+
+                // Sonido de órgano mediante varios armónicos.
+                function tocarNota(frecuencia, duracion) {
+                    return new Promise(resolve => {
+                        const inicio = contexto.currentTime;
+                        const volumen = contexto.createGain();
+
+                        volumen.gain.setValueAtTime(0.0001, inicio);
+                        volumen.gain.linearRampToValueAtTime(
+                            0.12, inicio + 0.035
+                        );
+                        volumen.gain.setValueAtTime(
+                            0.12, inicio + duracion - 0.06
+                        );
+                        volumen.gain.linearRampToValueAtTime(
+                            0.0001, inicio + duracion
+                        );
+
+                        volumen.connect(contexto.destination);
+
+                        const fundamental = contexto.createOscillator();
+                        const armonico = contexto.createOscillator();
+
+                        const mezclaArmonico = contexto.createGain();
+                        mezclaArmonico.gain.value = 0.28;
+
+                        fundamental.type = "sine";
+                        fundamental.frequency.value = frecuencia;
+
+                        armonico.type = "sine";
+                        armonico.frequency.value = frecuencia * 2;
+
+                        fundamental.connect(volumen);
+                        armonico.connect(mezclaArmonico);
+                        mezclaArmonico.connect(volumen);
+
+                        fundamental.start(inicio);
+                        armonico.start(inicio);
+
+                        fundamental.stop(inicio + duracion);
+                        armonico.stop(inicio + duracion);
+
+                        fundamental.addEventListener("ended", () => {
+                            resolve();
+                        }, { once: true });
+                    });
+                }
+
+                // Toca DO–RE–MI y espera que termine cada nota.
+                for (const nota of notas) {
+                    await tocarNota(nota.frecuencia, 0.38);
+                    await new Promise(resolve => setTimeout(resolve, 60));
+                }
+
+                await contexto.close();
+                contexto = null;
+
+                // Navega una vez terminada la secuencia.
+                window.location.href = "audios.html";
+
+            } catch (error) {
+                // Si ocurre un error de audio, no se bloquea la visita.
+                if (contexto && contexto.state !== "closed") {
+                    try {
+                        await contexto.close();
+                    } catch (errorCierre) {
+                        // La navegación continúa aunque falle el cierre.
+                    }
+                }
+
+                window.location.href = "audios.html";
+            }
+        });
+</script>
+
+    <!-- ################ PARA WPA en CELULAR ################ -->    
+<script>
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./service-worker.js")
+            .catch(error => console.error(error));
+    });
+}
+</script>
+
+<!-- ################ PARA EL BOTON INSTALAR WPA ################ -->    
+<script>
+    let instalacionPendiente = null;
+
+    const botonInstalar = document.getElementById("instalar-app");
+
+    function verificarInstalacion() {
+        const instaladaComoApp =
+            window.matchMedia("(display-mode: standalone)").matches ||
+            window.navigator.standalone === true;
+
+        if (instaladaComoApp) {
+            botonInstalar.hidden = true;
+        }
+
+        return instaladaComoApp;
+    }
+
+    verificarInstalacion();
+
+    window.addEventListener("pageshow", verificarInstalacion);
+
+    window.addEventListener("beforeinstallprompt", function (evento) {
+        evento.preventDefault();
+        instalacionPendiente = evento;
+
+        if (!verificarInstalacion()) {
+            botonInstalar.hidden = false;
+        }
+    });
+
+    botonInstalar.addEventListener("click", async function () {
+        if (!instalacionPendiente) {
+            return;
+        }
+
+        instalacionPendiente.prompt();
+
+        await instalacionPendiente.userChoice;
+
+        instalacionPendiente = null;
+        verificarInstalacion();
+        botonInstalar.hidden = true;
+    });
+
+    window.addEventListener("appinstalled", function () {
+        botonInstalar.hidden = true;
+        instalacionPendiente = null;
+    });
+</script>
+
+<!-- ################ POPUP DE ANUNCIOS LAS CATITAS ################ -->
+<div id="popup-anuncio" hidden>
+    <div class="popup-contenido" role="dialog"
+         aria-modal="true"
+         aria-labelledby="popup-titulo">
+
+        <button id="popup-cerrar"
+                type="button"
+                aria-label="Cerrar anuncio">×</button>
+
+        <div class="popup-icono" aria-hidden="true">♫</div>
+
+        <h2 id="popup-titulo"></h2>
+
+        <p id="popup-mensaje"></p>
+
+        <button id="popup-entendido" type="button">
+            Entendido
+        </button>
+    </div>
+</div>
+
+<script>
+    // ################ CONFIGURACIÓN DEL ANUNCIO ################
+    const anuncio = {
+        activo: true, // CAMBIAR a true para ver el anuncio
+        titulo: "¡Novedades!", // CAMBIAR para el titulo del anuncio
+        mensaje: "• Proximamente nuevas secciones\n♫ NUEVO audio en (Conj. Varones) \n••••••" // CAMBIAR para la información del anuncio
+    };
+
+    const popup = document.getElementById("popup-anuncio");
+
+    if (anuncio.activo) {
+        document.getElementById("popup-titulo").textContent =
+            anuncio.titulo;
+
+        document.getElementById("popup-mensaje").textContent =
+            anuncio.mensaje;
+
+        popup.hidden = false;
+    }
+
+    function cerrarPopup() {
+        popup.hidden = true;
+    }
+
+    document.getElementById("popup-cerrar")
+        .addEventListener("click", cerrarPopup);
+
+    document.getElementById("popup-entendido")
+        .addEventListener("click", cerrarPopup);
+
+    popup.addEventListener("click", function (evento) {
+        if (evento.target === popup) {
+            cerrarPopup();
+        }
+    });
+
+    document.addEventListener("keydown", function (evento) {
+        if (evento.key === "Escape" && !popup.hidden) {
+            cerrarPopup();
+        }
+    });
+</script>
+    
+</body>
+</html>
