@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10243e">
+  <title>Acceso administrativo | Las Catitas</title>
+  <link rel="stylesheet" href="admin-demo.css">
+</head>
+<body class="admin-demo">
+  <main class="admin-wrap">
+    <section class="admin-frame" aria-labelledby="titulo-acceso">
+      <header class="brand">
+        <div class="brand-mark" aria-hidden="true">♫</div>
+        <h1>LAS CATITAS</h1>
+        <p>Administración de la aplicación</p>
+      </header>
+      <p class="eyebrow">Área privada</p>
+      <h2 class="page-title" id="titulo-acceso">Ingresar al panel</h2>
+      <p class="page-desc">Ingresá con el correo y la contraseña del administrador.</p>
+      <form id="form-acceso">
+        <div class="field">
+          <label for="correo">Correo electrónico</label>
+          <input id="correo" name="correo" type="email" autocomplete="username" placeholder="tu-correo@ejemplo.com" required>
+        </div>
+        <div class="field">
+          <label for="contrasena">Contraseña</label>
+          <input id="contrasena" name="contrasena" type="password" autocomplete="current-password" placeholder="Tu contraseña" required>
+        </div>
+        <button class="admin-button" id="boton-ingresar" type="submit">INGRESAR</button>
+        <div class="toast visible" id="resultado" role="status" aria-live="polite" hidden></div>
+      </form>
+      <div class="notice">Acceso reservado al administrador autorizado. No compartas tu contraseña.</div>
+      <div class="center"><a class="text-link" href="index.html">← Volver a Las Catitas</a></div>
+    </section>
+    <p class="footer-note">Las Catitas · Panel de administración</p>
+  </main>
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+    import { getAuth, signInWithEmailAndPassword, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+  apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
+  authDomain: "las-catitas.firebaseapp.com",
+  projectId: "las-catitas",
+  storageBucket: "las-catitas.firebasestorage.app",
+  messagingSenderId: "69962715074",
+  appId: "1:69962715074:web:b88edad813c0674e29505b"
+};
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const form = document.getElementById('form-acceso');
+    const resultado = document.getElementById('resultado');
+    const boton = document.getElementById('boton-ingresar');
+
+    function mostrarMensaje(mensaje) {
+      resultado.hidden = false;
+      resultado.textContent = mensaje;
+      resultado.classList.add('visible');
+    }
+
+    async function verificarAdministrador(user) {
+      const ref = doc(db, 'usuarios', user.uid);
+      const snap = await getDoc(ref);
+      return snap.exists() && snap.data().rol === 'administrador' && snap.data().activo === true;
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) return;
+      try {
+        if (await verificarAdministrador(user)) {
+          window.location.replace('PanelAdmin.html');
+        } else {
+          mostrarMensaje('Esta cuenta no tiene permiso de administrador.');
+        }
+      } catch (error) {
+        mostrarMensaje('No se pudo verificar el permiso. Revisá las reglas de Firestore y la conexión.');
+      }
+    });
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      boton.disabled = true;
+      boton.textContent = 'VERIFICANDO…';
+      resultado.hidden = true;
+      try {
+        const correo = document.getElementById('correo').value.trim();
+        const contrasena = document.getElementById('contrasena').value;
+        const credencial = await signInWithEmailAndPassword(auth, correo, contrasena);
+        if (await verificarAdministrador(credencial.user)) {
+          window.location.href = 'PanelAdmin.html';
+        } else {
+          mostrarMensaje('Inicio de sesión correcto, pero esta cuenta no tiene permiso de administrador.');
+        }
+      } catch (error) {
+        mostrarMensaje('No se pudo ingresar. Revisá el correo y la contraseña, y que Email/Password esté habilitado en Firebase.');
+      } finally {
+        boton.disabled = false;
+        boton.textContent = 'INGRESAR';
+      }
+    });
+  </script>
+</body>
+</html>
