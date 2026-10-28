@@ -15,12 +15,20 @@ if (!getApps().length) {
 }
 
 export default async function handler(req, res) {
-    // Si entran por el navegador (GET), mostrar que la API funciona
+    // Permitir peticiones desde cualquier origen (CORS)
+    res.setHeader('Access-Control-Allow-Origin', '*');
+    res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+    // Responder rápido a las peticiones de verificación del navegador (OPTIONS)
+    if (req.method === 'OPTIONS') {
+        return res.status(200).end();
+    }
+
     if (req.method === 'GET') {
         return res.status(200).json({ estado: "API de notificaciones de Las Catitas activa y funcionando correctamente." });
     }
 
-    // Permitir solo peticiones POST para el envío
     if (req.method !== 'POST') {
         return res.status(405).json({ error: 'Método no permitido' });
     }
@@ -35,11 +43,10 @@ export default async function handler(req, res) {
         const db = getFirestore();
         const messaging = getMessaging();
 
-        // 1. Obtener todos los tokens desde Firestore
         const tokensSnapshot = await db.collection('fcm_tokens').get();
         
         if (tokensSnapshot.empty) {
-            return res.status(200).json({ mensaje: 'No hay dispositivos suscritos.' });
+            return res.status(200).json({ mensaje: 'No hay dispositivos suscritos.', enviados: 0 });
         }
 
         const tokens = [];
@@ -49,10 +56,9 @@ export default async function handler(req, res) {
         });
 
         if (tokens.length === 0) {
-            return res.status(200).json({ mensaje: 'No hay tokens válidos.' });
+            return res.status(200).json({ mensaje: 'No hay tokens válidos.', enviados: 0 });
         }
 
-        // 2. Construir el mensaje masivo
         const message = {
             notification: {
                 title: titulo,
@@ -61,7 +67,6 @@ export default async function handler(req, res) {
             tokens: tokens
         };
 
-        // 3. Enviar a través de Firebase Cloud Messaging
         const response = await messaging.sendEachForMulticast(message);
 
         return res.status(200).json({ 
