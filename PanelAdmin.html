@@ -132,29 +132,60 @@
         // ⚠️ REEMPLAZA ESTA URL CON TU DOMINIO REAL DE VERCEL
         const URL_VERCEL = 'https://lascatitas.vercel.app/api/enviar';
         
-        const respuesta = await fetch(URL_VERCEL, {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ 
-            titulo: tituloVal, 
-            cuerpo: cuerpoVal,
-            click_action: destinoVal 
-          })
-        });
+        
+const usuarioActual = auth.currentUser;
 
-        const resultadoApi = await respuesta.json();
+if (!usuarioActual) {
+  throw new Error('Tu sesión ha caducado. Inicia sesión nuevamente.');
+}
 
-        if (respuesta.ok) {
-          mostrarMensaje(`¡Notificaciones enviadas con éxito! Alcanzados: ${resultadoApi.enviados || 0}`, true);
-          document.getElementById('form-mensaje').reset();
-          document.getElementById('contador-titulo').textContent = '0/60';
-          document.getElementById('contador-cuerpo').textContent = '0/220';
-        } else {
-          console.error("Error del servidor Vercel:", resultadoApi);
-          mostrarMensaje(`Error al enviar: ${resultadoApi.error || 'Desconocido'}`);
-        }
+const tokenSesion = await usuarioActual.getIdToken();
+
+const respuesta = await fetch(URL_VERCEL, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${tokenSesion}`
+  },
+  body: JSON.stringify({
+    titulo: tituloVal,
+    cuerpo: cuerpoVal,
+    click_action: destinoVal
+  })
+});
+
+const resultadoApi = await respuesta.json();
+
+if (!respuesta.ok) {
+  throw new Error(
+    resultadoApi.error || `Error del servidor: ${respuesta.status}`
+  );
+}
+
+const enviados = Number(resultadoApi.enviados || 0);
+const fallidos = Number(resultadoApi.fallidos || 0);
+
+if (enviados > 0) {
+  mostrarMensaje(
+    `Firebase aceptó ${enviados} notificación(es). ` +
+    `Fallidos: ${fallidos}. ` +
+    'La recepción en los teléfonos todavía debe comprobarse.',
+    fallidos === 0
+  );
+
+  document.getElementById('form-mensaje').reset();
+  document.getElementById('contador-titulo').textContent = '0/60';
+  document.getElementById('contador-cuerpo').textContent = '0/220';
+
+} else {
+  const errores = resultadoApi.errores
+    ? JSON.stringify(resultadoApi.errores)
+    : (resultadoApi.mensaje || 'Sin detalles adicionales.');
+
+  mostrarMensaje(
+    `Firebase no aceptó ninguna notificación. ${errores}`
+  );
+}
       } catch (error) {
         console.error("Error de red:", error);
         mostrarMensaje('No se pudo conectar con el servidor de Vercel.');
