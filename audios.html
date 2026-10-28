@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -6,567 +5,197 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/png" href="favicon.png">
     <title>Grabaciones | Las Catitas</title>
-
     <link rel="stylesheet" href="style.css">
-
-    <style>
-        :root {
-            --navy: #071426;
-            --navy2: #102b4c;
-            --gold: #d6b56d;
-            --gold-light: #f0d99a;
-            --cream: #fffaf0;
-            --muted: #b9c7d8;
-            --line: rgba(214,181,109,.35);
-            --panel: rgba(9,25,45,.88);
-        }
-
-        * {
-            box-sizing: border-box;
-        }
-
-        body.pagina-audios {
-            margin: 0;
-            min-height: 100vh;
-            padding: 24px 16px;
-            color: var(--cream);
-            font-family: "Segoe UI", Arial, sans-serif;
-            background:
-                radial-gradient(ellipse at 50% 0%, #244b7d 0%, transparent 48%),
-                linear-gradient(135deg, var(--navy), var(--navy2), var(--navy));
-        }
-
-        .pagina-audios .audios {
-            width: min(100%, 650px);
-            margin: 0 auto;
-        }
-
-        .pagina-audios .marco-audios {
-            position: relative;
-            padding: clamp(22px, 5vw, 38px);
-            border: 1px solid var(--gold);
-            border-radius: 20px;
-            background: var(--panel);
-            box-shadow: 0 18px 60px #0005;
-            backdrop-filter: blur(10px);
-        }
-
-        .pagina-audios .marco-audios::before {
-            content: "";
-            position: absolute;
-            inset: 7px;
-            border: 1px solid rgba(214,181,109,.13);
-            border-radius: 14px;
-            pointer-events: none;
-        }
-
-        .pagina-audios .encabezado-audios {
-            position: relative;
-            margin: 0 0 28px;
-            padding: 0 0 24px;
-            text-align: center;
-            border-bottom: 1px solid var(--line);
-        }
-
-        .pagina-audios .marca-audios {
-            display: grid;
-            place-items: center;
-            width: 58px;
-            height: 58px;
-            margin: 0 auto 14px;
-            border: 1px solid var(--gold);
-            border-radius: 50%;
-            color: var(--gold-light);
-            font-size: 27px;
-            box-shadow: 0 0 0 7px rgba(214,181,109,.06);
-        }
-
-        .pagina-audios .nombre-marca {
-            margin: 0;
-            color: var(--gold-light);
-            font-size: clamp(22px, 5vw, 29px);
-            font-weight: 600;
-            letter-spacing: 3px;
-        }
-
-        .pagina-audios .subtitulo-marca {
-            margin: 9px 0 0;
-            color: var(--muted);
-            font-size: 13px;
-            letter-spacing: 1px;
-        }
-
-        .pagina-audios .titulo-pagina {
-            margin: 25px 0 8px;
-            color: var(--cream);
-            font-size: clamp(24px, 5vw, 30px);
-            font-weight: 600;
-        }
-
-        .pagina-audios .descripcion-pagina {
-            margin: 0;
-            color: var(--muted);
-            font-size: 14px;
-            line-height: 1.6;
-        }
-
-        /* Reproductor */
-        .pagina-audios .reproductor-principal {
-            position: relative;
-            margin-bottom: 20px;
-            padding: 18px;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: rgba(255,255,255,.025);
-        }
-
-        .pagina-audios .etiqueta-reproductor {
-            display: block;
-            margin: 0 0 9px;
-            color: var(--gold);
-            font-size: 11px;
-            letter-spacing: 3px;
-            text-transform: uppercase;
-        }
-
-        .pagina-audios .titulo-reproductor {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            margin: 0 0 16px;
-        }
-
-        .pagina-audios .icono-reproductor {
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            width: 48px;
-            height: 48px;
-            border: 1px solid var(--gold);
-            border-radius: 12px;
-            background: rgba(214,181,109,.08);
-            color: var(--gold-light);
-            font-size: 25px;
-        }
-
-        .pagina-audios .titulo-reproductor h2 {
-            margin: 0 0 5px;
-            color: var(--gold-light);
-            font-size: 19px;
-            font-weight: 600;
-        }
-
-        .pagina-audios .titulo-reproductor p {
-            margin: 0;
-            color: var(--muted);
-            font-size: 13px;
-            line-height: 1.5;
-            overflow-wrap: anywhere;
-        }
-
-        .pagina-audios #reproductor {
-            display: block;
-            width: 100%;
-            max-width: 100%;
-            margin: 0;
-        }
-
-        /* Categorías */
-        .pagina-audios .seccion {
-            position: relative;
-            margin: 13px 0;
-            overflow: hidden;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: rgba(255,255,255,.025);
-            transition: border-color .2s ease;
-        }
-
-        .pagina-audios .seccion summary {
-            display: flex;
-            align-items: center;
-            gap: 13px;
-            min-height: 72px;
-            padding: 13px;
-            cursor: pointer;
-            list-style: none;
-        }
-
-        .pagina-audios .seccion summary::-webkit-details-marker {
-            display: none;
-        }
-
-        .pagina-audios .seccion summary::marker {
-            content: "";
-        }
-
-        .pagina-audios .seccion summary:hover {
-            background: rgba(214,181,109,.06);
-        }
-
-        .pagina-audios .icono-seccion {
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            width: 43px;
-            height: 43px;
-            border: 1px solid rgba(214,181,109,.55);
-            border-radius: 10px;
-            background: rgba(214,181,109,.06);
-            color: var(--gold-light);
-            font-size: 23px;
-        }
-
-        .pagina-audios .nombre-seccion {
-            display: flex;
-            flex: 1;
-            flex-direction: column;
-            gap: 5px;
-            color: var(--cream);
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .pagina-audios .nombre-seccion small {
-            color: var(--muted);
-            font-size: 12px;
-            font-weight: 400;
-        }
-
-        .pagina-audios .flecha {
-            flex-shrink: 0;
-            color: var(--gold-light);
-            font-size: 24px;
-            transition: transform .2s ease;
-        }
-
-        .pagina-audios .seccion[open] {
-            border-color: rgba(214,181,109,.7);
-        }
-
-        .pagina-audios .seccion[open] .flecha {
-            transform: rotate(180deg);
-        }
-
-        /* Lista de grabaciones */
-        .pagina-audios .lista-grabaciones {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            padding: 12px;
-            border-top: 1px solid rgba(214,181,109,.2);
-        }
-
-        .pagina-audios .boton-grabacion {
-            display: flex;
-            align-items: center;
-            gap: 11px;
-            width: 100%;
-            min-height: 52px;
-            padding: 11px 12px;
-            border: 1px solid #344a63;
-            border-radius: 9px;
-            background: rgba(255,255,255,.025);
-            color: #e7edf5;
-            font: inherit;
-            font-size: 14px;
-            text-align: left;
-            cursor: pointer;
-            transition: background .2s ease, border-color .2s ease;
-        }
-
-        .pagina-audios .boton-grabacion > span:nth-child(2) {
-            flex: 1;
-            overflow-wrap: anywhere;
-            line-height: 1.45;
-        }
-
-        .pagina-audios .boton-grabacion > span:first-child,
-        .pagina-audios .accion-audio {
-            color: var(--gold-light);
-        }
-
-        .pagina-audios .accion-audio {
-            display: grid;
-            place-items: center;
-            flex-shrink: 0;
-            width: 32px;
-            height: 32px;
-            border: 1px solid var(--line);
-            border-radius: 50%;
-            font-size: 12px;
-        }
-
-        .pagina-audios .boton-grabacion:hover,
-        .pagina-audios .boton-grabacion.seleccionada {
-            border-color: var(--gold);
-            background: rgba(214,181,109,.09);
-        }
-
-        .pagina-audios .boton-grabacion.seleccionada .accion-audio {
-            background: linear-gradient(135deg, #e3c47c, #b58d42);
-            color: #101b2a;
-            border-color: var(--gold);
-        }
-
-        .pagina-audios .boton-grabacion:focus-visible,
-        .pagina-audios .volver:focus-visible,
-        .pagina-audios .seccion summary:focus-visible {
-            outline: 3px solid var(--gold-light);
-            outline-offset: 3px;
-        }
-
-        /* Botón de regreso */
-        .pagina-audios .volver {
-            display: block;
-            width: 100%;
-            margin: 22px auto 0;
-            padding: 14px 18px;
-            border: 1px solid var(--gold);
-            border-radius: 10px;
-            background: linear-gradient(135deg, #e3c47c, #b58d42);
-            color: #101b2a;
-            text-align: center;
-            text-decoration: none;
-            font: 700 14px "Segoe UI", Arial, sans-serif;
-            letter-spacing: 1px;
-            box-shadow: 0 7px 22px rgba(0,0,0,.2);
-            transition: transform .18s ease, filter .18s ease;
-        }
-
-        .pagina-audios .volver:hover {
-            filter: brightness(1.06);
-            transform: translateY(-1px);
-        }
-
-        .pagina-audios .pie-pagina {
-            position: relative;
-            margin: 18px 8px 0;
-            color: #8497ad;
-            font-size: 11px;
-            line-height: 1.5;
-            text-align: center;
-        }
-
-        @media (max-width: 480px) {
-            body.pagina-audios {
-                padding: 14px 10px;
-            }
-
-            .pagina-audios .marco-audios {
-                padding: 24px 17px;
-            }
-
-            .pagina-audios .nombre-marca {
-                letter-spacing: 2px;
-            }
-
-            .pagina-audios .subtitulo-marca {
-                font-size: 12px;
-            }
-
-            .pagina-audios .reproductor-principal {
-                padding: 14px;
-            }
-
-            .pagina-audios .titulo-reproductor {
-                gap: 10px;
-            }
-
-            .pagina-audios .titulo-reproductor h2 {
-                font-size: 17px;
-            }
-
-            .pagina-audios .seccion summary {
-                gap: 9px;
-                padding: 11px;
-            }
-
-            .pagina-audios .nombre-seccion {
-                font-size: 15px;
-            }
-
-            .pagina-audios .lista-grabaciones {
-                padding: 9px;
-            }
-
-            .pagina-audios .boton-grabacion {
-                gap: 8px;
-                padding: 10px;
-                font-size: 13px;
-            }
-
-            .pagina-audios .accion-audio {
-                width: 29px;
-                height: 29px;
-            }
-        }
-
-        @media (prefers-reduced-motion: reduce) {
-            .pagina-audios *,
-            .pagina-audios *::before,
-            .pagina-audios *::after {
-                scroll-behavior: auto !important;
-                transition: none !important;
-            }
-        }
-    </style>
 </head>
 
 <body class="pagina-audios">
 
     <main class="audios">
-      <div class="marco-audios">
-        <header class="encabezado-audios">
-            <div class="marca-audios">♫</div>
-            <p class="nombre-marca">LAS CATITAS</p>
-            <p class="subtitulo-marca">Grabaciones y alabanzas</p>
-            <h1 class="titulo-pagina">Grabaciones</h1>
-            <p class="descripcion-pagina">Seleccioná una categoría y elegí qué escuchar.</p>
-        </header>
+        <div class="marco-audios">
 
-        <section class="reproductor-principal">
-            <div class="etiqueta-reproductor">REPRODUCCIÓN</div>
+            <header class="encabezado-audios">
+                <div class="marca-audios">♫</div>
+                <p class="nombre-marca">LAS CATITAS</p>
+                <p class="subtitulo-marca">Grabaciones y alabanzas</p>
+                <h1 class="titulo-pagina">Grabaciones</h1>
+                <p class="descripcion-pagina">
+                    Seleccioná una categoría y elegí qué escuchar.
+                </p>
+            </header>
 
-            <div class="titulo-reproductor">
-                <span class="icono-reproductor">♫</span>
-                <div>
-                    <h2>Reproductor de audio</h2>
-                    <p id="nombre-audio">Seleccioná una grabación para escucharla.</p>
+            <section class="reproductor-principal">
+                <div class="etiqueta-reproductor">REPRODUCCIÓN</div>
+
+                <div class="titulo-reproductor">
+                    <span class="icono-reproductor">♫</span>
+                    <div>
+                        <h2>Reproductor de audio</h2>
+                        <p id="nombre-audio">
+                            Seleccioná una grabación para escucharla.
+                        </p>
+                    </div>
                 </div>
-            </div>
 
-            <audio id="reproductor" controls preload="none">
-                Tu navegador no puede reproducir este audio.
-            </audio>
-        </section>
+                <audio id="reproductor" controls preload="none">
+                    Tu navegador no puede reproducir este audio.
+                </audio>
+            </section>
 
-        <!-- ################ CORO Y ORQUESTA ################ -->
-        <details class="seccion coro">
-            <summary>
-                <span class="icono-seccion">♫</span>
-                <span class="nombre-seccion">
-                    Coro y Orquesta
-                    <small>Grabaciones del Coro y Orquesta</small>
-                </span>
-                <span class="flecha">⌄</span>
-            </summary>
+            <!-- CORO Y ORQUESTA -->
+            <details class="seccion coro">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Coro y Orquesta
+                        <small>Grabaciones del Coro y Orquesta</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
 
-            <div class="lista-grabaciones">
-                <button class="boton-grabacion"
-                    data-titulo="Coro - Ensayo Abierto Viernes 25-09-2026 (Vispera)"
-                    data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547789/Coro_y_Orquesta_-_Sabado.mp3">
-                    <span>♫</span>
-                    <span>Ensayo Abierto Viernes 25-09-2026 (Vispera)</span>
-                    <span class="accion-audio">▶</span>
-                </button>
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Coro - Ensayo Abierto Viernes 25-09-2026 (Vispera)"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547789/Coro_y_Orquesta_-_Sabado.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026 (Vispera)</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
 
-                <button class="boton-grabacion"
-                    data-titulo="Coro - Ensayo Abierto Viernes 25-09-2026 (Cena)"
-                    data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547839/Domingo_-_Coro_y_Orquesta.mp3">
-                    <span>♫</span>
-                    <span>Ensayo Abierto Viernes 25-09-2026 (Cena)</span>
-                    <span class="accion-audio">▶</span>
-                </button>
-            </div>
-        </details>
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Coro - Ensayo Abierto Viernes 25-09-2026 (Cena)"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547839/Domingo_-_Coro_y_Orquesta.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026 (Cena)</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
 
-        <!-- ################ CONJUNTO MUJERES ################ -->
-        <details class="seccion mujeres">
-            <summary>
-                <span class="icono-seccion">♫</span>
-                <span class="nombre-seccion">
-                    Conjunto Mujeres
-                    <small>Grabaciones del conjunto</small>
-                </span>
-                <span class="flecha">⌄</span>
-            </summary>
+            <!-- CONJUNTO MUJERES -->
+            <details class="seccion mujeres">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Conjunto Mujeres
+                        <small>Grabaciones del conjunto</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
 
-            <div class="lista-grabaciones">
-                <button class="boton-grabacion"
-                    data-titulo="Conjunto Mujeres - Ensayo Abierto Viernes 25-09-2026"
-                    data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547580/C-M_25-09-26.mp3">
-                    <span>♫</span>
-                    <span>Ensayo Abierto Viernes 25-09-2026</span>
-                    <span class="accion-audio">▶</span>
-                </button>
-            </div>
-        </details>
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Conjunto Mujeres - Ensayo Abierto Viernes 25-09-2026"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547580/C-M_25-09-26.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
 
-        <!-- ################ CONJUNTO VARONES ################ -->
-        <details class="seccion varones">
-            <summary>
-                <span class="icono-seccion">♫</span>
-                <span class="nombre-seccion">
-                    Conjunto Varones
-                    <small>Grabaciones del conjunto</small>
-                </span>
-                <span class="flecha">⌄</span>
-            </summary>
+            <!-- CONJUNTO VARONES -->
+            <details class="seccion varones">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Conjunto Varones
+                        <small>Grabaciones del conjunto</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
 
-            <div class="lista-grabaciones">
-                <button class="boton-grabacion"
-                    data-titulo="Conjunto Varones - Ensayo Abierto Viernes 25-09-2026"
-                    data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547463/C-V_25-09-26.mp3">
-                    <span>♫</span>
-                    <span>Ensayo Abierto Viernes 25-09-2026</span>
-                    <span class="accion-audio">▶</span>
-                </button>
-            </div>
-        </details>
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Conjunto Varones - Ensayo Abierto Viernes 25-09-2026"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547463/C-V_25-09-26.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
 
-        <!-- ################ CORO NIÑOS ################ -->
-        <details class="seccion ninos">
-            <summary>
-                <span class="icono-seccion">♫</span>
-                <span class="nombre-seccion">
-                    Coro Niños
-                    <small>Grabaciones del Coro de niños</small>
-                </span>
-                <span class="flecha">⌄</span>
-            </summary>
+            <!-- CORO NIÑOS -->
+            <details class="seccion ninos">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Coro Niños
+                        <small>Grabaciones del Coro de niños</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
 
-            <div class="lista-grabaciones">
-                <button class="boton-grabacion"
-                    data-titulo="Coro Niños - Ensayo Abierto Viernes 25-09-2026 (Vispera)"
-                    data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547554/Coro_Ni%C3%B1os_-_Sabado.mp3">
-                    <span>♫</span>
-                    <span>Ensayo Abierto Viernes 25-09-2026 (Vispera)</span>
-                    <span class="accion-audio">▶</span>
-                </button>
-            </div>
-        </details>
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Coro Niños - Ensayo Abierto Viernes 25-09-2026 (Vispera)"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547554/Coro_Ni%C3%B1os_-_Sabado.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026 (Vispera)</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
 
-        <!-- ################ CONJUNTO JÓVENES ################ -->
-        <details class="seccion jovenes">
-            <summary>
-                <span class="icono-seccion">♫</span>
-                <span class="nombre-seccion">
-                    Jóvenes
-                    <small>Grabaciones de jóvenes</small>
-                </span>
-                <span class="flecha">⌄</span>
-            </summary>
+            <!-- JÓVENES -->
+            <details class="seccion jovenes">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Jóvenes
+                        <small>Grabaciones de jóvenes</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
 
-            <div class="lista-grabaciones">
-                <button class="boton-grabacion"
-                    data-titulo="Conjunto Jóvenes - Ensayo Abierto Viernes 25-09-2026"
-                    data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547532/C-J_25-09-26.mp3">
-                    <span>♫</span>
-                    <span>Ensayo Abierto Viernes 25-09-2026</span>
-                    <span class="accion-audio">▶</span>
-                </button>
-            </div>
-        </details>
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Conjunto Jóvenes - Ensayo Abierto Viernes 25-09-2026"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547532/C-J_25-09-26.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
 
-        <a href="index.html" class="volver">← Volver al inicio</a>
-      </div>
+            <a href="index.html" class="volver">← Volver al inicio</a>
+
+        </div>
     </main>
 
-    <!-- <script>
+    <script>
         const reproductor = document.getElementById("reproductor");
         const nombreAudio = document.getElementById("nombre-audio");
 
+        // Permitir que solo una categoría esté abierta a la vez.
+        const categorias = document.querySelectorAll(".seccion");
+
+        categorias.forEach(categoria => {
+            categoria.addEventListener("toggle", function () {
+                if (this.open) {
+                    categorias.forEach(otraCategoria => {
+                        if (otraCategoria !== this) {
+                            otraCategoria.open = false;
+                        }
+                    });
+                }
+            });
+        });
+
+        // Funcionamiento del reproductor.
         document.querySelectorAll(".boton-grabacion").forEach(boton => {
             boton.addEventListener("click", function () {
                 const titulo = this.dataset.titulo;
@@ -579,6 +208,7 @@
                     reproductor.load();
                 }
 
+                // Resaltar únicamente la grabación seleccionada.
                 document.querySelectorAll(".boton-grabacion")
                     .forEach(elemento => {
                         elemento.classList.remove("seleccionada");
@@ -586,56 +216,10 @@
 
                 this.classList.add("seleccionada");
 
-                // La reproducción comienza cuando el visitante
-                // pulsa el control Reproducir.
+                // El audio no comienza automáticamente.
             });
         });
-    </script>  -->
-
-<script>
-    const reproductor = document.getElementById("reproductor");
-    const nombreAudio = document.getElementById("nombre-audio");
-
-    // Permitir que solo una categoría esté abierta a la vez
-    const categorias = document.querySelectorAll(".seccion");
-
-    categorias.forEach(categoria => {
-        categoria.addEventListener("toggle", function () {
-            if (this.open) {
-                categorias.forEach(otraCategoria => {
-                    if (otraCategoria !== this) {
-                        otraCategoria.open = false;
-                    }
-                });
-            }
-        });
-    });
-
-    // Funcionamiento del reproductor
-    document.querySelectorAll(".boton-grabacion").forEach(boton => {
-        boton.addEventListener("click", function () {
-            const titulo = this.dataset.titulo;
-            const archivo = this.dataset.audio;
-
-            nombreAudio.textContent = titulo;
-
-            if (reproductor.getAttribute("src") !== archivo) {
-                reproductor.src = archivo;
-                reproductor.load();
-            }
-
-            // Resaltar la grabación seleccionada
-            document.querySelectorAll(".boton-grabacion").forEach(elemento => {
-                elemento.classList.remove("seleccionada");
-            });
-
-            this.classList.add("seleccionada");
-
-            // El audio no comienza automáticamente.
-        });
-    });
-</script>
-    
+    </script>
 
 </body>
 </html>
