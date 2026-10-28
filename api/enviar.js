@@ -57,14 +57,22 @@ export default async function handler(req, res) {
 
         if (tokens.length === 0) {
             return res.status(200).json({ mensaje: 'No hay tokens válidos.', enviados: 0 });
-        }
 
+    
         const message = {
+            tokens: tokens,
             notification: {
                 title: titulo,
                 body: cuerpo
             },
-            tokens: tokens
+            webpush: {
+                notification: {
+                    title: titulo,
+                    body: cuerpo,
+                    icon: '/icons/icon-192.png',
+                    click_action: click_action || './index.html'
+                }
+            }   
         };
 
         const response = await messaging.sendEachForMulticast(message);
