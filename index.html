@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -7,50 +8,50 @@
     <title>Bienvenidos</title>
 
     <link rel="icon" type="image/png" href="favicon.png">
-
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#10243e">
-<link rel="apple-touch-icon" href="icons/icon-192.png">
-
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10243e">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
     <link rel="stylesheet" href="style.css">
 
-    <meta name="google-site-verification" content="pQMq-683FjbEJwTVSkE0yGTZrfJ89ELk6pMtQ3Ei-Q4">
-
+    <meta name="google-site-verification"
+          content="pQMq-683FjbEJwTVSkE0yGTZrfJ89ELk6pMtQ3Ei-Q4">
 </head>
 
 <body class="portada-elegante">
 
     <main class="portada">
-
         <h1>Bienvenidos</h1>
-
         <div class="linea"></div>
 
         <a href="audios.html" class="boton" id="boton-audios">
-    Escuchar Grabaciones</a>
+            Escuchar Grabaciones
+        </a>
 
-<!-- ###### Botones superiores simétricos ###### -->
-    <!-- BOTON SUSCRIBIRSE A NOTIFICACIONES -->
-<button type="button" id="btn-activar-notificaciones" class="boton-superior-pwa" style="position: fixed; top: 12px; left: 12px; z-index: 1000; padding: 6px 12px; border: 1px solid #d6b56d; border-radius: 6px; background: #10243e; color: #ffffff; font-size: 11px; cursor: pointer; font-family: inherit; line-height: normal;" hidden>
-    🔔 Activar Avisos
-</button>
-    <!-- BOTON INSTALAR APP -->
-<button type="button" id="instalar-app" class="boton-superior-pwa" style="position: fixed; top: 12px; right: 12px; z-index: 1000; padding: 6px 12px; border: 1px solid #d6b56d; border-radius: 6px; background: #10243e; color: #ffffff; font-size: 11px; cursor: pointer; font-family: inherit; line-height: normal;" hidden>
-    📲 Instalar App
-</button>
+        <button type="button"
+                id="btn-activar-notificaciones"
+                class="boton-superior-pwa"
+                style="position:fixed;top:12px;left:12px;z-index:1000;padding:6px 12px;border:1px solid #d6b56d;border-radius:6px;background:#10243e;color:#fff;font-size:11px;cursor:pointer;font-family:inherit;line-height:normal;"
+                hidden>
+            🔔 Activar Avisos
+        </button>
+
+        <button type="button"
+                id="instalar-app"
+                class="boton-superior-pwa"
+                style="position:fixed;top:12px;right:12px;z-index:1000;padding:6px 12px;border:1px solid #d6b56d;border-radius:6px;background:#10243e;color:#fff;font-size:11px;cursor:pointer;font-family:inherit;line-height:normal;"
+                hidden>
+            📲 Instalar App
+        </button>
     </main>
 
-<!-- ################ PARA QUE EL BOTON GRABACIONES SUENE DO_RE_MI ################ -->    
-<script>
+    <!-- Melodía DO - RE - MI antes de abrir las grabaciones -->
+    <script>
         const botonAudios = document.getElementById("boton-audios");
 
         botonAudios.addEventListener("click", async function (evento) {
             evento.preventDefault();
 
-            // Evita pulsaciones repetidas durante la melodía.
-            if (botonAudios.dataset.reproduciendo === "si") {
-                return;
-            }
+            if (botonAudios.dataset.reproduciendo === "si") return;
 
             botonAudios.dataset.reproduciendo = "si";
             botonAudios.setAttribute("aria-busy", "true");
@@ -61,8 +62,6 @@
                 const AudioContextClass =
                     window.AudioContext || window.webkitAudioContext;
 
-                // Si el navegador no admite audio generado por código,
-                // se continúa directamente a la página de grabaciones.
                 if (!AudioContextClass) {
                     window.location.href = "audios.html";
                     return;
@@ -71,14 +70,6 @@
                 contexto = new AudioContextClass();
                 await contexto.resume();
 
-                // Notas DO, RE y MI de la cuarta octava.
-                const notas = [
-                    { frecuencia: 261.63, nombre: "DO" },
-                    { frecuencia: 293.66, nombre: "RE" },
-                    { frecuencia: 329.63, nombre: "MI" },
-                ];
-
-                // Sonido de órgano mediante varios armónicos.
                 function tocarNota(frecuencia, duracion) {
                     return new Promise(resolve => {
                         const inicio = contexto.currentTime;
@@ -99,13 +90,11 @@
 
                         const fundamental = contexto.createOscillator();
                         const armonico = contexto.createOscillator();
-
                         const mezclaArmonico = contexto.createGain();
-                        mezclaArmonico.gain.value = 0.28;
 
+                        mezclaArmonico.gain.value = 0.28;
                         fundamental.type = "sine";
                         fundamental.frequency.value = frecuencia;
-
                         armonico.type = "sine";
                         armonico.frequency.value = frecuencia * 2;
 
@@ -115,309 +104,282 @@
 
                         fundamental.start(inicio);
                         armonico.start(inicio);
-
                         fundamental.stop(inicio + duracion);
                         armonico.stop(inicio + duracion);
 
-                        fundamental.addEventListener("ended", () => {
-                            resolve();
-                        }, { once: true });
+                        fundamental.addEventListener(
+                            "ended", resolve, { once: true }
+                        );
                     });
                 }
 
-                // Toca DO–RE–MI y espera que termine cada nota.
-                for (const nota of notas) {
-                    await tocarNota(nota.frecuencia, 0.38);
+                for (const frecuencia of [261.63, 293.66, 329.63]) {
+                    await tocarNota(frecuencia, 0.38);
                     await new Promise(resolve => setTimeout(resolve, 60));
                 }
 
                 await contexto.close();
                 contexto = null;
-
-                // Navega una vez terminada la secuencia.
                 window.location.href = "audios.html";
 
             } catch (error) {
-                // Si ocurre un error de audio, no se bloquea la visita.
                 if (contexto && contexto.state !== "closed") {
                     try {
                         await contexto.close();
-                    } catch (errorCierre) {
-                        // La navegación continúa aunque falle el cierre.
-                    }
+                    } catch (errorCierre) {}
                 }
 
                 window.location.href = "audios.html";
             }
         });
-</script>
+    </script>
 
-    <!-- ################ PARA WPA en CELULAR ################ -->    
-<script>
-if ("serviceWorker" in navigator) {
-    window.addEventListener("load", () => {
-        navigator.serviceWorker.register("./service-worker.js")
-            .catch(error => console.error(error));
-    });
-}
-</script>
-
-<!-- ################ PARA EL BOTON INSTALAR WPA ################ -->    
-<!-- <script>
-    let instalacionPendiente = null;
-
-    const botonInstalar = document.getElementById("instalar-app");
-
-    function verificarInstalacion() {
-        const instaladaComoApp =
-            window.matchMedia("(display-mode: standalone)").matches ||
-            window.navigator.standalone === true;
-
-        if (instaladaComoApp) {
-            botonInstalar.hidden = true;
+    <!-- Registrar el service worker unificado -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./service-worker.js")
+                    .catch(error =>
+                        console.error("Error al registrar service worker:", error)
+                    );
+            });
         }
+    </script>
 
-        return instaladaComoApp;
-    }
+    <!-- Botón de instalación PWA -->
+    <script>
+        let instalacionPendiente = null;
+        const botonInstalar = document.getElementById("instalar-app");
 
-    verificarInstalacion();
+        function verificarInstalacion() {
+            if (!botonInstalar) return;
 
-    window.addEventListener("pageshow", verificarInstalacion);
+            const instaladaComoApp =
+                window.matchMedia("(display-mode: standalone)").matches ||
+                window.navigator.standalone === true;
 
-    window.addEventListener("beforeinstallprompt", function (evento) {
-        evento.preventDefault();
-        instalacionPendiente = evento;
-
-        if (!verificarInstalacion()) {
-            botonInstalar.hidden = false;
-        }
-    });
-
-    botonInstalar.addEventListener("click", async function () {
-        if (!instalacionPendiente) {
-            return;
-        }
-
-        instalacionPendiente.prompt();
-
-        await instalacionPendiente.userChoice;
-
-        instalacionPendiente = null;
-        verificarInstalacion();
-        botonInstalar.hidden = true;
-    });
-
-    window.addEventListener("appinstalled", function () {
-        botonInstalar.hidden = true;
-        instalacionPendiente = null;
-    });
-</script> -->
-<!-- ################ PARA EL BOTON INSTALAR PWA ################ -->    
-<script>
-    let instalacionPendiente = null;
-    const botonInstalar = document.getElementById("instalar-app");
-
-    function verificarInstalacion() {
-        if (!botonInstalar) return;
-
-        const instaladaComoApp =
-            window.matchMedia("(display-mode: standalone)").matches ||
-            window.navigator.standalone === true;
-
-        if (instaladaComoApp) {
-            botonInstalar.hidden = true;
-        }
-    }
-
-    // Comprobar al cargar
-    window.addEventListener("load", verificarInstalacion);
-    window.addEventListener("pageshow", verificarInstalacion);
-
-    window.addEventListener("beforeinstallprompt", function (evento) {
-        evento.preventDefault();
-        instalacionPendiente = evento;
-
-        // Si no está instalada, mostramos el botón
-        const instaladaComoApp =
-            window.matchMedia("(display-mode: standalone)").matches ||
-            window.navigator.standalone === true;
-
-        if (!instaladaComoApp) {
-            botonInstalar.hidden = false;
-        }
-    });
-
-    if (botonInstalar) {
-        botonInstalar.addEventListener("click", async function () {
-            if (!instalacionPendiente) {
-                return;
+            if (instaladaComoApp) {
+                botonInstalar.hidden = true;
             }
+        }
 
-            instalacionPendiente.prompt();
-            await instalacionPendiente.userChoice;
-            instalacionPendiente = null;
-            botonInstalar.hidden = true;
+        window.addEventListener("load", verificarInstalacion);
+        window.addEventListener("pageshow", verificarInstalacion);
+
+        window.addEventListener("beforeinstallprompt", evento => {
+            evento.preventDefault();
+            instalacionPendiente = evento;
+
+            const instaladaComoApp =
+                window.matchMedia("(display-mode: standalone)").matches ||
+                window.navigator.standalone === true;
+
+            if (!instaladaComoApp) {
+                botonInstalar.hidden = false;
+            }
         });
-    }
 
-    window.addEventListener("appinstalled", function () {
         if (botonInstalar) {
-            botonInstalar.hidden = true;
+            botonInstalar.addEventListener("click", async () => {
+                if (!instalacionPendiente) return;
+
+                instalacionPendiente.prompt();
+                await instalacionPendiente.userChoice;
+                instalacionPendiente = null;
+                botonInstalar.hidden = true;
+            });
         }
-        instalacionPendiente = null;
-    });
-</script>
-    
-<!-- ################ POPUP DE ANUNCIOS LAS CATITAS ################ -->
-<div id="popup-anuncio" hidden>
-    <div class="popup-contenido" role="dialog"
-         aria-modal="true"
-         aria-labelledby="popup-titulo">
 
-        <button id="popup-cerrar"
-                type="button"
-                aria-label="Cerrar anuncio">×</button>
+        window.addEventListener("appinstalled", () => {
+            if (botonInstalar) botonInstalar.hidden = true;
+            instalacionPendiente = null;
+        });
+    </script>
 
-        <div class="popup-icono" aria-hidden="true">♫</div>
+    <!-- Popup de anuncios -->
+    <div id="popup-anuncio" hidden>
+        <div class="popup-contenido"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="popup-titulo">
 
-        <h2 id="popup-titulo"></h2>
+            <button id="popup-cerrar"
+                    type="button"
+                    aria-label="Cerrar anuncio">×</button>
 
-        <p id="popup-mensaje"></p>
-
-        <button id="popup-entendido" type="button">
-            Entendido
-        </button>
+            <div class="popup-icono" aria-hidden="true">♫</div>
+            <h2 id="popup-titulo"></h2>
+            <p id="popup-mensaje"></p>
+            <button id="popup-entendido" type="button">Entendido</button>
+        </div>
     </div>
-</div>
 
-<script>
-    // ################ CONFIGURACIÓN DEL ANUNCIO ################
-    const anuncio = {
-        activo: true, // CAMBIAR a true para ver el anuncio
-        titulo: "¡Novedades!", // CAMBIAR para el titulo del anuncio
-        mensaje: "• Proximamente nuevas secciones\n♫ NUEVO audio en (Conj. Varones) \n••••••" // CAMBIAR para la información del anuncio
-    };
+    <script>
+        const anuncio = {
+            activo: true,
+            titulo: "¡Novedades!",
+            mensaje: "• Proximamente nuevas secciones\n♫ NUEVO audio en (Conj. Varones) \n••••••"
+        };
 
-    const popup = document.getElementById("popup-anuncio");
+        const popup = document.getElementById("popup-anuncio");
 
-    if (anuncio.activo) {
-        document.getElementById("popup-titulo").textContent =
-            anuncio.titulo;
+        if (anuncio.activo) {
+            document.getElementById("popup-titulo").textContent =
+                anuncio.titulo;
 
-        document.getElementById("popup-mensaje").textContent =
-            anuncio.mensaje;
+            document.getElementById("popup-mensaje").textContent =
+                anuncio.mensaje;
 
-        popup.hidden = false;
-    }
-
-    function cerrarPopup() {
-        popup.hidden = true;
-    }
-
-    document.getElementById("popup-cerrar")
-        .addEventListener("click", cerrarPopup);
-
-    document.getElementById("popup-entendido")
-        .addEventListener("click", cerrarPopup);
-
-    popup.addEventListener("click", function (evento) {
-        if (evento.target === popup) {
-            cerrarPopup();
+            popup.hidden = false;
         }
-    });
 
-    document.addEventListener("keydown", function (evento) {
-        if (evento.key === "Escape" && !popup.hidden) {
-            cerrarPopup();
+        function cerrarPopup() {
+            popup.hidden = true;
         }
-    });
-</script>
 
-    <!-- ################ INTEGRACIÓN FIREBASE CLOUD MESSAGING ################ -->
-<!-- SDKs modulares de Firebase (versión compat para asegurar compatibilidad total) -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+        document.getElementById("popup-cerrar")
+            .addEventListener("click", cerrarPopup);
 
-<script>
-    // 1. Inicializar Firebase
-    firebase.initializeApp({
-        apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
-        authDomain: "las-catitas.firebaseapp.com",
-        projectId: "las-catitas",
-        storageBucket: "las-catitas.firebasestorage.app",
-        messagingSenderId: "69962715074",
-        appId: "1:69962715074:web:b88edad813c0674e29505b"
-    });
+        document.getElementById("popup-entendido")
+            .addEventListener("click", cerrarPopup);
 
-    const messaging = firebase.messaging();
-    const db = firebase.firestore();
-    const btnActivarNotif = document.getElementById("btn-activar-notificaciones");
+        popup.addEventListener("click", evento => {
+            if (evento.target === popup) cerrarPopup();
+        });
 
-    // Función para verificar si ya tiene las notificaciones concedidas y ocultar el botón
-    function verificarEstadoNotificaciones() {
-        if (!btnActivarNotif) return;
+        document.addEventListener("keydown", evento => {
+            if (evento.key === "Escape" && !popup.hidden) {
+                cerrarPopup();
+            }
+        });
+    </script>
 
-        // Si el permiso ya fue concedido previamente, ocultamos el botón
-        if (Notification.permission === "granted") {
-            btnActivarNotif.hidden = true;
-        } else if (Notification.permission === "denied") {
-            // Si las denegó, también podemos ocultarlo para que no insista
-            btnActivarNotif.hidden = true;
-        } else {
-            // Si está en "default" (no ha decidido), mostramos el botón
-            btnActivarNotif.hidden = false;
+    <!-- Firebase Cloud Messaging -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        firebase.initializeApp({
+            apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
+            authDomain: "las-catitas.firebaseapp.com",
+            projectId: "las-catitas",
+            storageBucket: "las-catitas.firebasestorage.app",
+            messagingSenderId: "69962715074",
+            appId: "1:69962715074:web:b88edad813c0674e29505b"
+        });
+
+        const messaging = firebase.messaging();
+        const db = firebase.firestore();
+
+        const btnActivarNotif =
+            document.getElementById("btn-activar-notificaciones");
+
+        function verificarEstadoNotificaciones() {
+            if (!btnActivarNotif) return;
+
+            if (Notification.permission === "granted" ||
+                Notification.permission === "denied") {
+                btnActivarNotif.hidden = true;
+            } else {
+                btnActivarNotif.hidden = false;
+            }
         }
-    }
 
-    // Ejecutar verificación al cargar la página
-    verificarEstadoNotificaciones();
+        verificarEstadoNotificaciones();
 
-    // 2. Función para solicitar permiso y guardar el token
-    async function solicitarYRegistrarNotificaciones() {
-        try {
-            const permission = await Notification.requestPermission();
-            
-            // Actualizamos la visibilidad del botón según la respuesta
-            verificarEstadoNotificaciones();
+        // Solicitar permiso y registrar el token del dispositivo.
+        async function solicitarYRegistrarNotificaciones() {
+            try {
+                const permission = await Notification.requestPermission();
+                verificarEstadoNotificaciones();
 
-            if (permission === 'granted') {
-                console.log('Permiso de notificaciones concedido.');
-                
+                if (permission !== "granted") {
+                    console.log("Permiso de notificaciones no concedido.");
+                    return;
+                }
+
                 const registration = await navigator.serviceWorker.ready;
+
                 const token = await messaging.getToken({
-                    vapidKey: 'BO8Lsey5dJS2eGtn8wKTXKbNJPwnR4Iasx2x7kapzAiSLjOMA-z6klZdfAy2c1ziZubXTNHLmcwEUvqvr2VsyrM',
+                    vapidKey: "BO8Lsey5dJS2eGtn8wKTXKbNJPwnR4Iasx2x7kapzAiSLjOMA-z6klZdfAy2c1ziZubXTNHLmcwEUvqvr2VsyrM",
                     serviceWorkerRegistration: registration
                 });
 
-                if (token) {
-                    console.log('Token FCM obtenido:', token);
-                    
-                    await db.collection('fcm_tokens').doc(token).set({
-                        token: token,
-                        fechaRegistro: firebase.firestore.FieldValue.serverTimestamp(),
-                        dispositivo: navigator.userAgent
-                    }, { merge: true });
-
-                    console.log('Token guardado exitosamente en Firestore.');
-                } else {
-                    console.warn('No se pudo obtener el token de registro.');
+                if (!token) {
+                    console.warn("No se pudo obtener el token de registro.");
+                    return;
                 }
-            } else {
-                console.log('Permiso de notificaciones denegado.');
-            }
-        } catch (error) {
-            console.error('Error al registrar notificaciones:', error);
-        }
-    }
 
-    // 3. Vincular el clic del botón
-    if (btnActivarNotif) {
-        btnActivarNotif.addEventListener("click", () => {
-            solicitarYRegistrarNotificaciones();
+                // No imprimir el token en la consola.
+                await db.collection("fcm_tokens").doc(token).set({
+                    token: token,
+                    fechaRegistro:
+                        firebase.firestore.FieldValue.serverTimestamp(),
+                    dispositivo: navigator.userAgent
+                }, { merge: true });
+
+                console.log("Token FCM guardado correctamente.");
+
+            } catch (error) {
+                console.error("Error al registrar notificaciones:", error);
+            }
+        }
+
+        if (btnActivarNotif) {
+            btnActivarNotif.addEventListener("click", () => {
+                solicitarYRegistrarNotificaciones();
+            });
+        }
+
+        // RECEPCIÓN EN PRIMER PLANO:
+        // si la página está abierta, mostrar una notificación visible.
+        messaging.onMessage(async payload => {
+            console.log("[Las Catitas] Mensaje recibido en primer plano.");
+
+            if (Notification.permission !== "granted") {
+                console.warn("Las notificaciones no tienen permiso.");
+                return;
+            }
+
+            const titulo =
+                payload.notification?.title ||
+                payload.data?.title ||
+                "Las Catitas";
+
+            const cuerpo =
+                payload.notification?.body ||
+                payload.data?.body ||
+                "";
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+
+                const destino =
+                    payload.fcmOptions?.link ||
+                    "https://byalekzdavid.github.io/LasCatitas/index.html";
+
+                await registration.showNotification(titulo, {
+                    body: cuerpo,
+                    icon: "./icons/icon-192.png",
+                    data: {
+                        notificacionLasCatitas: true,
+                        url: destino
+                    }
+                });
+
+                console.log(
+                    "[Las Catitas] Notificación de primer plano mostrada."
+                );
+
+            } catch (error) {
+                console.error(
+                    "No se pudo mostrar la notificación en primer plano:",
+                    error
+                );
+            }
         });
-    }
-</script>
-    
+    </script>
+
 </body>
 </html>
