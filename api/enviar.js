@@ -4,19 +4,25 @@ import { getMessaging } from 'firebase-admin/messaging';
 
 // Inicializar Firebase Admin de forma segura en Vercel
 if (!getApps().length) {
-    const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
-    initializeApp({
-        credential: cert(serviceAccount)
-    });
+    try {
+        const serviceAccount = JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT_JSON);
+        initializeApp({
+            credential: cert(serviceAccount)
+        });
+    } catch (e) {
+        console.error("Error al parsear FIREBASE_SERVICE_ACCOUNT_JSON:", e);
+    }
 }
 
-const db = getFirestore();
-const messaging = getMessaging();
-
 export default async function handler(req, res) {
-    // Permitir solo peticiones POST
+    // Si entran por el navegador (GET), mostrar que la API funciona
+    if (req.method === 'GET') {
+        return res.status(200).json({ estado: "API de notificaciones de Las Catitas activa y funcionando correctamente." });
+    }
+
+    // Permitir solo peticiones POST para el envío
     if (req.method !== 'POST') {
-        return res.status(405.json({ error: 'Método no permitido' }));
+        return res.status(405).json({ error: 'Método no permitido' });
     }
 
     try {
@@ -25,6 +31,9 @@ export default async function handler(req, res) {
         if (!titulo || !cuerpo) {
             return res.status(400).json({ error: 'Faltan el título o el cuerpo de la notificación' });
         }
+
+        const db = getFirestore();
+        const messaging = getMessaging();
 
         // 1. Obtener todos los tokens desde Firestore
         const tokensSnapshot = await db.collection('fcm_tokens').get();
