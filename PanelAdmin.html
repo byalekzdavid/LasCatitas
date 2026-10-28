@@ -58,7 +58,7 @@
   <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
     import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
-    import { getFirestore, doc, getDoc, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
     const firebaseConfig = {
       apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
@@ -111,7 +111,7 @@
     titulo.addEventListener('input', () => document.getElementById('contador-titulo').textContent = `${titulo.value.length}/60`);
     cuerpo.addEventListener('input', () => document.getElementById('contador-cuerpo').textContent = `${cuerpo.value.length}/220`);
 
-    // Manejar el envío real a Firestore
+    // Manejar el envío masivo mediante la API de Vercel
     document.getElementById('form-mensaje').addEventListener('submit', async (event) => {
       event.preventDefault();
       if (!autorizado) { 
@@ -129,21 +129,35 @@
       btnEnviar.textContent = "ENVIANDO...";
 
       try {
-        // Guardamos el mensaje en la cola de Firestore
-        await addDoc(collection(db, "cola_notificaciones"), {
-          title: tituloVal,
-          body: cuerpoVal,
-          click_action: destinoVal,
-          fecha: serverTimestamp()
+        // ⚠️ REEMPLAZA ESTA URL CON TU DOMINIO REAL DE VERCEL
+        const URL_VERCEL = 'https://TU-PROYECTO.vercel.app/api/enviar';
+
+        const respuesta = await fetch(URL_VERCEL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ 
+            titulo: tituloVal, 
+            cuerpo: cuerpoVal,
+            click_action: destinoVal 
+          })
         });
 
-        mostrarMensaje('¡Notificación enviada y encolada con éxito para todos los suscriptores!', true);
-        document.getElementById('form-mensaje').reset();
-        document.getElementById('contador-titulo').textContent = '0/60';
-        document.getElementById('contador-cuerpo').textContent = '0/220';
+        const resultadoApi = await respuesta.json();
+
+        if (respuesta.ok) {
+          mostrarMensaje(`¡Notificaciones enviadas con éxito! Alcanzados: ${resultadoApi.enviados || 0}`, true);
+          document.getElementById('form-mensaje').reset();
+          document.getElementById('contador-titulo').textContent = '0/60';
+          document.getElementById('contador-cuerpo').textContent = '0/220';
+        } else {
+          console.error("Error del servidor Vercel:", resultadoApi);
+          mostrarMensaje(`Error al enviar: ${resultadoApi.error || 'Desconocido'}`);
+        }
       } catch (error) {
-        console.error("Error al enviar notificación:", error);
-        mostrarMensaje('Hubo un error al registrar la notificación en la base de datos.');
+        console.error("Error de red:", error);
+        mostrarMensaje('No se pudo conectar con el servidor de Vercel.');
       } finally {
         btnEnviar.disabled = false;
         btnEnviar.textContent = "ENVIAR NOTIFICACIÓN PUSH";
