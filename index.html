@@ -28,7 +28,8 @@
 
         <a href="audios.html" class="boton" id="boton-audios">
     Escuchar Grabaciones</a>
-        
+
+<!-- ###### BOTON INSTALAR APP -->        
 <button type="button" id="instalar-app" class="boton-instalar" hidden>
   <strong>INSTALAR APP</strong>
 
@@ -41,38 +42,10 @@
     <div class="instalar-circle"></div>
   </div>
 </button>
-    <!--    
-     <button
-    id="instalar-app"
-    class="boton"
-    type="button"
-    hidden
-    style="
-        position: fixed;
-        top: 12px;
-        right: 12px;
-        z-index: 1000;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        width: auto;
-        max-width: max-content;
-        padding: 5px 8px;
-        margin: 0;
-        border: 1px solid #d6b56d;
-        border-radius: 6px;
-        background: #10243e;
-        color: #ffffff;
-        font-family: inherit;
-        font-size: 10px;
-        font-weight: 500;
-        line-height: 1.2;
-        cursor: pointer;
-        box-shadow: none;
-    ">
-    <span aria-hidden="true">📲</span>
-    Instalar APP
-        </button> -->
+<!-- ###### BOTON SUSCRIBIRSE A NOTIFICACIONES -->   
+<button type="button" id="btn-activar-notificaciones" class="boton-notificaciones" style="position: fixed; top: 12px; left: 12px; z-index: 1000; padding: 6px 12px; border: 1px solid #d6b56d; border-radius: 6px; background: #10243e; color: #ffffff; font-size: 11px; cursor: pointer;" hidden>
+    🔔 Activar Avisos
+</button>
     </main>
 
 <!-- ################ PARA QUE EL BOTON GRABACIONES SUENE DO_RE_MI ################ -->    
@@ -315,7 +288,6 @@ if ("serviceWorker" in navigator) {
 
     <!-- ################ INTEGRACIÓN FIREBASE CLOUD MESSAGING ################ -->
 <!-- SDKs modulares de Firebase (versión compat para asegurar compatibilidad total) -->
-
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
@@ -333,11 +305,35 @@ if ("serviceWorker" in navigator) {
 
     const messaging = firebase.messaging();
     const db = firebase.firestore();
+    const btnActivarNotif = document.getElementById("btn-activar-notificaciones");
+
+    // Función para verificar si ya tiene las notificaciones concedidas y ocultar el botón
+    function verificarEstadoNotificaciones() {
+        if (!btnActivarNotif) return;
+
+        // Si el permiso ya fue concedido previamente, ocultamos el botón
+        if (Notification.permission === "granted") {
+            btnActivarNotif.hidden = true;
+        } else if (Notification.permission === "denied") {
+            // Si las denegó, también podemos ocultarlo para que no insista
+            btnActivarNotif.hidden = true;
+        } else {
+            // Si está en "default" (no ha decidido), mostramos el botón
+            btnActivarNotif.hidden = false;
+        }
+    }
+
+    // Ejecutar verificación al cargar la página
+    verificarEstadoNotificaciones();
 
     // 2. Función para solicitar permiso y guardar el token
     async function solicitarYRegistrarNotificaciones() {
         try {
             const permission = await Notification.requestPermission();
+            
+            // Actualizamos la visibilidad del botón según la respuesta
+            verificarEstadoNotificaciones();
+
             if (permission === 'granted') {
                 console.log('Permiso de notificaciones concedido.');
                 
@@ -368,10 +364,9 @@ if ("serviceWorker" in navigator) {
         }
     }
 
-    // 3. Activar la solicitud justo cuando el usuario hace clic en el botón de audios
-    const botonAudiosRef = document.getElementById("boton-audios");
-    if (botonAudiosRef) {
-        botonAudiosRef.addEventListener("click", () => {
+    // 3. Vincular el clic del botón
+    if (btnActivarNotif) {
+        btnActivarNotif.addEventListener("click", () => {
             solicitarYRegistrarNotificaciones();
         });
     }
