@@ -15,16 +15,17 @@ if (!getApps().length) {
 }
 
 export default async function handler(req, res) {
-    // Permitir peticiones desde cualquier origen (CORS)
+    // Permitir CORS para que GitHub Pages pueda comunicarse con Vercel sin bloqueos
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
 
-    // Responder rápido a las peticiones de verificación del navegador (OPTIONS)
+    // Responder de inmediato a las peticiones de verificación del navegador (OPTIONS)
     if (req.method === 'OPTIONS') {
         return res.status(200).end();
     }
 
+    // Permitir verificación rápida mediante GET en el navegador
     if (req.method === 'GET') {
         return res.status(200).json({ estado: "API de notificaciones de Las Catitas activa y funcionando correctamente." });
     }
@@ -34,7 +35,7 @@ export default async function handler(req, res) {
     }
 
     try {
-        const { titulo, cuerpo } = req.body;
+        const { titulo, cuerpo, click_action } = req.body;
 
         if (!titulo || !cuerpo) {
             return res.status(400).json({ error: 'Faltan el título o el cuerpo de la notificación' });
@@ -43,6 +44,7 @@ export default async function handler(req, res) {
         const db = getFirestore();
         const messaging = getMessaging();
 
+        // Obtener todos los tokens de los dispositivos suscritos desde Firestore
         const tokensSnapshot = await db.collection('fcm_tokens').get();
         
         if (tokensSnapshot.empty) {
@@ -57,8 +59,9 @@ export default async function handler(req, res) {
 
         if (tokens.length === 0) {
             return res.status(200).json({ mensaje: 'No hay tokens válidos.', enviados: 0 });
+        }
 
-    
+        // Construir el mensaje compatible con multicast y webpush
         const message = {
             tokens: tokens,
             notification: {
@@ -69,12 +72,16 @@ export default async function handler(req, res) {
                 notification: {
                     title: titulo,
                     body: cuerpo,
-                    icon: '/icons/icon-192.png',
+                    icon: './icons/icon-192.png',
                     click_action: click_action || './index.html'
+                },
+                fcmOptions: {
+                    link: click_action || './index.html'
                 }
-            }   
+            }
         };
 
+        // Enviar notificaciones masivas
         const response = await messaging.sendEachForMulticast(message);
 
         return res.status(200).json({ 
