@@ -317,9 +317,11 @@ if ("serviceWorker" in navigator) {
 <!-- SDKs modulares de Firebase (versión compat para asegurar compatibilidad total) -->
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+<!-- Importamos también Firestore (necesario para guardar los tokens) -->
+<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
 
 <script>
-    // 1. Inicializar Firebase con tus credenciales reales
+    // 1. Inicializar Firebase
     firebase.initializeApp({
         apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
         authDomain: "las-catitas.firebaseapp.com",
@@ -330,15 +332,16 @@ if ("serviceWorker" in navigator) {
     });
 
     const messaging = firebase.messaging();
+    const db = firebase.firestore();
 
-    // 2. Solicitar permiso y registrar el token del dispositivo
-    async function solicitarPermisoNotificaciones() {
+    // 2. Solicitar permiso, obtener el token y guardarlo en Firestore
+    async function solicitarYRegistrarNotificaciones() {
         try {
             const permission = await Notification.requestPermission();
             if (permission === 'granted') {
                 console.log('Permiso de notificaciones concedido.');
                 
-                // Obtener el token de FCM usando la Clave Pública Web Push que generaste
+                // Obtener el token FCM
                 const token = await messaging.getToken({
                     vapidKey: 'BO8Lsey5dJS2eGtn8wKTXKbNJPwnR4Iasx2x7kapzAiSLjOMA-z6klZdfAy2c1ziZubXTNHLmcwEUvqvr2VsyrM'
                 });
@@ -346,8 +349,15 @@ if ("serviceWorker" in navigator) {
                 if (token) {
                     console.log('Token FCM obtenido:', token);
                     
-                    // Opcional: Aquí guardaremos el token en Firestore en la colección 'fcm_tokens'
-                    // para que el administrador pueda enviarles avisos más adelante.
+                    // Guardar o actualizar el token en Firestore en la colección 'fcm_tokens'
+                    // Usamos el token mismo como ID del documento para evitar duplicados
+                    await db.collection('fcm_tokens').doc(token).set({
+                        token: token,
+                        fechaRegistro: firebase.firestore.FieldValue.serverTimestamp(),
+                        dispositivo: navigator.userAgent
+                    }, { merge: true });
+
+                    console.log('Token guardado exitosamente en Firestore.');
                 } else {
                     console.warn('No se pudo obtener el token de registro.');
                 }
@@ -355,14 +365,13 @@ if ("serviceWorker" in navigator) {
                 console.log('Permiso de notificaciones denegado.');
             }
         } catch (error) {
-            console.error('Error al solicitar permiso de notificaciones:', error);
+            console.error('Error al registrar notificaciones:', error);
         }
     }
 
-    // Ejecutar la solicitud de permiso cuando cargue la página (puedes adaptarlo a un botón si prefieres)
+    // Ejecutar al cargar la página (con unos segundos de cortesía)
     window.addEventListener('load', () => {
-        // Esperamos unos segundos para no interrumpir al usuario apenas entra
-        setTimeout(solicitarPermisoNotificaciones, 3000);
+        setTimeout(solicitarYRegistrarNotificaciones, 3000);
     });
 </script>
     
