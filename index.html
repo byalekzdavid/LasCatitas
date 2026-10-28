@@ -315,11 +315,6 @@ if ("serviceWorker" in navigator) {
 
     <!-- ################ INTEGRACIÓN FIREBASE CLOUD MESSAGING ################ -->
 <!-- SDKs modulares de Firebase (versión compat para asegurar compatibilidad total) -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
-<!-- Importamos también Firestore (necesario para guardar los tokens) -->
-<script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
-
 <script>
     // 1. Inicializar Firebase
     firebase.initializeApp({
@@ -334,23 +329,24 @@ if ("serviceWorker" in navigator) {
     const messaging = firebase.messaging();
     const db = firebase.firestore();
 
-    // 2. Solicitar permiso, obtener el token y guardarlo en Firestore
+    // 2. Solicitar permiso y registrar token usando el Service Worker activo
     async function solicitarYRegistrarNotificaciones() {
         try {
             const permission = await Notification.requestPermission();
             if (permission === 'granted') {
                 console.log('Permiso de notificaciones concedido.');
                 
-                // Obtener el token FCM
+                // Esperar a que el service worker principal esté listo y pasárselo a Firebase
+                const registration = await navigator.serviceWorker.ready;
+
                 const token = await messaging.getToken({
-                    vapidKey: 'BO8Lsey5dJS2eGtn8wKTXKbNJPwnR4Iasx2x7kapzAiSLjOMA-z6klZdfAy2c1ziZubXTNHLmcwEUvqvr2VsyrM'
+                    vapidKey: 'BO8Lsey5dJS2eGtn8wKTXKbNJPwnR4Iasx2x7kapzAiSLjOMA-z6klZdfAy2c1ziZubXTNHLmcwEUvqvr2VsyrM',
+                    serviceWorkerRegistration: registration
                 });
 
                 if (token) {
                     console.log('Token FCM obtenido:', token);
                     
-                    // Guardar o actualizar el token en Firestore en la colección 'fcm_tokens'
-                    // Usamos el token mismo como ID del documento para evitar duplicados
                     await db.collection('fcm_tokens').doc(token).set({
                         token: token,
                         fechaRegistro: firebase.firestore.FieldValue.serverTimestamp(),
@@ -369,7 +365,6 @@ if ("serviceWorker" in navigator) {
         }
     }
 
-    // Ejecutar al cargar la página (con unos segundos de cortesía)
     window.addEventListener('load', () => {
         setTimeout(solicitarYRegistrarNotificaciones, 3000);
     });
