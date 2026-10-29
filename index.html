@@ -301,9 +301,7 @@
                 verificarEstadoNotificaciones();
 
                 if (permission !== "granted") {
-                    console.log(
-                        "Permiso de notificaciones no concedido."
-                    );
+                    console.log("Permiso de notificaciones no concedido.");
                     return;
                 }
 
@@ -315,9 +313,7 @@
                 });
 
                 if (!token) {
-                    console.warn(
-                        "No se pudo obtener el token de registro."
-                    );
+                    console.warn("No se pudo obtener el token de registro.");
                     return;
                 }
 
@@ -332,10 +328,7 @@
                 console.log("Token FCM guardado correctamente.");
 
             } catch (error) {
-                console.error(
-                    "Error al registrar notificaciones:",
-                    error
-                );
+                console.error("Error al registrar notificaciones:", error);
             }
         }
 
@@ -348,9 +341,7 @@
         // RECEPCIÓN EN PRIMER PLANO:
         // si la página está abierta, mostrar una notificación visible.
         messaging.onMessage(async payload => {
-            console.log(
-                "[Las Catitas] Mensaje recibido en primer plano."
-            );
+            console.log("[Las Catitas] Mensaje recibido en primer plano.");
 
             if (Notification.permission !== "granted") {
                 console.warn("Las notificaciones no tienen permiso.");
