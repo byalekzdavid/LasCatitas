@@ -143,8 +143,7 @@
             window.addEventListener("load", () => {
                 navigator.serviceWorker.register("./service-worker.js")
                     .catch(error =>
-                        console.error(
-                            "Error al registrar service worker:",
+                        console.error("Error al registrar service worker:",
                             error
                         )
                     );
@@ -222,7 +221,7 @@
 
     <script>
         const anuncio = {
-            activo: true,
+            activo: false, // CAMBIAR PARA ACTIVAR ANUNCIO
             titulo: "¡Novedades!",
             mensaje: "• Proximamente nuevas secciones\n♫ NUEVO audio en (Conj. Varones) \n••••••"
         };
