@@ -105,7 +105,7 @@ self.addEventListener("install", event => {
 });
 
 // Activar la nueva versión y borrar cachés anteriores.
-self.addEventListener("activate", event => {
+/* self.addEventListener("activate", event => {
   event.waitUntil(
     caches.keys().then(keys =>
       Promise.all(
@@ -115,6 +115,24 @@ self.addEventListener("activate", event => {
       )
     )
   );
+  borrar ->*/ 
+// Activar la nueva versión y borrar cachés anteriores de Las Catitas.
+self.addEventListener("activate", event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(
+        keys
+          .filter(key =>
+            key.startsWith("las-catitas-") &&
+            key !== CACHE_NAME
+          )
+          .map(key => caches.delete(key))
+      )
+    )
+  );
+
+  self.clients.claim();
+});
 
   self.clients.claim();
 });
