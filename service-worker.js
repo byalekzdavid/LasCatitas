@@ -97,6 +97,16 @@ messaging.onBackgroundMessage(payload => {
 self.addEventListener("install", event => {
   event.waitUntil(
     caches.open(CACHE_NAME).then(cache =>
+      cache.addAll(FILES)
+    )
+  );
+
+  self.skipWaiting();
+});
+// Instalar el service worker y precargar archivos.
+/*self.addEventListener("install", event => {
+  event.waitUntil(
+    caches.open(CACHE_NAME).then(cache =>
       cache.addAll(FILES).catch(() => {})
     )
   );
