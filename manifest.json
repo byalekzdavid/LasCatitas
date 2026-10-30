@@ -1,8 +1,8 @@
 
 {
   "id": "./",
-  "name": "Las Catitas",
-  "short_name": "Las Catitas",
+  "name": "Grabaciones - Las Catitas",
+  "short_name": "Audios Conjuntos",
   "description": "Escuchá las grabaciones.",
   "lang": "es-AR",
   "start_url": "./index.html",
