@@ -125,6 +125,9 @@ self.addEventListener("install", event => {
       )
     )
   );
+  
+  self.clients.claim();
+});
   borrar ->*/ 
 // Activar la nueva versión y borrar cachés anteriores de Las Catitas.
 self.addEventListener("activate", event => {
@@ -140,9 +143,6 @@ self.addEventListener("activate", event => {
       )
     )
   );
-
-  self.clients.claim();
-});
 
   self.clients.claim();
 });
