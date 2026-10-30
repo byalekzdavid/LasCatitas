@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#10243e">
+  <title>Panel administrativo | Las Catitas</title>
+  <link rel="stylesheet" href="admin-demo.css">
+</head>
+<body class="admin-demo">
+  <main class="admin-wrap">
+    <section class="admin-frame" aria-labelledby="titulo-panel">
+      <div class="panel-top">
+        <span class="brand-mini">♫ LAS CATITAS</span>
+        <button class="logout" id="salir" type="button">Cerrar sesión</button>
+      </div>
+      <div class="demo-label">PANEL DEL ADMINISTRADOR</div>
+      <p class="eyebrow">Centro de comunicación</p>
+      <h1 class="page-title" id="titulo-panel">Enviar notificación</h1>
+      <p class="page-desc">Prepará el aviso que querés comunicar a los usuarios de Las Catitas.</p>
+      
+      <div class="info-row">
+        <div class="info-icon" aria-hidden="true">♧</div>
+        <div><strong id="saludo">Administrador</strong><span>Sesión iniciada y permiso de administrador verificado.</span></div>
+      </div>
+
+      <form id="form-mensaje">
+        <div class="field">
+          <label for="titulo-mensaje">Título de la notificación</label>
+          <input id="titulo-mensaje" name="titulo" type="text" maxlength="60" placeholder="Ej.: ¡Nueva grabación disponible!" required>
+          <div class="counter"><span>Breve y fácil de reconocer</span><span id="contador-titulo">0/60</span></div>
+        </div>
+
+        <div class="field">
+          <label for="cuerpo-mensaje">Mensaje</label>
+          <textarea id="cuerpo-mensaje" name="mensaje" maxlength="220" placeholder="Escribí aquí la novedad que querés compartir…" required></textarea>
+          <div class="counter"><span>Recomendado: mensaje corto</span><span id="contador-cuerpo">0/220</span></div>
+        </div>
+
+        <div class="field">
+          <label for="destino">Al tocar la notificación, abrir</label>
+          <select id="destino" name="destino">
+            <option value="index.html">Portada de Las Catitas</option>
+            <option value="audios.html">Sección de grabaciones</option>
+          </select>
+        </div>
+
+        <button class="admin-button" type="submit" id="btn-enviar">ENVIAR NOTIFICACIÓN PUSH</button>
+        <div class="toast" id="resultado" role="status" aria-live="polite"></div>
+      </form>
+
+      <div class="notice">Los avisos enviados se despacharán de forma automática a todos los dispositivos suscriptos.</div>
+      <div class="center"><a class="text-link" href="index.html">← Volver a Las Catitas</a></div>
+    </section>
+    <p class="footer-note">Las Catitas · Administración de mensajes</p>
+  </main>
+
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+    import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+    import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+
+    const firebaseConfig = {
+      apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
+      authDomain: "las-catitas.firebaseapp.com",
+      projectId: "las-catitas",
+      storageBucket: "las-catitas.firebasestorage.app",
+      messagingSenderId: "69962715074",
+      appId: "1:69962715074:web:b88edad813c0674e29505b"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    let autorizado = false;
+
+    const resultado = document.getElementById('resultado');
+    const btnEnviar = document.getElementById('btn-enviar');
+
+    function mostrarMensaje(texto, esExito = false) { 
+      resultado.hidden = false; 
+      resultado.textContent = texto; 
+      resultado.classList.add('visible');
+      resultado.style.borderColor = esExito ? '#4caf50' : '#d6b56d';
+    }
+
+    onAuthStateChanged(auth, async (user) => {
+      if (!user) { window.location.replace('AccAdmin.html'); return; }
+      try {
+        const snap = await getDoc(doc(db, 'usuarios', user.uid));
+        if (!snap.exists() || snap.data().rol !== 'administrador' || snap.data().activo !== true) {
+          await signOut(auth);
+          window.location.replace('AccAdmin.html');
+          return;
+        }
+        autorizado = true;
+        document.getElementById('saludo').textContent = 'Hola, ' + (snap.data().nombre || 'Administrador');
+      } catch (error) {
+        mostrarMensaje('No se pudo comprobar el permiso. Revisá las reglas de Firestore y volvé a ingresar.');
+      }
+    });
+
+    document.getElementById('salir').addEventListener('click', async () => {
+      await signOut(auth);
+      window.location.replace('AccAdmin.html');
+    });
+
+    const titulo = document.getElementById('titulo-mensaje');
+    const cuerpo = document.getElementById('cuerpo-mensaje');
+    
+    titulo.addEventListener('input', () => document.getElementById('contador-titulo').textContent = `${titulo.value.length}/60`);
+    cuerpo.addEventListener('input', () => document.getElementById('contador-cuerpo').textContent = `${cuerpo.value.length}/220`);
+
+    // Manejar el envío masivo mediante la API de Vercel
+    document.getElementById('form-mensaje').addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (!autorizado) { 
+        mostrarMensaje('Esperá a que se verifique tu permiso de administrador.'); 
+        return; 
+      }
+
+      const tituloVal = titulo.value.trim();
+      const cuerpoVal = cuerpo.value.trim();
+      const destinoVal = document.getElementById('destino').value;
+
+      if (!tituloVal || !cuerpoVal) return;
+
+      btnEnviar.disabled = true;
+      btnEnviar.textContent = "ENVIANDO...";
+
+      try {
+        // ⚠️ REEMPLAZA ESTA URL CON TU DOMINIO REAL DE VERCEL
+        const URL_VERCEL = 'https://lascatitas.vercel.app/api/enviar';
+        
+        
+const usuarioActual = auth.currentUser;
+
+if (!usuarioActual) {
+  throw new Error('Tu sesión ha caducado. Inicia sesión nuevamente.');
+}
+
+const tokenSesion = await usuarioActual.getIdToken();
+
+const respuesta = await fetch(URL_VERCEL, {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${tokenSesion}`
+  },
+  body: JSON.stringify({
+    titulo: tituloVal,
+    cuerpo: cuerpoVal,
+    click_action: destinoVal
+  })
+});
+
+const resultadoApi = await respuesta.json();
+
+if (!respuesta.ok) {
+  throw new Error(
+    resultadoApi.error || `Error del servidor: ${respuesta.status}`
+  );
+}
+
+const enviados = Number(resultadoApi.enviados || 0);
+const fallidos = Number(resultadoApi.fallidos || 0);
+
+if (enviados > 0) {
+  mostrarMensaje(
+    `Firebase aceptó ${enviados} notificación(es). ` +
+    `Fallidos: ${fallidos}. ` +
+    'La recepción en los teléfonos todavía debe comprobarse.',
+    fallidos === 0
+  );
+
+  document.getElementById('form-mensaje').reset();
+  document.getElementById('contador-titulo').textContent = '0/60';
+  document.getElementById('contador-cuerpo').textContent = '0/220';
+
+} else {
+  const errores = resultadoApi.errores
+    ? JSON.stringify(resultadoApi.errores)
+    : (resultadoApi.mensaje || 'Sin detalles adicionales.');
+
+  mostrarMensaje(
+    `Firebase no aceptó ninguna notificación. ${errores}`
+  );
+}
+      } catch (error) {
+        console.error("Error de red:", error);
+        mostrarMensaje('No se pudo conectar con el servidor de Vercel.');
+      } finally {
+        btnEnviar.disabled = false;
+        btnEnviar.textContent = "ENVIAR NOTIFICACIÓN PUSH";
+      }
+    });
+  </script>
+</body>
+</html>

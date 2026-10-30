@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Bienvenidos</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#10243e">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="style.css">
+
+    <meta name="google-site-verification"
+          content="pQMq-683FjbEJwTVSkE0yGTZrfJ89ELk6pMtQ3Ei-Q4">
+</head>
+
+<body class="portada-elegante">
+
+    <main class="portada">
+        <h1>Bienvenidos</h1>
+        <div class="linea"></div>
+
+        <a href="audios.html" class="boton" id="boton-audios">
+            Escuchar Grabaciones
+        </a>
+
+        <a href="AccAdmin.html" class="enlace-admin">
+            Las Catitas · Panel de Administración
+        </a>
+
+        <button
+            type="button"
+            id="btn-activar-notificaciones"
+            class="boton-superior-pwa"
+            hidden>
+            🔔 Activar Avisos
+        </button>
+
+        <button
+            type="button"
+            id="instalar-app"
+            class="boton-superior-pwa"
+            hidden>
+            📲 Instalar App
+        </button>
+    </main>
+
+    <!-- Melodía DO - RE - MI antes de abrir las grabaciones -->
+    <script>
+        const botonAudios = document.getElementById("boton-audios");
+
+        botonAudios.addEventListener("click", async function (evento) {
+            evento.preventDefault();
+
+            if (botonAudios.dataset.reproduciendo === "si") return;
+
+            botonAudios.dataset.reproduciendo = "si";
+            botonAudios.setAttribute("aria-busy", "true");
+
+            let contexto;
+
+            try {
+                const AudioContextClass =
+                    window.AudioContext || window.webkitAudioContext;
+
+                if (!AudioContextClass) {
+                    window.location.href = "audios.html";
+                    return;
+                }
+
+                contexto = new AudioContextClass();
+                await contexto.resume();
+
+                function tocarNota(frecuencia, duracion) {
+                    return new Promise(resolve => {
+                        const inicio = contexto.currentTime;
+                        const volumen = contexto.createGain();
+
+                        volumen.gain.setValueAtTime(0.0001, inicio);
+                        volumen.gain.linearRampToValueAtTime(
+                            0.12, inicio + 0.035
+                        );
+                        volumen.gain.setValueAtTime(
+                            0.12, inicio + duracion - 0.06
+                        );
+                        volumen.gain.linearRampToValueAtTime(
+                            0.0001, inicio + duracion
+                        );
+
+                        volumen.connect(contexto.destination);
+
+                        const fundamental = contexto.createOscillator();
+                        const armonico = contexto.createOscillator();
+                        const mezclaArmonico = contexto.createGain();
+
+                        mezclaArmonico.gain.value = 0.28;
+                        fundamental.type = "sine";
+                        fundamental.frequency.value = frecuencia;
+                        armonico.type = "sine";
+                        armonico.frequency.value = frecuencia * 2;
+
+                        fundamental.connect(volumen);
+                        armonico.connect(mezclaArmonico);
+                        mezclaArmonico.connect(volumen);
+
+                        fundamental.start(inicio);
+                        armonico.start(inicio);
+                        fundamental.stop(inicio + duracion);
+                        armonico.stop(inicio + duracion);
+
+                        fundamental.addEventListener(
+                            "ended", resolve, { once: true }
+                        );
+                    });
+                }
+
+                for (const frecuencia of [261.63, 293.66, 329.63]) {
+                    await tocarNota(frecuencia, 0.38);
+                    await new Promise(resolve => setTimeout(resolve, 60));
+                }
+
+                await contexto.close();
+                contexto = null;
+                window.location.href = "audios.html";
+
+            } catch (error) {
+                if (contexto && contexto.state !== "closed") {
+                    try {
+                        await contexto.close();
+                    } catch (errorCierre) {}
+                }
+
+                window.location.href = "audios.html";
+            }
+        });
+    </script>
+
+    <!-- Registrar el service worker unificado -->
+    <script>
+       /* if ("serviceWorker" in navigator) {
+            window.addEventListener("load", () => {
+                navigator.serviceWorker.register("./service-worker.js")
+                    .catch(error =>
+                        console.error("Error al registrar service worker:",
+                            error
+                        )
+                    );
+            });
+        } 
+        borrar ---> */ 
+        if ("serviceWorker" in navigator) {
+  window.addEventListener("load", async () => {
+    try {
+      const registro = await navigator.serviceWorker.register(
+        "./service-worker.js"
+      );
+
+      // Comprobar si existe una nueva versión.
+      await registro.update();
+
+    } catch (error) {
+      console.error(
+        "Error al registrar o actualizar el service worker:",
+        error
+      );
+    }
+  });
+}
+    </script>
+
+    <!-- Botón de instalación PWA -->
+    <script>
+        let instalacionPendiente = null;
+        const botonInstalar = document.getElementById("instalar-app");
+
+        function verificarInstalacion() {
+            if (!botonInstalar) return;
+
+            const instaladaComoApp =
+                window.matchMedia("(display-mode: standalone)").matches ||
+                window.navigator.standalone === true;
+
+            if (instaladaComoApp) {
+                botonInstalar.hidden = true;
+            }
+        }
+
+        window.addEventListener("load", verificarInstalacion);
+        window.addEventListener("pageshow", verificarInstalacion);
+
+        window.addEventListener("beforeinstallprompt", evento => {
+            evento.preventDefault();
+            instalacionPendiente = evento;
+
+            const instaladaComoApp =
+                window.matchMedia("(display-mode: standalone)").matches ||
+                window.navigator.standalone === true;
+
+            if (!instaladaComoApp) {
+                botonInstalar.hidden = false;
+            }
+        });
+
+        if (botonInstalar) {
+            botonInstalar.addEventListener("click", async () => {
+                if (!instalacionPendiente) return;
+
+                instalacionPendiente.prompt();
+                await instalacionPendiente.userChoice;
+                instalacionPendiente = null;
+                botonInstalar.hidden = true;
+            });
+        }
+
+        window.addEventListener("appinstalled", () => {
+            if (botonInstalar) botonInstalar.hidden = true;
+            instalacionPendiente = null;
+        });
+    </script>
+
+    <!-- Popup de anuncios -->
+    <div id="popup-anuncio" hidden>
+        <div class="popup-contenido"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="popup-titulo">
+
+            <button id="popup-cerrar"
+                    type="button"
+                    aria-label="Cerrar anuncio">×</button>
+
+            <div class="popup-icono" aria-hidden="true">♫</div>
+            <h2 id="popup-titulo"></h2>
+            <p id="popup-mensaje"></p>
+            <button id="popup-entendido" type="button">Entendido</button>
+        </div>
+    </div>
+
+    <script>
+        const anuncio = {
+            activo: true, // CAMBIAR PARA ACTIVAR ANUNCIO
+            titulo: "¡Novedades!",
+            mensaje: "• 1. Activa AVISOS \n• 2. Instala App\n•••••\n• Podras recibir ultimas noticias\n y tener la app"
+        };
+
+        const popup = document.getElementById("popup-anuncio");
+
+        if (anuncio.activo) {
+            document.getElementById("popup-titulo").textContent =
+                anuncio.titulo;
+
+            document.getElementById("popup-mensaje").textContent =
+                anuncio.mensaje;
+
+            popup.hidden = false;
+        }
+
+        function cerrarPopup() {
+            popup.hidden = true;
+        }
+
+        document.getElementById("popup-cerrar")
+            .addEventListener("click", cerrarPopup);
+
+        document.getElementById("popup-entendido")
+            .addEventListener("click", cerrarPopup);
+
+        popup.addEventListener("click", evento => {
+            if (evento.target === popup) cerrarPopup();
+        });
+
+        document.addEventListener("keydown", evento => {
+            if (evento.key === "Escape" && !popup.hidden) {
+                cerrarPopup();
+            }
+        });
+    </script>
+
+    <!-- Firebase Cloud Messaging -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        firebase.initializeApp({
+            apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
+            authDomain: "las-catitas.firebaseapp.com",
+            projectId: "las-catitas",
+            storageBucket: "las-catitas.firebasestorage.app",
+            messagingSenderId: "69962715074",
+            appId: "1:69962715074:web:b88edad813c0674e29505b"
+        });
+
+        const messaging = firebase.messaging();
+        const db = firebase.firestore();
+
+        const btnActivarNotif =
+            document.getElementById("btn-activar-notificaciones");
+
+        function verificarEstadoNotificaciones() {
+            if (!btnActivarNotif) return;
+
+            if (Notification.permission === "granted" ||
+                Notification.permission === "denied") {
+                btnActivarNotif.hidden = true;
+            } else {
+                btnActivarNotif.hidden = false;
+            }
+        }
+
+        verificarEstadoNotificaciones();
+
+        // Solicitar permiso y registrar el token del dispositivo.
+        async function solicitarYRegistrarNotificaciones() {
+            try {
+                const permission = await Notification.requestPermission();
+                verificarEstadoNotificaciones();
+
+                if (permission !== "granted") {
+                    console.log("Permiso de notificaciones no concedido.");
+                    return;
+                }
+
+                const registration = await navigator.serviceWorker.ready;
+
+                const token = await messaging.getToken({
+                    vapidKey: "BO8Lsey5dJS2eGtn8wKTXKbNJPwnR4Iasx2x7kapzAiSLjOMA-z6klZdfAy2c1ziZubXTNHLmcwEUvqvr2VsyrM",
+                    serviceWorkerRegistration: registration
+                });
+
+                if (!token) {
+                    console.warn("No se pudo obtener el token de registro.");
+                    return;
+                }
+
+                // No imprimir el token en la consola.
+                await db.collection("fcm_tokens").doc(token).set({
+                    token: token,
+                    fechaRegistro:
+                        firebase.firestore.FieldValue.serverTimestamp(),
+                    dispositivo: navigator.userAgent
+                }, { merge: true });
+
+                console.log("Token FCM guardado correctamente.");
+
+            } catch (error) {
+                console.error("Error al registrar notificaciones:", error);
+            }
+        }
+
+        if (btnActivarNotif) {
+            btnActivarNotif.addEventListener("click", () => {
+                solicitarYRegistrarNotificaciones();
+            });
+        }
+
+        // RECEPCIÓN EN PRIMER PLANO:
+        // si la página está abierta, mostrar una notificación visible.
+        messaging.onMessage(async payload => {
+            console.log("[Las Catitas] Mensaje recibido en primer plano.");
+
+            if (Notification.permission !== "granted") {
+                console.warn("Las notificaciones no tienen permiso.");
+                return;
+            }
+
+            const titulo =
+                payload.notification?.title ||
+                payload.data?.title ||
+                "Las Catitas";
+
+            const cuerpo =
+                payload.notification?.body ||
+                payload.data?.body ||
+                "";
+
+            try {
+                const registration = await navigator.serviceWorker.ready;
+
+                const destino =
+                    payload.fcmOptions?.link ||
+                    "https://byalekzdavid.github.io/LasCatitas/index.html";
+
+                await registration.showNotification(titulo, {
+                    body: cuerpo,
+                    icon: "./icons/icon-192.png",
+                    data: {
+                        notificacionLasCatitas: true,
+                        url: destino
+                    }
+                });
+
+                console.log(
+                    "[Las Catitas] Notificación de primer plano mostrada."
+                );
+
+            } catch (error) {
+                console.error(
+                    "No se pudo mostrar la notificación en primer plano:",
+                    error
+                );
+            }
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,9 @@
+{
+  "name": "lascatitas-api",
+  "version": "1.0.0",
+  "description": "API de notificaciones Push para Las Catitas",
+  "main": "api/enviar.js",
+  "dependencies": {
+    "firebase-admin": "^12.0.0"
+  }
+}

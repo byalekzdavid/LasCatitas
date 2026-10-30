@@ -1,0 +1,806 @@
+
+/* =========================================================
+   LAS CATITAS — HOJA DE ESTILOS GENERAL
+   Estilos compartidos por index.html y audios.html.
+   ========================================================= */
+
+/* 1. REGLAS GENERALES */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    min-height: 100%;
+}
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: "Segoe UI", Arial, sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+}
+
+button {
+    -webkit-tap-highlight-color: transparent;
+}
+
+/* =========================================================
+   2. PORTADA — index.html
+   ========================================================= */
+
+body.portada-elegante {
+    min-height: 100vh;
+    color: #fffaf0;
+    background:
+        radial-gradient(ellipse at center, #244b7d, transparent 65%),
+        linear-gradient(135deg, #071426, #102b4c, #071426);
+}
+
+.portada-elegante .portada {
+    min-height: 100vh;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    isolation: isolate;
+}
+
+.portada-elegante .portada::before {
+    content: "";
+    position: absolute;
+    inset: 22px;
+    border: 1px solid #c6a45c;
+    border-radius: 18px;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.portada-elegante .portada::after {
+    content: "";
+    position: absolute;
+    width: 260px;
+    height: 260px;
+    border: 1px solid rgba(218, 181, 105, 0.16);
+    border-radius: 50%;
+    box-shadow:
+        0 0 0 24px rgba(218, 181, 105, 0.035),
+        0 0 0 50px rgba(218, 181, 105, 0.025);
+    z-index: -1;
+    pointer-events: none;
+}
+
+.portada-elegante h1 {
+    margin: 0;
+    color: #fffaf0;
+    font-size: clamp(42px, 8vw, 72px);
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
+}
+
+.portada-elegante .linea {
+    width: 100px;
+    height: 2px;
+    margin: 25px;
+    background: linear-gradient(
+        90deg,
+        transparent,
+        #e4c47e,
+        transparent
+    );
+}
+
+.portada-elegante .boton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    min-height: 58px;
+    max-width: 100%;
+    padding: 17px 28px;
+    border: 1px solid #e1c17b;
+    border-radius: 9px;
+    background: linear-gradient(135deg, #e4c984, #c6a45c);
+    color: #10233b;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.portada-elegante .boton:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+}
+
+.portada-elegante .boton:focus-visible {
+    outline: 3px solid #fff;
+    outline-offset: 5px;
+}
+
+/* Botones superiores: avisos e instalación */
+.boton-superior-pwa {
+    position: fixed;
+    top: 12px;
+    z-index: 1000;
+    min-height: 34px;
+    padding: 6px 12px;
+    border: 1px solid #d6b56d;
+    border-radius: 6px;
+    background: #10243e;
+    color: #fff;
+    font-family: inherit;
+    font-size: 11px;
+    line-height: normal;
+    cursor: pointer;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
+    transition: background 0.2s, transform 0.2s;
+}
+
+#btn-activar-notificaciones {
+    left: 12px;
+}
+
+#instalar-app {
+    right: 12px;
+}
+
+.boton-superior-pwa:hover {
+    background: #1b3c61;
+    transform: translateY(-1px);
+}
+
+.boton-superior-pwa:focus-visible {
+    outline: 2px solid #f0d99a;
+    outline-offset: 3px;
+}
+
+.boton-superior-pwa[hidden] {
+    display: none !important;
+}
+
+/* Enlace discreto al panel de administración */
+.enlace-admin {
+    position: fixed;
+    bottom: max(12px, env(safe-area-inset-bottom));
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 900;
+    width: max-content;
+    max-width: calc(100% - 24px);
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: normal;
+    line-height: 1.4;
+    text-align: center;
+    color: inherit;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    opacity: 0.75;
+    transition: opacity 0.2s ease;
+}
+
+.enlace-admin:hover {
+    opacity: 1;
+}
+
+/* =========================================================
+   3. GRABACIONES — audios.html
+   ========================================================= */
+
+body.pagina-audios {
+    min-height: 100vh;
+    padding: 24px 16px;
+    color: #fffaf0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at 50% 0%, #244b7d 0%, transparent 48%),
+        linear-gradient(135deg, #071426, #102b4c, #071426);
+}
+
+.pagina-audios .audios {
+    width: min(100%, 650px);
+    margin: 0 auto;
+}
+
+.pagina-audios .marco-audios {
+    position: relative;
+    padding: clamp(22px, 5vw, 38px);
+    border: 1px solid #d6b56d;
+    border-radius: 20px;
+    background: rgba(9, 25, 45, 0.88);
+    box-shadow: 0 18px 60px #0005;
+    backdrop-filter: blur(10px);
+}
+
+.pagina-audios .marco-audios::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px solid rgba(214, 181, 109, 0.13);
+    border-radius: 14px;
+    pointer-events: none;
+}
+
+/* Encabezado */
+.pagina-audios .encabezado-audios {
+    position: relative;
+    margin: 0 0 28px;
+    padding: 0 0 24px;
+    text-align: center;
+    border-bottom: 1px solid rgba(214, 181, 109, 0.35);
+}
+
+.pagina-audios .marca-audios {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 14px;
+    border: 1px solid #d6b56d;
+    border-radius: 50%;
+    color: #f0d99a;
+    font-size: 27px;
+    box-shadow: 0 0 0 7px rgba(214, 181, 109, 0.06);
+}
+
+.pagina-audios .nombre-marca {
+    margin: 0;
+    color: #f0d99a;
+    font-size: clamp(22px, 5vw, 29px);
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.pagina-audios .subtitulo-marca {
+    margin: 9px 0 0;
+    color: #b9c7d8;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.pagina-audios .titulo-pagina {
+    margin: 25px 0 8px;
+    color: #fffaf0;
+    font-size: clamp(24px, 5vw, 30px);
+    font-weight: 600;
+}
+
+.pagina-audios .descripcion-pagina {
+    margin: 0;
+    color: #b9c7d8;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* Reproductor */
+.pagina-audios .reproductor-principal {
+    position: relative;
+    margin-bottom: 20px;
+    padding: 18px;
+    border: 1px solid rgba(214, 181, 109, 0.35);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+}
+
+.pagina-audios .etiqueta-reproductor {
+    display: block;
+    margin: 0 0 9px;
+    color: #d6b56d;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+}
+
+.pagina-audios .titulo-reproductor {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    margin: 0 0 16px;
+}
+
+.pagina-audios .icono-reproductor {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 48px;
+    height: 48px;
+    border: 1px solid #d6b56d;
+    border-radius: 12px;
+    background: rgba(214, 181, 109, 0.08);
+    color: #f0d99a;
+    font-size: 25px;
+}
+
+.pagina-audios .titulo-reproductor h2 {
+    margin: 0 0 5px;
+    color: #f0d99a;
+    font-size: 19px;
+    font-weight: 600;
+}
+
+.pagina-audios .titulo-reproductor p {
+    margin: 0;
+    color: #b9c7d8;
+    font-size: 13px;
+    line-height: 1.5;
+    overflow-wrap: anywhere;
+}
+
+#nombre-audio {
+    display: block;
+    margin: 0;
+    color: #c5d2e2;
+    font-family: "Segoe UI", Arial, sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+}
+
+.pagina-audios #reproductor {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    margin: 0;
+}
+
+/* Categorías */
+.pagina-audios .seccion {
+    position: relative;
+    margin: 13px 0;
+    overflow: hidden;
+    border: 1px solid rgba(214, 181, 109, 0.35);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.025);
+    transition: border-color 0.2s ease;
+}
+
+.pagina-audios .seccion[open] {
+    border-color: rgba(214, 181, 109, 0.7);
+}
+
+.pagina-audios .seccion summary {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    min-height: 72px;
+    padding: 13px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.pagina-audios .seccion summary::-webkit-details-marker {
+    display: none;
+}
+
+.pagina-audios .seccion summary::marker {
+    content: "";
+}
+
+.pagina-audios .seccion summary:hover {
+    background: rgba(214, 181, 109, 0.06);
+}
+
+.pagina-audios .icono-seccion {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 43px;
+    height: 43px;
+    border: 1px solid rgba(214, 181, 109, 0.55);
+    border-radius: 10px;
+    background: rgba(214, 181, 109, 0.06);
+    color: #f0d99a;
+    font-size: 23px;
+}
+
+.pagina-audios .nombre-seccion {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 5px;
+    color: #fffaf0;
+    font-size: 16px;
+    font-weight: 600;
+}
+
+.pagina-audios .nombre-seccion small {
+    color: #b9c7d8;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.pagina-audios .flecha {
+    flex-shrink: 0;
+    color: #f0d99a;
+    font-size: 24px;
+    transition: transform 0.2s ease;
+}
+
+.pagina-audios .seccion[open] .flecha {
+    transform: rotate(180deg);
+}
+
+/* Lista de grabaciones */
+.pagina-audios .lista-grabaciones {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+    border-top: 1px solid rgba(214, 181, 109, 0.2);
+}
+
+.pagina-audios .boton-grabacion {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    width: 100%;
+    min-height: 52px;
+    padding: 11px 12px;
+    border: 1px solid #344a63;
+    border-radius: 9px;
+    background: rgba(255, 255, 255, 0.025);
+    color: #e7edf5;
+    font: inherit;
+    font-size: 14px;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.pagina-audios .boton-grabacion > span:nth-child(2) {
+    flex: 1;
+    overflow-wrap: anywhere;
+    line-height: 1.45;
+}
+
+.pagina-audios .boton-grabacion > span:first-child,
+.pagina-audios .accion-audio {
+    color: #f0d99a;
+}
+
+.pagina-audios .accion-audio {
+    display: grid;
+    place-items: center;
+    flex-shrink: 0;
+    width: 32px;
+    height: 32px;
+    border: 1px solid rgba(214, 181, 109, 0.35);
+    border-radius: 50%;
+    font-size: 12px;
+}
+
+.pagina-audios .boton-grabacion:hover,
+.pagina-audios .boton-grabacion.seleccionada {
+    border-color: #d6b56d;
+    background: rgba(214, 181, 109, 0.09);
+}
+
+.pagina-audios .boton-grabacion.seleccionada .accion-audio {
+    background: linear-gradient(135deg, #e3c47c, #b58d42);
+    color: #101b2a;
+    border-color: #d6b56d;
+}
+
+.pagina-audios .boton-grabacion:focus-visible,
+.pagina-audios .volver:focus-visible,
+.pagina-audios .seccion summary:focus-visible {
+    outline: 3px solid #f0d99a;
+    outline-offset: 3px;
+}
+
+/* Botón de regreso y pie de página */
+.pagina-audios .volver {
+    display: block;
+    width: 100%;
+    margin: 22px auto 0;
+    padding: 14px 18px;
+    border: 1px solid #d6b56d;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #e3c47c, #b58d42);
+    color: #101b2a;
+    text-align: center;
+    text-decoration: none;
+    font: 700 14px "Segoe UI", Arial, sans-serif;
+    letter-spacing: 1px;
+    box-shadow: 0 7px 22px rgba(0, 0, 0, 0.2);
+    transition: transform 0.18s ease, filter 0.18s ease;
+}
+
+.pagina-audios .volver:hover {
+    filter: brightness(1.06);
+    transform: translateY(-1px);
+}
+
+.pagina-audios .pie-pagina {
+    position: relative;
+    margin: 18px 8px 0;
+    color: #8497ad;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+}
+
+/* =========================================================
+   4. BOTONES DE NAVEGACIÓN COMPARTIDOS
+   ========================================================= */
+
+.botones-navegacion {
+    display: flex;
+    justify-content: center;
+    align-items: stretch;
+    gap: 12px;
+    width: 100%;
+    max-width: 600px;
+    margin: 25px auto;
+}
+
+.botones-navegacion a {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    min-height: 48px;
+    padding: 12px 16px;
+    line-height: 1.3;
+}
+
+/* =========================================================
+   5. POPUP DE ANUNCIOS — index.html
+   ========================================================= */
+
+#popup-anuncio[hidden] {
+    display: none !important;
+}
+
+#popup-anuncio {
+    position: fixed;
+    inset: 0;
+    z-index: 2000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background: rgba(3, 12, 26, 0.78);
+}
+
+.popup-contenido {
+    position: relative;
+    width: 100%;
+    max-width: 360px;
+    padding: 28px 22px 22px;
+    border: 1px solid #d6b56d;
+    border-radius: 16px;
+    background: linear-gradient(145deg, #10243e, #183b63);
+    color: #fff;
+    text-align: center;
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
+    animation: popup-aparecer 0.25s ease-out;
+}
+
+#popup-cerrar {
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #fff;
+    font-size: 27px;
+    cursor: pointer;
+}
+
+.popup-icono {
+    margin-bottom: 10px;
+    color: #e6c477;
+    font-size: 32px;
+}
+
+#popup-titulo {
+    margin: 0 18px 14px;
+    color: #e6c477;
+    font-size: 23px;
+    line-height: 1.3;
+}
+
+#popup-mensaje {
+    margin: 0 0 22px;
+    color: #fff;
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-wrap: anywhere;
+    white-space: pre-line;
+}
+
+#popup-entendido {
+    padding: 11px 25px;
+    border: 1px solid #f0d58f;
+    border-radius: 8px;
+    background: #d6b56d;
+    color: #10243e;
+    font-size: 15px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+#popup-cerrar:focus-visible,
+#popup-entendido:focus-visible {
+    outline: 2px solid #fff;
+    outline-offset: 3px;
+}
+
+@keyframes popup-aparecer {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.98);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+/* =========================================================
+   6. ADAPTACIÓN PARA CELULARES
+   ========================================================= */
+
+@media (max-width: 600px) {
+    .boton-superior-pwa {
+        top: 10px;
+        padding: 6px 9px;
+        font-size: 10px;
+    }
+
+    #btn-activar-notificaciones {
+        left: 10px;
+    }
+
+    #instalar-app {
+        right: 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .portada-elegante .portada {
+        padding: 45px 24px;
+    }
+
+    .portada-elegante .portada::before {
+        inset: 12px;
+        border-radius: 14px;
+    }
+
+    .portada-elegante .boton {
+        width: min(100%, 290px);
+        padding: 15px 20px;
+        font-size: 15px;
+    }
+
+    .enlace-admin {
+        font-size: 10px;
+    }
+
+    body.pagina-audios {
+        padding: 14px 10px;
+    }
+
+    .pagina-audios .marco-audios {
+        padding: 24px 17px;
+    }
+
+    .pagina-audios .nombre-marca {
+        letter-spacing: 2px;
+    }
+
+    .pagina-audios .subtitulo-marca {
+        font-size: 12px;
+    }
+
+    .pagina-audios .reproductor-principal {
+        padding: 14px;
+    }
+
+    .pagina-audios .titulo-reproductor {
+        gap: 10px;
+    }
+
+    .pagina-audios .titulo-reproductor h2 {
+        font-size: 17px;
+    }
+
+    #nombre-audio {
+        font-size: 13px;
+    }
+
+    .pagina-audios #reproductor {
+        min-height: 44px;
+    }
+
+    .pagina-audios .seccion summary {
+        gap: 9px;
+        padding: 11px;
+    }
+
+    .pagina-audios .nombre-seccion {
+        font-size: 15px;
+    }
+
+    .pagina-audios .lista-grabaciones {
+        padding: 9px;
+    }
+
+    .pagina-audios .boton-grabacion {
+        gap: 8px;
+        padding: 10px;
+        font-size: 13px;
+    }
+
+    .pagina-audios .accion-audio {
+        width: 29px;
+        height: 29px;
+    }
+
+    .botones-navegacion {
+        gap: 8px;
+    }
+
+    .botones-navegacion a {
+        padding: 10px 8px;
+        font-size: 13px;
+    }
+}
+
+@media (max-width: 400px) {
+    .popup-contenido {
+        max-width: 330px;
+        padding: 26px 18px 20px;
+    }
+
+    #popup-titulo {
+        font-size: 21px;
+    }
+
+    #popup-mensaje {
+        font-size: 15px;
+    }
+}
+
+/* =========================================================
+   7. ACCESIBILIDAD: REDUCIR MOVIMIENTO
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+    .portada-elegante .boton,
+    .pagina-audios *,
+    .pagina-audios *::before,
+    .pagina-audios *::after,
+    .popup-contenido,
+    .enlace-admin,
+    .boton-superior-pwa {
+        scroll-behavior: auto !important;
+        animation: none !important;
+        transition: none !important;
+    }
+
+    .portada-elegante .boton:hover,
+    .pagina-audios .volver:hover {
+        transform: none;
+    }
+}
