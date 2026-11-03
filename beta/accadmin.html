@@ -81,7 +81,7 @@
 
       try {
         if (await verificarAdministrador(user)) {
-          window.location.replace('PanelAdmin.html');
+          window.location.replace('paneladmin.html');
         } else {
           await signOut(auth);
           mostrarMensaje('Esta cuenta no tiene permiso de administrador.');
@@ -103,7 +103,7 @@
         const credencial = await signInWithEmailAndPassword(auth, correo, contrasena);
 
         if (await verificarAdministrador(credencial.user)) {
-          window.location.replace('PanelAdmin.html');
+          window.location.replace('paneladmin.html');
           return;
         }
 
