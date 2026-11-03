@@ -7,7 +7,6 @@
 <title>Estadísticas | Las Catitas</title>
 <link rel="stylesheet" href="admin-demo.css">
 <style>
-/* Estilos propios de stats.html. Más adelante se trasladarán a admin-demo.css. */
 .stats-wrap{width:min(100%,1100px);margin:0 auto;position:relative}
 .stats-frame{position:relative;border:1px solid var(--gold,#d6b56d);border-radius:20px;padding:clamp(24px,4vw,38px);background:var(--panel,rgba(9,25,45,.88));box-shadow:0 18px 60px #0005;backdrop-filter:blur(10px)}
 .stats-frame:before{content:"";position:absolute;inset:7px;border:1px solid rgba(214,181,109,.13);border-radius:14px;pointer-events:none}
@@ -56,8 +55,12 @@
 <div class="stats-content">
 <div class="stats-top">
 <div class="stats-brand">LAS CATITAS</div>
-<div class="stats-actions"><a href="PanelAdmin.html" class="stats-back">← Volver al menú</a><button class="logout" id="salir" type="button">Cerrar sesión</button></div>
+<div class="stats-actions">
+<a href="paneladmin.html" class="stats-back">← Volver al menú</a>
+<button class="logout" id="salir" type="button">Cerrar sesión</button>
 </div>
+</div>
+
 <header class="stats-heading">
 <p class="eyebrow">Panel administrativo</p>
 <h1>Estadísticas</h1>
@@ -75,14 +78,16 @@
 <h2 class="stats-section-title">Notificaciones Push</h2>
 <section class="stats-panels">
 <article class="stats-panel">
-<h3>Estado de los dispositivos</h3><div class="panel-description">Distribución de los registros de dispositivos</div>
+<h3>Estado de los dispositivos</h3>
+<div class="panel-description">Distribución de los registros de dispositivos</div>
 <div class="status-list">
 <div><div class="status-item"><span>Dispositivos válidos</span><span class="status-value">118</span></div><div class="progress-track"><div class="progress-fill" style="width:94.4%"></div></div></div>
 <div><div class="status-item"><span>Dispositivos no válidos</span><span class="status-value">7</span></div><div class="progress-track"><div class="progress-fill invalid" style="width:5.6%"></div></div></div>
 </div>
 </article>
 <article class="stats-panel">
-<h3>Registro de dispositivos</h3><div class="panel-description">Ejemplo de actividad durante los últimos seis meses</div>
+<h3>Registro de dispositivos</h3>
+<div class="panel-description">Ejemplo de actividad durante los últimos seis meses</div>
 <div class="stats-chart">
 <div class="chart-column"><div class="chart-bar" style="height:35%"></div><span>Jun</span></div>
 <div class="chart-column"><div class="chart-bar" style="height:48%"></div><span>Jul</span></div>
@@ -97,7 +102,8 @@
 <h2 class="stats-section-title">Instalaciones de la PWA</h2>
 <section class="stats-panels">
 <article class="stats-panel">
-<h3>Dispositivos detectados</h3><div class="panel-description">Ejemplo de uso de la aplicación instalada</div>
+<h3>Dispositivos detectados</h3>
+<div class="panel-description">Ejemplo de uso de la aplicación instalada</div>
 <div class="status-list">
 <div><div class="status-item"><span>Android</span><span class="status-value">62</span></div><div class="progress-track"><div class="progress-fill" style="width:71%"></div></div></div>
 <div><div class="status-item"><span>iPhone / iPad</span><span class="status-value">18</span></div><div class="progress-track"><div class="progress-fill" style="width:21%"></div></div></div>
@@ -105,7 +111,8 @@
 </div>
 </article>
 <article class="stats-panel">
-<h3>Actividad de instalaciones</h3><div class="panel-description">Ejemplo de aperturas detectadas durante los últimos meses</div>
+<h3>Actividad de instalaciones</h3>
+<div class="panel-description">Ejemplo de aperturas detectadas durante los últimos meses</div>
 <div class="stats-chart">
 <div class="chart-column"><div class="chart-bar" style="height:30%"></div><span>Jun</span></div>
 <div class="chart-column"><div class="chart-bar" style="height:42%"></div><span>Jul</span></div>
@@ -122,59 +129,78 @@
 </div>
 </section>
 </main>
+
 <div id="error-acceso" role="alert" hidden style="max-width:600px;margin:12vh auto;padding:24px;border:1px solid #d6b56d;border-radius:14px;background:#10243e;color:#fffaf0;text-align:center;font-family:Arial,sans-serif;line-height:1.6">
-  No se pudo verificar tu permiso de administrador. Comprobá tu conexión e ingresá nuevamente.
-  <p><a href="AccAdmin.html" style="color:#f0d99a">Ir al acceso administrativo</a></p>
+No se pudo verificar tu permiso de administrador. Comprobá tu conexión e ingresá nuevamente.
+<p><a href="accadmin.html" style="color:#f0d99a">Ir al acceso administrativo</a></p>
 </div>
+
 <script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
-  import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
-  import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/13.1.0/firebase-firestore.js";
 
-  const firebaseConfig = {
-    apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
-    authDomain: "las-catitas.firebaseapp.com",
-    projectId: "las-catitas",
-    storageBucket: "las-catitas.firebasestorage.app",
-    messagingSenderId: "69962715074",
-    appId: "1:69962715074:web:b88edad813c0674e29505b"
-  };
+const firebaseConfig = {
+  apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
+  authDomain: "las-catitas.firebaseapp.com",
+  projectId: "las-catitas",
+  storageBucket: "las-catitas.firebasestorage.app",
+  messagingSenderId: "69962715074",
+  appId: "1:69962715074:web:b88edad813c0674e29505b"
+};
 
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const contenido = document.getElementById('contenido-admin');
-  const errorAcceso = document.getElementById('error-acceso');
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const contenido = document.getElementById('contenido-admin');
+const errorAcceso = document.getElementById('error-acceso');
 
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.replace('AccAdmin.html');
+onAuthStateChanged(auth, async (user) => {
+  contenido.hidden = true;
+  errorAcceso.hidden = true;
+
+  if (!user) {
+    window.location.replace('accadmin.html');
+    return;
+  }
+
+  try {
+    const snap = await getDoc(doc(db, 'usuarios', user.uid));
+
+    if (
+      !snap.exists() ||
+      snap.data().rol !== 'administrador' ||
+      snap.data().activo !== true
+    ) {
+      await signOut(auth);
+      window.location.replace('accadmin.html');
       return;
     }
 
-    try {
-      const snap = await getDoc(doc(db, 'usuarios', user.uid));
-      if (!snap.exists() || snap.data().rol !== 'administrador' || snap.data().activo !== true) {
-        await signOut(auth);
-        window.location.replace('AccAdmin.html');
-        return;
-      }
-      contenido.hidden = false;
-    } catch (error) {
-      console.error('Error al verificar permisos:', error);
-      errorAcceso.hidden = false;
-    }
-  });
+    contenido.hidden = false;
 
-  document.getElementById('salir').addEventListener('click', async () => {
+  } catch (error) {
+    console.error('Error al verificar permisos:', error);
+
     try {
       await signOut(auth);
-      window.location.replace('AccAdmin.html');
-    } catch (error) {
-      console.error('No se pudo cerrar la sesión:', error);
-      alert('No se pudo cerrar la sesión. Intentá nuevamente.');
+    } catch (errorSesion) {
+      console.error('No se pudo cerrar la sesión:', errorSesion);
     }
-  });
+
+    errorAcceso.hidden = false;
+  }
+});
+
+document.getElementById('salir').addEventListener('click', async () => {
+  try {
+    await signOut(auth);
+    window.location.replace('accadmin.html');
+  } catch (error) {
+    console.error('No se pudo cerrar la sesión:', error);
+    alert('No se pudo cerrar la sesión. Intentá nuevamente.');
+  }
+});
 </script>
 </body>
 </html>
