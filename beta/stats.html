@@ -4,584 +4,573 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="theme-color" content="#10243e">
-
   <title>Estadísticas | Las Catitas</title>
 
   <link rel="stylesheet" href="admin-demo.css">
 
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      min-height: 100vh;
-      background: #f3f6fa;
-      color: #172b45;
-      font-family: Arial, sans-serif;
-    }
-
-    .stats-container {
-      width: min(1150px, 94%);
+    /* Estilos propios de stats.html. Más adelante se trasladarán a admin-demo.css. */
+    .stats-wrap {
+      width: min(100%, 1100px);
       margin: 0 auto;
-      padding: 25px 0 45px;
+      position: relative;
     }
 
-    .stats-header {
+    .stats-frame {
+      position: relative;
+      border: 1px solid var(--gold, #d6b56d);
+      border-radius: 20px;
+      padding: clamp(24px, 4vw, 38px);
+      background: var(--panel, rgba(9,25,45,.88));
+      box-shadow: 0 18px 60px #0005;
+      backdrop-filter: blur(10px);
+    }
+
+    .stats-frame::before {
+      content: "";
+      position: absolute;
+      inset: 7px;
+      border: 1px solid rgba(214,181,109,.13);
+      border-radius: 14px;
+      pointer-events: none;
+    }
+
+    .stats-content { position: relative; }
+
+    .stats-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      gap: 15px;
-      margin-bottom: 25px;
+      gap: 14px;
+      margin-bottom: 28px;
       flex-wrap: wrap;
     }
 
-    .stats-header h1 {
-      margin: 0 0 7px;
-      font-size: 27px;
+    .stats-brand {
+      color: var(--gold-light, #f0d99a);
+      font-size: 13px;
+      font-weight: 700;
+      letter-spacing: 2px;
     }
 
-    .stats-header p {
-      margin: 0;
-      color: #718096;
-      font-size: 14px;
-    }
-
-    .back-link {
+    .stats-back {
       display: inline-block;
-      padding: 11px 16px;
-      border-radius: 9px;
-      background: #10243e;
-      color: white;
+      color: var(--muted, #b9c7d8);
+      font-size: 12px;
       text-decoration: none;
-      font-size: 14px;
-      font-weight: bold;
+      border: 1px solid #39516c;
+      border-radius: 8px;
+      padding: 9px 12px;
+      transition: border-color .2s, color .2s;
     }
 
-    .section-title {
-      margin: 28px 0 14px;
-      font-size: 18px;
+    .stats-back:hover {
+      border-color: var(--gold, #d6b56d);
+      color: var(--cream, #fffaf0);
+    }
+
+    .stats-heading {
+      margin-bottom: 26px;
+      padding-bottom: 22px;
+      border-bottom: 1px solid var(--line, rgba(214,181,109,.35));
+    }
+
+    .stats-heading .eyebrow { margin-bottom: 9px; }
+
+    .stats-heading h1 {
+      color: var(--cream, #fffaf0);
+      font-size: clamp(24px, 5vw, 30px);
+      font-weight: 600;
+      margin: 0 0 8px;
+    }
+
+    .stats-heading p {
+      color: var(--muted, #b9c7d8);
+      font-size: 14px;
+      line-height: 1.6;
+      margin: 0;
+    }
+
+    .stats-section-title {
+      color: var(--gold-light, #f0d99a);
+      font-size: 16px;
+      font-weight: 600;
+      margin: 27px 0 14px;
     }
 
     .stats-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 15px;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 13px;
     }
 
-    .stat-card {
-      background: white;
-      padding: 19px;
-      border-radius: 13px;
-      border: 1px solid #e3eaf2;
-      box-shadow: 0 3px 12px rgba(16, 36, 62, 0.04);
+    .stat-card, .stats-panel {
+      min-width: 0;
+      border: 1px solid var(--line, rgba(214,181,109,.35));
+      border-radius: 12px;
+      background: rgba(255,255,255,.025);
     }
 
-    .stat-card .stat-label {
-      color: #718096;
-      font-size: 13px;
-      margin-bottom: 12px;
-    }
-
-    .stat-card .stat-number {
-      font-size: 29px;
-      font-weight: bold;
-      color: #10243e;
-      margin-bottom: 8px;
-    }
-
-    .stat-card .stat-detail {
-      color: #8492a6;
-      font-size: 12px;
-    }
+    .stat-card { padding: 17px; }
 
     .stat-icon {
-      width: 38px;
-      height: 38px;
-      border-radius: 10px;
       display: grid;
       place-items: center;
-      background: #eaf1fa;
-      color: #24558b;
-      font-size: 19px;
+      width: 38px;
+      height: 38px;
       margin-bottom: 13px;
+      border: 1px solid rgba(214,181,109,.45);
+      border-radius: 10px;
+      background: rgba(214,181,109,.07);
+      color: var(--gold-light, #f0d99a);
+      font-size: 19px;
     }
 
-    .charts-grid {
+    .stat-label {
+      color: var(--muted, #b9c7d8);
+      font-size: 12px;
+      line-height: 1.45;
+      margin-bottom: 10px;
+    }
+
+    .stat-number {
+      color: var(--cream, #fffaf0);
+      font-size: 28px;
+      font-weight: 700;
+      margin-bottom: 7px;
+    }
+
+    .stat-detail {
+      color: #8497ad;
+      font-size: 11px;
+      line-height: 1.45;
+    }
+
+    .stats-panels {
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 14px;
     }
 
-    .panel {
-      background: white;
-      border: 1px solid #e3eaf2;
-      border-radius: 13px;
-      padding: 20px;
-      box-shadow: 0 3px 12px rgba(16, 36, 62, 0.04);
-      min-width: 0;
-    }
+    .stats-panel { padding: 19px; }
 
-    .panel h3 {
+    .stats-panel h3 {
+      color: var(--gold-light, #f0d99a);
+      font-size: 15px;
+      font-weight: 600;
       margin: 0 0 6px;
-      font-size: 16px;
     }
 
     .panel-description {
-      color: #8492a6;
+      color: var(--muted, #b9c7d8);
       font-size: 12px;
-      margin-bottom: 22px;
-    }
-
-    .chart {
-      height: 175px;
-      display: flex;
-      align-items: end;
-      justify-content: space-around;
-      gap: 12px;
-      padding: 12px 5px 0;
-      border-bottom: 1px solid #dce4ed;
-      background: repeating-linear-gradient(
-        to bottom,
-        transparent 0,
-        transparent 42px,
-        #edf1f6 43px
-      );
-    }
-
-    .chart-column {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: end;
-      height: 100%;
-      gap: 7px;
-    }
-
-    .chart-bar {
-      width: min(35px, 75%);
-      background: #3679b9;
-      border-radius: 6px 6px 0 0;
-      min-height: 5px;
-    }
-
-    .chart-column span {
-      font-size: 10px;
-      color: #8492a6;
-      padding-bottom: 7px;
+      line-height: 1.5;
+      margin-bottom: 20px;
     }
 
     .status-list {
       display: grid;
       gap: 17px;
-      margin-top: 20px;
+      margin-top: 17px;
     }
 
     .status-item {
       display: flex;
       justify-content: space-between;
       gap: 10px;
-      font-size: 13px;
-    }
-
-    .status-label {
-      color: #64748b;
+      color: var(--muted, #b9c7d8);
+      font-size: 12px;
     }
 
     .status-value {
-      font-weight: bold;
-      color: #172b45;
+      color: var(--cream, #fffaf0);
+      font-weight: 700;
     }
 
     .progress-track {
-      height: 9px;
-      background: #e9eef5;
+      height: 8px;
+      margin-top: 8px;
       border-radius: 20px;
       overflow: hidden;
-      margin-top: 8px;
+      background: rgba(255,255,255,.10);
     }
 
     .progress-fill {
       height: 100%;
-      background: #3679b9;
       border-radius: 20px;
+      background: linear-gradient(90deg, #b58d42, #f0d99a);
     }
 
-    .table-panel {
-      margin-top: 17px;
-      overflow: hidden;
+    .progress-fill.invalid {
+      background: #d97757;
     }
 
-    .table-scroll {
-      overflow-x: auto;
+    .stats-chart {
+      height: 175px;
+      display: flex;
+      align-items: end;
+      justify-content: space-around;
+      gap: 12px;
+      padding: 12px 5px 0;
+      border-bottom: 1px solid rgba(214,181,109,.35);
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0,
+        transparent 42px,
+        rgba(214,181,109,.10) 43px
+      );
     }
 
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      min-width: 550px;
-      font-size: 13px;
+    .chart-column {
+      flex: 1;
+      min-width: 0;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: end;
+      gap: 7px;
     }
 
-    th, td {
-      text-align: left;
-      padding: 13px 10px;
-      border-bottom: 1px solid #edf1f5;
+    .chart-bar {
+      width: min(35px, 75%);
+      min-height: 5px;
+      border-radius: 6px 6px 0 0;
+      background: linear-gradient(180deg, #f0d99a, #b58d42);
     }
 
-    th {
-      color: #718096;
-      font-weight: 600;
-      background: #f8fafc;
-    }
-
-    td {
-      color: #40536b;
-    }
-
-    .status-tag {
-      display: inline-block;
-      padding: 5px 9px;
-      border-radius: 20px;
-      background: #e7f5ed;
-      color: #247447;
-      font-size: 11px;
-      font-weight: bold;
+    .chart-column span {
+      color: var(--muted, #b9c7d8);
+      font-size: 10px;
+      padding-bottom: 7px;
     }
 
     .demo-notice {
-      margin-top: 20px;
-      padding: 13px 15px;
-      border: 1px solid #e9d8a6;
-      background: #fff9e9;
-      color: #80631c;
-      border-radius: 9px;
+      margin-top: 22px;
+      padding: 12px 14px;
+      border: 1px solid rgba(214,181,109,.35);
+      border-radius: 10px;
+      background: rgba(214,181,109,.08);
+      color: #eadcb9;
       font-size: 12px;
       line-height: 1.5;
     }
 
     .stats-footer {
       text-align: center;
-      color: #94a3b8;
-      font-size: 12px;
-      margin-top: 28px;
+      color: #8497ad;
+      font-size: 11px;
+      line-height: 1.5;
+      margin: 20px 8px 0;
     }
 
     @media (max-width: 850px) {
-      .stats-grid {
-        grid-template-columns: repeat(2, 1fr);
-      }
-
-      .charts-grid {
-        grid-template-columns: 1fr;
-      }
+      .stats-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+      .stats-panels { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 480px) {
-      .stats-container {
-        width: 92%;
-        padding-top: 20px;
-      }
+      body.admin-demo { padding: 14px 10px; }
+      .stats-frame { padding: 24px 19px; }
+      .stats-top { align-items: flex-start; }
+      .stats-back { text-align: center; }
+      .stat-card { padding: 14px; }
+      .stat-number { font-size: 24px; }
+      .stats-panel { padding: 15px; }
+    }
 
-      .stats-header h1 {
-        font-size: 23px;
-      }
-
-      .stats-grid {
-        gap: 10px;
-      }
-
-      .stat-card {
-        padding: 14px;
-      }
-
-      .stat-card .stat-number {
-        font-size: 24px;
-      }
-
-      .stat-card .stat-label {
-        font-size: 12px;
-      }
-
-      .panel {
-        padding: 15px;
-      }
-
-      .back-link {
-        width: 100%;
-        text-align: center;
-      }
+    @media (prefers-reduced-motion: reduce) {
+      .stats-back { transition: none; }
     }
   </style>
 </head>
 
-<body>
+<body class="admin-demo">
+  <main class="stats-wrap">
+    <section class="stats-frame">
+      <div class="stats-content">
 
-  <main class="stats-container">
+        <div class="stats-top">
+          <div class="stats-brand">LAS CATITAS</div>
+          <a href="PanelAdmin.html" class="stats-back">← Volver al menú</a>
+        </div>
 
-    <!-- ENCABEZADO -->
-    <header class="stats-header">
-      <div>
-        <h1>Estadísticas</h1>
-        <p>Panel de información general de Las Catitas</p>
+        <header class="stats-heading">
+          <p class="eyebrow">Panel administrativo</p>
+          <h1>Estadísticas</h1>
+          <p>Panel de información general de Las Catitas</p>
+        </header>
+
+        <h2 class="stats-section-title">Resumen general</h2>
+
+        <section class="stats-grid">
+          <article class="stat-card">
+            <div class="stat-icon">📱</div>
+            <div class="stat-label">Dispositivos registrados</div>
+            <div class="stat-number">125</div>
+            <div class="stat-detail">Datos ficticios de demostración</div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon">📲</div>
+            <div class="stat-label">PWA instaladas detectadas</div>
+            <div class="stat-number">87</div>
+            <div class="stat-detail">Dispositivos identificados</div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon">✅</div>
+            <div class="stat-label">Dispositivos válidos</div>
+            <div class="stat-number">118</div>
+            <div class="stat-detail">Ejemplo de registros vigentes</div>
+          </article>
+
+          <article class="stat-card">
+            <div class="stat-icon">📊</div>
+            <div class="stat-label">Dispositivos activos</div>
+            <div class="stat-number">76</div>
+            <div class="stat-detail">Datos de demostración</div>
+          </article>
+        </section>
+
+        <h2 class="stats-section-title">Notificaciones Push</h2>
+
+        <section class="stats-panels">
+          <article class="stats-panel">
+            <h3>Estado de los dispositivos</h3>
+            <div class="panel-description">Distribución de los registros de dispositivos</div>
+
+            <div class="status-list">
+              <div>
+                <div class="status-item">
+                  <span>Dispositivos válidos</span>
+                  <span class="status-value">118</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill" style="width:94.4%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="status-item">
+                  <span>Dispositivos no válidos</span>
+                  <span class="status-value">7</span>
+                </div>
+                <div class="progress-track">
+                  <div class="progress-fill invalid" style="width:5.6%"></div>
+                </div>
+              </div>
+            </div>
+          </article>
+
+          <article class="stats-panel">
+            <h3>Registro de dispositivos</h3>
+            <div class="panel-description">Ejemplo de actividad durante los últimos seis meses</div>
+
+            <div class="stats-chart">
+              <div class="chart-column"><div class="chart-bar" style="height:35%"></div><span>Jun</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:48%"></div><span>Jul</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:58%"></div><span>Ago</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:65%"></div><span>Sep</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:78%"></div><span>Oct</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:90%"></div><span>Nov</span></div>
+            </div>
+          </article>
+        </section>
+
+        <h2 class="stats-section-title">Instalaciones de la PWA</h2>
+
+        <section class="stats-panels">
+          <article class="stats-panel">
+            <h3>Dispositivos detectados</h3>
+            <div class="panel-description">Ejemplo de uso de la aplicación instalada</div>
+
+            <div class="status-list">
+              <div>
+                <div class="status-item">
+                  <span>Android</span>
+                  <span class="status-value">62</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:71%"></div></div>
+              </div>
+
+              <div>
+                <div class="status-item">
+                  <span>iPhone / iPad</span>
+                  <span class="status-value">18</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:21%"></div></div>
+              </div>
+
+              <div>
+                <div class="status-item">
+                  <span>Computadoras</span>
+                  <span class="status-value">7</span>
+                </div>
+                <div class="progress-track"><div class="progress-fill" style="width:8%"></div></div>
+              </div>
+            </div>
+          </article>
+
+          <article class="stats-panel">
+            <h3>Actividad de instalaciones</h3>
+            <div class="panel-description">Ejemplo de aperturas detectadas durante los últimos meses</div>
+
+            <div class="stats-chart">
+              <div class="chart-column"><div class="chart-bar" style="height:30%"></div><span>Jun</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:42%"></div><span>Jul</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:55%"></div><span>Ago</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:50%"></div><span>Sep</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:72%"></div><span>Oct</span></div>
+              <div class="chart-column"><div class="chart-bar" style="height:88%"></div><span>Nov</span></div>
+            </div>
+          </article>
+        </section>
+
+        <div class="demo-notice">
+          <strong>Modo de demostración:</strong>
+          todos los números y gráficos de esta página son ficticios.
+          Todavía no existe conexión con Firebase ni con la base de datos de usuarios.
+        </div>
+
+        <footer class="stats-footer">
+          Las Catitas · Panel de administración
+        </footer>
+
       </div>
-
-      <a href="PanelAdmin.html" class="back-link">
-        ← Volver al menú
-      </a>
-    </header>
-
-    <!-- RESUMEN GENERAL -->
-    <h2 class="section-title">Resumen general</h2>
-
-    <section class="stats-grid">
-
-      <article class="stat-card">
-        <div class="stat-icon">🔔</div>
-        <div class="stat-label">Tokens registrados</div>
-        <div class="stat-number">125</div>
-        <div class="stat-detail">Datos ficticios de demostración</div>
-      </article>
-
-      <article class="stat-card">
-        <div class="stat-icon">📱</div>
-        <div class="stat-label">PWA instaladas detectadas</div>
-        <div class="stat-number">87</div>
-        <div class="stat-detail">Dispositivos identificados</div>
-      </article>
-
-      <article class="stat-card">
-        <div class="stat-icon">✅</div>
-        <div class="stat-label">Tokens válidos</div>
-        <div class="stat-number">118</div>
-        <div class="stat-detail">Ejemplo de registros vigentes</div>
-      </article>
-
-      <article class="stat-card">
-        <div class="stat-icon">📊</div>
-        <div class="stat-label">Dispositivos activos</div>
-        <div class="stat-number">76</div>
-        <div class="stat-detail">Ejemplo de actividad reciente</div>
-      </article>
-
     </section>
-
-    <!-- NOTIFICACIONES -->
-    <h2 class="section-title">Notificaciones Push</h2>
-
-    <section class="charts-grid">
-
-      <article class="panel">
-        <h3>Estado de los tokens</h3>
-        <div class="panel-description">
-          Distribución de registros de Firebase
-        </div>
-
-        <div class="status-list">
-
-          <div>
-            <div class="status-item">
-              <span class="status-label">Tokens válidos</span>
-              <span class="status-value">118</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:94.4%"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="status-item">
-              <span class="status-label">Tokens no válidos</span>
-              <span class="status-value">7</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:5.6%; background:#d97757"></div>
-            </div>
-          </div>
-
-        </div>
-      </article>
-
-      <article class="panel">
-        <h3>Registro de dispositivos</h3>
-        <div class="panel-description">
-          Ejemplo de actividad durante los últimos seis meses
-        </div>
-
-        <div class="chart">
-          <div class="chart-column">
-            <div class="chart-bar" style="height:35%"></div>
-            <span>Jun</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:48%"></div>
-            <span>Jul</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:58%"></div>
-            <span>Ago</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:65%"></div>
-            <span>Sep</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:78%"></div>
-            <span>Oct</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:90%"></div>
-            <span>Nov</span>
-          </div>
-        </div>
-      </article>
-
-    </section>
-
-    <!-- INSTALACIONES PWA -->
-    <h2 class="section-title">Instalaciones de la PWA</h2>
-
-    <section class="charts-grid">
-
-      <article class="panel">
-        <h3>Dispositivos detectados</h3>
-        <div class="panel-description">
-          Ejemplo de uso de la aplicación instalada
-        </div>
-
-        <div class="status-list">
-
-          <div>
-            <div class="status-item">
-              <span class="status-label">Android</span>
-              <span class="status-value">62</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:71%"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="status-item">
-              <span class="status-label">iPhone / iPad</span>
-              <span class="status-value">18</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:21%"></div>
-            </div>
-          </div>
-
-          <div>
-            <div class="status-item">
-              <span class="status-label">Computadoras</span>
-              <span class="status-value">7</span>
-            </div>
-            <div class="progress-track">
-              <div class="progress-fill" style="width:8%"></div>
-            </div>
-          </div>
-
-        </div>
-      </article>
-
-      <article class="panel">
-        <h3>Actividad de instalaciones</h3>
-        <div class="panel-description">
-          Ejemplo de aperturas detectadas durante los últimos meses
-        </div>
-
-        <div class="chart">
-          <div class="chart-column">
-            <div class="chart-bar" style="height:30%"></div>
-            <span>Jun</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:42%"></div>
-            <span>Jul</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:55%"></div>
-            <span>Ago</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:50%"></div>
-            <span>Sep</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:72%"></div>
-            <span>Oct</span>
-          </div>
-          <div class="chart-column">
-            <div class="chart-bar" style="height:88%"></div>
-            <span>Nov</span>
-          </div>
-        </div>
-      </article>
-
-    </section>
-
-    <!-- ACTIVIDAD RECIENTE -->
-    <h2 class="section-title">Actividad reciente</h2>
-
-    <section class="panel table-panel">
-
-      <h3>Últimos registros</h3>
-      <div class="panel-description">
-        Ejemplo de cómo se presentarán los registros de dispositivos
-      </div>
-
-      <div class="table-scroll">
-        <table>
-          <thead>
-            <tr>
-              <th>Dispositivo</th>
-              <th>Plataforma</th>
-              <th>Notificaciones</th>
-              <th>Estado</th>
-            </tr>
-          </thead>
-
-          <tbody>
-            <tr>
-              <td>Dispositivo 001</td>
-              <td>Android</td>
-              <td>Habilitadas</td>
-              <td><span class="status-tag">Activo</span></td>
-            </tr>
-
-            <tr>
-              <td>Dispositivo 002</td>
-              <td>iPhone</td>
-              <td>Habilitadas</td>
-              <td><span class="status-tag">Activo</span></td>
-            </tr>
-
-            <tr>
-              <td>Dispositivo 003</td>
-              <td>Computadora</td>
-              <td>Habilitadas</td>
-              <td><span class="status-tag">Activo</span></td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-    </section>
-
-    <!-- AVISO -->
-    <div class="demo-notice">
-      <strong>Modo de demostración:</strong>
-      todos los números, gráficos y registros de esta página son ficticios.
-      Todavía no existe conexión con Firebase ni con la base de datos de usuarios.
-    </div>
-
-    <footer class="stats-footer">
-      Las Catitas · Panel de administración
-    </footer>
-
   </main>
+</body>
+</html>
+'''
 
+path = Path("/mnt/data/stats.html")
+path.write_text(html, encoding="utf-8")
+print(f"Archivo creado: {path} ({len(html)} caracteres)")
+from pathlib import Path
+
+html = """<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#10243e">
+<title>Estadísticas | Las Catitas</title>
+<link rel="stylesheet" href="admin-demo.css">
+<style>
+/* Estilos propios de stats.html. Más adelante se trasladarán a admin-demo.css. */
+.stats-wrap{width:min(100%,1100px);margin:0 auto;position:relative}
+.stats-frame{position:relative;border:1px solid var(--gold,#d6b56d);border-radius:20px;padding:clamp(24px,4vw,38px);background:var(--panel,rgba(9,25,45,.88));box-shadow:0 18px 60px #0005;backdrop-filter:blur(10px)}
+.stats-frame:before{content:"";position:absolute;inset:7px;border:1px solid rgba(214,181,109,.13);border-radius:14px;pointer-events:none}
+.stats-content{position:relative}
+.stats-top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:28px;flex-wrap:wrap}
+.stats-brand{color:var(--gold-light,#f0d99a);font-size:13px;font-weight:700;letter-spacing:2px}
+.stats-back{display:inline-block;color:var(--muted,#b9c7d8);font-size:12px;text-decoration:none;border:1px solid #39516c;border-radius:8px;padding:9px 12px;transition:border-color .2s,color .2s}
+.stats-back:hover{border-color:var(--gold,#d6b56d);color:var(--cream,#fffaf0)}
+.stats-heading{margin-bottom:26px;padding-bottom:22px;border-bottom:1px solid var(--line,rgba(214,181,109,.35))}
+.stats-heading .eyebrow{margin-bottom:9px}
+.stats-heading h1{color:var(--cream,#fffaf0);font-size:clamp(24px,5vw,30px);font-weight:600;margin:0 0 8px}
+.stats-heading p{color:var(--muted,#b9c7d8);font-size:14px;line-height:1.6;margin:0}
+.stats-section-title{color:var(--gold-light,#f0d99a);font-size:16px;font-weight:600;margin:27px 0 14px}
+.stats-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:13px}
+.stat-card,.stats-panel{min-width:0;border:1px solid var(--line,rgba(214,181,109,.35));border-radius:12px;background:rgba(255,255,255,.025)}
+.stat-card{padding:17px}
+.stat-icon{display:grid;place-items:center;width:38px;height:38px;margin-bottom:13px;border:1px solid rgba(214,181,109,.45);border-radius:10px;background:rgba(214,181,109,.07);color:var(--gold-light,#f0d99a);font-size:19px}
+.stat-label{color:var(--muted,#b9c7d8);font-size:12px;line-height:1.45;margin-bottom:10px}
+.stat-number{color:var(--cream,#fffaf0);font-size:28px;font-weight:700;margin-bottom:7px}
+.stat-detail{color:#8497ad;font-size:11px;line-height:1.45}
+.stats-panels{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
+.stats-panel{padding:19px}
+.stats-panel h3{color:var(--gold-light,#f0d99a);font-size:15px;font-weight:600;margin:0 0 6px}
+.panel-description{color:var(--muted,#b9c7d8);font-size:12px;line-height:1.5;margin-bottom:20px}
+.status-list{display:grid;gap:17px;margin-top:17px}
+.status-item{display:flex;justify-content:space-between;gap:10px;color:var(--muted,#b9c7d8);font-size:12px}
+.status-value{color:var(--cream,#fffaf0);font-weight:700}
+.progress-track{height:8px;margin-top:8px;border-radius:20px;overflow:hidden;background:rgba(255,255,255,.10)}
+.progress-fill{height:100%;border-radius:20px;background:linear-gradient(90deg,#b58d42,#f0d99a)}
+.progress-fill.invalid{background:#d97757}
+.stats-chart{height:175px;display:flex;align-items:end;justify-content:space-around;gap:12px;padding:12px 5px 0;border-bottom:1px solid rgba(214,181,109,.35);background:repeating-linear-gradient(to bottom,transparent 0,transparent 42px,rgba(214,181,109,.10) 43px)}
+.chart-column{flex:1;min-width:0;height:100%;display:flex;flex-direction:column;align-items:center;justify-content:end;gap:7px}
+.chart-bar{width:min(35px,75%);min-height:5px;border-radius:6px 6px 0 0;background:linear-gradient(180deg,#f0d99a,#b58d42)}
+.chart-column span{color:var(--muted,#b9c7d8);font-size:10px;padding-bottom:7px}
+.demo-notice{margin-top:22px;padding:12px 14px;border:1px solid rgba(214,181,109,.35);border-radius:10px;background:rgba(214,181,109,.08);color:#eadcb9;font-size:12px;line-height:1.5}
+.stats-footer{text-align:center;color:#8497ad;font-size:11px;line-height:1.5;margin:20px 8px 0}
+@media(max-width:850px){.stats-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.stats-panels{grid-template-columns:1fr}}
+@media(max-width:480px){body.admin-demo{padding:14px 10px}.stats-frame{padding:24px 19px}.stats-top{align-items:flex-start}.stat-card{padding:14px}.stat-number{font-size:24px}.stats-panel{padding:15px}}
+@media(prefers-reduced-motion:reduce){.stats-back{transition:none}}
+</style>
+</head>
+<body class="admin-demo">
+<main class="stats-wrap">
+<section class="stats-frame">
+<div class="stats-content">
+<div class="stats-top">
+<div class="stats-brand">LAS CATITAS</div>
+<a href="PanelAdmin.html" class="stats-back">← Volver al menú</a>
+</div>
+<header class="stats-heading">
+<p class="eyebrow">Panel administrativo</p>
+<h1>Estadísticas</h1>
+<p>Panel de información general de Las Catitas</p>
+</header>
+
+<h2 class="stats-section-title">Resumen general</h2>
+<section class="stats-grid">
+<article class="stat-card"><div class="stat-icon">📱</div><div class="stat-label">Dispositivos registrados</div><div class="stat-number">125</div><div class="stat-detail">Datos ficticios de demostración</div></article>
+<article class="stat-card"><div class="stat-icon">📲</div><div class="stat-label">PWA instaladas detectadas</div><div class="stat-number">87</div><div class="stat-detail">Dispositivos identificados</div></article>
+<article class="stat-card"><div class="stat-icon">✅</div><div class="stat-label">Dispositivos válidos</div><div class="stat-number">118</div><div class="stat-detail">Ejemplo de registros vigentes</div></article>
+<article class="stat-card"><div class="stat-icon">📊</div><div class="stat-label">Dispositivos activos</div><div class="stat-number">76</div><div class="stat-detail">Datos de demostración</div></article>
+</section>
+
+<h2 class="stats-section-title">Notificaciones Push</h2>
+<section class="stats-panels">
+<article class="stats-panel">
+<h3>Estado de los dispositivos</h3><div class="panel-description">Distribución de los registros de dispositivos</div>
+<div class="status-list">
+<div><div class="status-item"><span>Dispositivos válidos</span><span class="status-value">118</span></div><div class="progress-track"><div class="progress-fill" style="width:94.4%"></div></div></div>
+<div><div class="status-item"><span>Dispositivos no válidos</span><span class="status-value">7</span></div><div class="progress-track"><div class="progress-fill invalid" style="width:5.6%"></div></div></div>
+</div>
+</article>
+<article class="stats-panel">
+<h3>Registro de dispositivos</h3><div class="panel-description">Ejemplo de actividad durante los últimos seis meses</div>
+<div class="stats-chart">
+<div class="chart-column"><div class="chart-bar" style="height:35%"></div><span>Jun</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:48%"></div><span>Jul</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:58%"></div><span>Ago</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:65%"></div><span>Sep</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:78%"></div><span>Oct</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:90%"></div><span>Nov</span></div>
+</div>
+</article>
+</section>
+
+<h2 class="stats-section-title">Instalaciones de la PWA</h2>
+<section class="stats-panels">
+<article class="stats-panel">
+<h3>Dispositivos detectados</h3><div class="panel-description">Ejemplo de uso de la aplicación instalada</div>
+<div class="status-list">
+<div><div class="status-item"><span>Android</span><span class="status-value">62</span></div><div class="progress-track"><div class="progress-fill" style="width:71%"></div></div></div>
+<div><div class="status-item"><span>iPhone / iPad</span><span class="status-value">18</span></div><div class="progress-track"><div class="progress-fill" style="width:21%"></div></div></div>
+<div><div class="status-item"><span>Computadoras</span><span class="status-value">7</span></div><div class="progress-track"><div class="progress-fill" style="width:8%"></div></div></div>
+</div>
+</article>
+<article class="stats-panel">
+<h3>Actividad de instalaciones</h3><div class="panel-description">Ejemplo de aperturas detectadas durante los últimos meses</div>
+<div class="stats-chart">
+<div class="chart-column"><div class="chart-bar" style="height:30%"></div><span>Jun</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:42%"></div><span>Jul</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:55%"></div><span>Ago</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:50%"></div><span>Sep</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:72%"></div><span>Oct</span></div>
+<div class="chart-column"><div class="chart-bar" style="height:88%"></div><span>Nov</span></div>
+</div>
+</article>
+</section>
+
+<div class="demo-notice"><strong>Modo de demostración:</strong> todos los números y gráficos de esta página son ficticios. Todavía no existe conexión con Firebase ni con la base de datos de usuarios.</div>
+<footer class="stats-footer">Las Catitas · Panel de administración</footer>
+</div>
+</section>
+</main>
 </body>
 </html>
