@@ -36,6 +36,7 @@ button {
 
 body.portada-elegante {
     min-height: 100vh;
+    min-height: 100svh;
     color: #fffaf0;
     background:
         radial-gradient(ellipse at center, #244b7d, transparent 65%),
@@ -44,6 +45,7 @@ body.portada-elegante {
 
 .portada-elegante .portada {
     min-height: 100vh;
+    min-height: 100svh;
     padding: 60px 20px;
     display: flex;
     flex-direction: column;
