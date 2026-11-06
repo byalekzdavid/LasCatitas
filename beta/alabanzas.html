@@ -76,6 +76,149 @@
     pdfjsLib.GlobalWorkerOptions.workerSrc =
         "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 </script>
+    <script>
+    const PDF_URL = "https://byalekzdavid.github.io/LasCatitas/Cuadernillo%20cursiva%20con%20Klofkyna.pdf";
+
+    const vistaListado = document.getElementById("vista-listado");
+    const vistaVisor = document.getElementById("vista-visor");
+    const listaPDF = document.getElementById("lista-pdf");
+    const buscador = document.getElementById("buscar-pdf");
+    const contenedorPDF = document.getElementById("contenedor-pdf");
+    const tituloPDF = document.getElementById("titulo-pdf");
+    const nivelZoom = document.getElementById("nivel-zoom");
+
+    let documentoPDF = null;
+    let zoom = 1;
+    let observador = null;
+
+    // Mostrar el documento de prueba en el listado.
+    function mostrarListado() {
+        listaPDF.innerHTML = `
+            <button type="button" class="elemento-pdf" id="abrir-pdf">
+                <span>📄</span>
+                <span>Cuadernillo cursiva con Klofkyna</span>
+            </button>
+        `;
+
+        document.getElementById("abrir-pdf").addEventListener("click", abrirPDF);
+    }
+
+    async function abrirPDF() {
+        vistaListado.hidden = true;
+        vistaVisor.hidden = false;
+        tituloPDF.textContent = "Cuadernillo cursiva con Klofkyna";
+        contenedorPDF.innerHTML = "<p>Cargando documento...</p>";
+
+        try {
+            const carga = pdfjsLib.getDocument(PDF_URL);
+            documentoPDF = await carga.promise;
+
+            zoom = 1;
+            actualizarZoom();
+            mostrarPaginas();
+        } catch (error) {
+            contenedorPDF.innerHTML =
+                "<p>No se pudo cargar el PDF. Verificá que esté publicado correctamente.</p>";
+            console.error("Error al cargar el PDF:", error);
+        }
+    }
+
+    function mostrarPaginas() {
+        if (observador) observador.disconnect();
+
+        contenedorPDF.innerHTML = "";
+
+        observador = new IntersectionObserver((entradas) => {
+            entradas.forEach((entrada) => {
+                if (entrada.isIntersecting) {
+                    const pagina = Number(entrada.target.dataset.pagina);
+                    renderizarPagina(pagina, entrada.target);
+                    observador.unobserve(entrada.target);
+                }
+            });
+        }, {
+            root: contenedorPDF,
+            rootMargin: "500px"
+        });
+
+        for (let numero = 1; numero <= documentoPDF.numPages; numero++) {
+            const espacio = document.createElement("div");
+            espacio.className = "pagina-pdf";
+            espacio.dataset.pagina = numero;
+            espacio.textContent = "Cargando página " + numero + "...";
+            contenedorPDF.appendChild(espacio);
+            observador.observe(espacio);
+        }
+    }
+
+    async function renderizarPagina(numero, espacio) {
+        try {
+            const pagina = await documentoPDF.getPage(numero);
+            const anchoDisponible = contenedorPDF.clientWidth - 24;
+            const escalaBase = anchoDisponible / pagina.getViewport({ scale: 1 }).width;
+            const escala = escalaBase * zoom;
+            const viewport = pagina.getViewport({ scale: escala });
+
+            const canvas = document.createElement("canvas");
+            const contexto = canvas.getContext("2d");
+
+            canvas.width = viewport.width;
+            canvas.height = viewport.height;
+            canvas.style.width = "100%";
+            canvas.style.height = "auto";
+
+            espacio.innerHTML = "";
+            espacio.appendChild(canvas);
+
+            await pagina.render({
+                canvasContext: contexto,
+                viewport: viewport
+            }).promise;
+        } catch (error) {
+            espacio.textContent = "No se pudo mostrar esta página.";
+            console.error(error);
+        }
+    }
+
+    function actualizarZoom() {
+        nivelZoom.textContent = Math.round(zoom * 100) + "%";
+    }
+
+    document.getElementById("acercar-pdf").addEventListener("click", () => {
+        if (zoom < 2) {
+            zoom += 0.2;
+            actualizarZoom();
+            mostrarPaginas();
+        }
+    });
+
+    document.getElementById("alejar-pdf").addEventListener("click", () => {
+        if (zoom > 0.6) {
+            zoom -= 0.2;
+            actualizarZoom();
+            mostrarPaginas();
+        }
+    });
+
+    document.getElementById("volver-listado").addEventListener("click", () => {
+        if (observador) observador.disconnect();
+        vistaVisor.hidden = true;
+        vistaListado.hidden = false;
+        contenedorPDF.innerHTML = "";
+    });
+
+    buscador.addEventListener("input", () => {
+        const boton = document.getElementById("abrir-pdf");
+        if (boton) {
+            boton.style.display =
+                "cuadernillo cursiva con klofkyna".includes(
+                    buscador.value.toLowerCase()
+                ) ? "" : "none";
+        }
+    });
+
+    mostrarListado();
+</script>
     
 </body>
 </html>
