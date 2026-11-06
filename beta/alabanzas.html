@@ -90,6 +90,72 @@
     let documentoPDF = null;
     let zoom = 1;
     let observador = null;
+        let dedos = new Map();
+let distanciaInicial = 0;
+let zoomInicial = 1;
+
+contenedorPDF.style.touchAction = "pan-y";
+
+function distanciaDedos() {
+    const puntos = Array.from(dedos.values());
+    const dx = puntos[0].x - puntos[1].x;
+    const dy = puntos[0].y - puntos[1].y;
+
+    return Math.hypot(dx, dy);
+}
+
+contenedorPDF.addEventListener("pointerdown", (e) => {
+    dedos.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    contenedorPDF.setPointerCapture(e.pointerId);
+
+    if (dedos.size === 2) {
+        distanciaInicial = distanciaDedos();
+        zoomInicial = zoom;
+    }
+});
+
+contenedorPDF.addEventListener("pointermove", (e) => {
+    if (!dedos.has(e.pointerId)) return;
+
+    dedos.set(e.pointerId, { x: e.clientX, y: e.clientY });
+
+    if (dedos.size === 2 && distanciaInicial > 0) {
+        e.preventDefault();
+
+        const factor = distanciaDedos() / distanciaInicial;
+        const zoomTemporal = Math.min(2, Math.max(0.6, zoomInicial * factor));
+
+        contenedorPDF.querySelectorAll(".pagina-pdf canvas").forEach(canvas => {
+            canvas.style.transform = `scale(${zoomTemporal / zoom})`;
+            canvas.style.transformOrigin = "top center";
+        });
+    }
+});
+
+function finalizarZoom(e) {
+    dedos.delete(e.pointerId);
+
+    if (distanciaInicial > 0) {
+        const canvas = contenedorPDF.querySelector(".pagina-pdf canvas");
+
+        if (canvas) {
+            const factor = parseFloat(canvas.style.transform.match(/scale\(([^)]+)\)/)?.[1] || "1");
+            zoom = Math.min(2, Math.max(0.6, zoom * factor));
+        }
+
+        distanciaInicial = 0;
+
+        contenedorPDF.querySelectorAll(".pagina-pdf canvas").forEach(canvas => {
+            canvas.style.transform = "";
+        });
+
+        actualizarZoom();
+        mostrarPaginas();
+    }
+}
+
+contenedorPDF.addEventListener("pointerup", finalizarZoom);
+contenedorPDF.addEventListener("pointercancel", finalizarZoom);
 
     // Mostrar el documento de prueba en el listado.
     function mostrarListado() {
@@ -164,7 +230,7 @@
 
             canvas.width = viewport.width;
             canvas.height = viewport.height;
-            canvas.style.width = "100%";
+            canvas.style.width = viewport.width + "px";
             canvas.style.height = "auto";
 
             espacio.innerHTML = "";
