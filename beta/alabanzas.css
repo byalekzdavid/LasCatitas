@@ -1,0 +1,225 @@
+/* LAS CATITAS — BIBLIOTECA DE ALABANZAS */
+
+* {
+    box-sizing: border-box;
+}
+
+body.pagina-alabanzas {
+    min-height: 100vh;
+    margin: 0;
+    padding: 24px 16px;
+    color: #fffaf0;
+    font-family: "Segoe UI", Arial, sans-serif;
+    background:
+        radial-gradient(ellipse at 50% 0%, #244b7d 0%, transparent 48%),
+        linear-gradient(135deg, #071426, #102b4c, #071426);
+}
+
+.pagina-alabanzas .biblioteca {
+    width: min(100%, 650px);
+    margin: 0 auto;
+}
+
+.pagina-alabanzas .marco-biblioteca {
+    position: relative;
+    padding: clamp(22px, 5vw, 38px);
+    border: 1px solid #d6b56d;
+    border-radius: 20px;
+    background: rgba(9, 25, 45, 0.88);
+    box-shadow: 0 18px 60px #0005;
+    backdrop-filter: blur(10px);
+}
+
+.pagina-alabanzas .marco-biblioteca::before {
+    content: "";
+    position: absolute;
+    inset: 7px;
+    border: 1px solid rgba(214, 181, 109, 0.13);
+    border-radius: 14px;
+    pointer-events: none;
+}
+
+/* ENCABEZADO */
+
+.pagina-alabanzas .encabezado-biblioteca {
+    position: relative;
+    margin-bottom: 28px;
+    padding-bottom: 24px;
+    text-align: center;
+    border-bottom: 1px solid rgba(214, 181, 109, 0.35);
+}
+
+.pagina-alabanzas .marca-biblioteca {
+    display: grid;
+    place-items: center;
+    width: 58px;
+    height: 58px;
+    margin: 0 auto 14px;
+    border: 1px solid #d6b56d;
+    border-radius: 50%;
+    color: #f0d99a;
+    font-size: 27px;
+    box-shadow: 0 0 0 7px rgba(214, 181, 109, 0.06);
+}
+
+.pagina-alabanzas .nombre-biblioteca {
+    margin: 0;
+    color: #f0d99a;
+    font-size: clamp(22px, 5vw, 29px);
+    font-weight: 600;
+    letter-spacing: 3px;
+}
+
+.pagina-alabanzas .subtitulo-biblioteca {
+    margin: 9px 0 0;
+    color: #b9c7d8;
+    font-size: 13px;
+    letter-spacing: 1px;
+}
+
+.pagina-alabanzas .descripcion-biblioteca {
+    margin: 14px 0 0;
+    color: #b9c7d8;
+    font-size: 14px;
+    line-height: 1.6;
+}
+
+/* BUSCADOR */
+
+.pagina-alabanzas .buscador-biblioteca {
+    margin-bottom: 20px;
+}
+
+.pagina-alabanzas .buscador-biblioteca label {
+    display: block;
+    margin-bottom: 9px;
+    color: #d6b56d;
+    font-size: 11px;
+    letter-spacing: 3px;
+}
+
+.pagina-alabanzas .buscador-biblioteca input {
+    width: 100%;
+    min-height: 48px;
+    padding: 12px 14px;
+    border: 1px solid #344a63;
+    border-radius: 9px;
+    outline: none;
+    background: rgba(255,255,255,0.04);
+    color: #fffaf0;
+    font-size: 14px;
+}
+
+.pagina-alabanzas .buscador-biblioteca input::placeholder {
+    color: #8497ad;
+}
+
+.pagina-alabanzas .buscador-biblioteca input:focus {
+    border-color: #d6b56d;
+}
+
+/* LISTADO */
+
+.pagina-alabanzas .lista-pdf {
+    display: flex;
+    flex-direction: column;
+    gap: 9px;
+}
+
+.pagina-alabanzas .mensaje-vacio {
+    padding: 24px 14px;
+    border: 1px solid rgba(214,181,109,0.25);
+    border-radius: 10px;
+    color: #b9c7d8;
+    font-size: 14px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* VISOR */
+
+.pagina-alabanzas .barra-visor {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 16px;
+}
+
+.pagina-alabanzas .controles-zoom {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.pagina-alabanzas .barra-visor button {
+    min-width: 38px;
+    min-height: 38px;
+    border: 1px solid #d6b56d;
+    border-radius: 8px;
+    background: #10243e;
+    color: #f0d99a;
+    font-size: 17px;
+    cursor: pointer;
+}
+
+.pagina-alabanzas #nivel-zoom {
+    color: #f0d99a;
+    font-size: 13px;
+}
+
+.pagina-alabanzas #titulo-pdf {
+    color: #f0d99a;
+    font-size: 16px;
+    overflow-wrap: anywhere;
+}
+
+.pagina-alabanzas .contenedor-pdf {
+    min-height: 300px;
+    overflow: auto;
+    padding: 12px;
+    border-radius: 9px;
+    background: #26374b;
+}
+
+/* NAVEGACIÓN */
+
+.pagina-alabanzas .volver-inicio {
+    display: block;
+    width: 100%;
+    margin: 22px auto 0;
+    padding: 14px 18px;
+    border: 1px solid #d6b56d;
+    border-radius: 10px;
+    background: linear-gradient(135deg, #e3c47c, #b58d42);
+    color: #101b2a;
+    text-align: center;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.pagina-alabanzas [hidden] {
+    display: none !important;
+}
+
+/* CELULARES */
+
+@media (max-width: 480px) {
+    body.pagina-alabanzas {
+        padding: 14px 10px;
+    }
+
+    .pagina-alabanzas .marco-biblioteca {
+        padding: 24px 17px;
+    }
+
+    .pagina-alabanzas .nombre-biblioteca {
+        letter-spacing: 2px;
+    }
+
+    .pagina-alabanzas .barra-visor {
+        flex-wrap: wrap;
+    }
+}
