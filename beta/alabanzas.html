@@ -94,7 +94,9 @@
 let distanciaInicial = 0;
 let zoomInicial = 1;
 
-contenedorPDF.style.touchAction = "pan-y";
+contenedorPDF.style.touchAction = "pan-x pan-y";
+contenedorPDF.style.overflowX = "auto";
+contenedorPDF.style.overflowY = "auto";
 
 function distanciaDedos() {
     const puntos = Array.from(dedos.values());
@@ -218,33 +220,43 @@ contenedorPDF.addEventListener("pointercancel", finalizarZoom);
     }
 
     async function renderizarPagina(numero, espacio) {
-        try {
-            const pagina = await documentoPDF.getPage(numero);
-            const anchoDisponible = contenedorPDF.clientWidth - 24;
-            const escalaBase = anchoDisponible / pagina.getViewport({ scale: 1 }).width;
-            const escala = escalaBase * zoom;
-            const viewport = pagina.getViewport({ scale: escala });
+    try {
+        const pagina = await documentoPDF.getPage(numero);
+        const anchoDisponible = contenedorPDF.clientWidth - 24;
+        const escalaBase = anchoDisponible / pagina.getViewport({ scale: 1 }).width;
+        const escala = escalaBase * zoom;
+        const viewport = pagina.getViewport({ scale: escala });
 
-            const canvas = document.createElement("canvas");
-            const contexto = canvas.getContext("2d");
+        // Aprovechar la resolución de la pantalla del celular.
+        const pixelRatio = Math.min(window.devicePixelRatio || 1, 2.5);
 
-            canvas.width = viewport.width;
-            canvas.height = viewport.height;
-            canvas.style.width = viewport.width + "px";
-            canvas.style.height = "auto";
+        const canvas = document.createElement("canvas");
+        const contexto = canvas.getContext("2d");
 
-            espacio.innerHTML = "";
-            espacio.appendChild(canvas);
+        canvas.width = Math.floor(viewport.width * pixelRatio);
+        canvas.height = Math.floor(viewport.height * pixelRatio);
 
-            await pagina.render({
-                canvasContext: contexto,
-                viewport: viewport
-            }).promise;
-        } catch (error) {
-            espacio.textContent = "No se pudo mostrar esta página.";
-            console.error(error);
-        }
+        canvas.style.width = viewport.width + "px";
+        canvas.style.height = viewport.height + "px";
+        canvas.style.display = "block";
+
+        espacio.style.width = viewport.width + "px";
+        espacio.style.margin = "0 auto";
+
+        espacio.innerHTML = "";
+        espacio.appendChild(canvas);
+
+        await pagina.render({
+            canvasContext: contexto,
+            viewport: viewport,
+            transform: [pixelRatio, 0, 0, pixelRatio, 0, 0]
+        }).promise;
+
+    } catch (error) {
+        espacio.textContent = "No se pudo mostrar esta página.";
+        console.error(error);
     }
+}
 
     function actualizarZoom() {
         nivelZoom.textContent = Math.round(zoom * 100) + "%";
