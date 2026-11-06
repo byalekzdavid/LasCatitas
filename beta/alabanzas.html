@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Alabanzas | Las Catitas</title>
+    <link rel="stylesheet" href="alabanzas.css">
+</head>
+
+<body class="pagina-alabanzas">
+
+    <main class="biblioteca">
+        <div class="marco-biblioteca">
+
+            <header class="encabezado-biblioteca">
+                <div class="marca-biblioteca">♫</div>
+                <p class="nombre-biblioteca">Alabanzas</p>
+                <p class="subtitulo-biblioteca">Biblioteca de alabanzas</p>
+                <p class="descripcion-biblioteca">
+                    Buscá y consultá las alabanzas disponibles.
+                </p>
+            </header>
+
+            <section id="vista-listado" class="vista-listado">
+
+                <div class="buscador-biblioteca">
+                    <label for="buscar-pdf">BUSCAR ALABANZA</label>
+                    <input
+                        type="search"
+                        id="buscar-pdf"
+                        placeholder="Escribí el nombre de una alabanza..."
+                        autocomplete="off">
+                </div>
+
+                <div id="lista-pdf" class="lista-pdf">
+                    <p class="mensaje-vacio">
+                        Próximamente estarán disponibles las alabanzas.
+                    </p>
+                </div>
+
+            </section>
+
+            <section id="vista-visor" class="vista-visor" hidden>
+
+                <div class="barra-visor">
+                    <button type="button" id="volver-listado">
+                        ← Volver
+                    </button>
+
+                    <div class="controles-zoom">
+                        <button type="button" id="alejar-pdf">−</button>
+                        <span id="nivel-zoom">100%</span>
+                        <button type="button" id="acercar-pdf">+</button>
+                    </div>
+                </div>
+
+                <h2 id="titulo-pdf"></h2>
+
+                <div id="contenedor-pdf" class="contenedor-pdf">
+                    <!-- Aquí se mostrarán las páginas del PDF -->
+                </div>
+
+            </section>
+
+            <a href="index.html" class="volver-inicio">
+                ← Volver al inicio
+            </a>
+
+        </div>
+    </main>
+
+</body>
+</html>
