@@ -280,6 +280,21 @@
     }, 400);
 }
 
+    document.getElementById("popup-cerrar")
+    .addEventListener("click", cerrarPopup);
+
+document.getElementById("popup-entendido")
+    .addEventListener("click", cerrarPopup);
+
+popup.addEventListener("click", evento => {
+    if (evento.target === popup) cerrarPopup();
+});
+
+document.addEventListener("keydown", evento => {
+    if (evento.key === "Escape" && !popup.hidden) {
+        cerrarPopup();
+    }
+});
 function mostrarPopupInstalacion() {
     const instaladaComoApp =
         window.matchMedia("(display-mode: standalone)").matches ||
