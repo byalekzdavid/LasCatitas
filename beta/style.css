@@ -160,11 +160,7 @@ body.portada-elegante {
 
 #btn-activar-notificaciones {
     left: 12px;
-}
-
-#instalar-app {
-    right: 12px;
-}
+} }
 
 .boton-superior-pwa:hover {
     background: #1b3c61;
