@@ -186,9 +186,9 @@
                 window.matchMedia("(display-mode: standalone)").matches ||
                 window.navigator.standalone === true;
 
-            if (!instaladaComoApp) {
-                botonInstalar.hidden = false;
-            }
+            if (botonInstalar) {
+    botonInstalar.hidden = true;
+}
         });
 
         if (botonInstalar) {
@@ -205,6 +205,7 @@
         window.addEventListener("appinstalled", () => {
             if (botonInstalar) botonInstalar.hidden = true;
             instalacionPendiente = null;
+            document.getElementById("popup-instalacion").hidden = true;
         });
     </script>
 
@@ -225,8 +226,34 @@
             <button id="popup-entendido" type="button">Entendido</button>
         </div>
     </div>
+    
+ <!-- Popup de instalación -->
+    <div id="popup-instalacion" hidden>
+        <div class="popup-contenido"
+             role="dialog"
+             aria-modal="true"
+             aria-labelledby="titulo-instalacion">
 
-    <script>
+            <div class="popup-icono" aria-hidden="true">📲</div>
+
+            <h2 id="titulo-instalacion">¡Instalá Las Catitas!</h2>
+
+            <p id="mensaje-instalacion">
+                Tené nuestras grabaciones y alabanzas siempre a mano,
+                directamente desde tu dispositivo.
+            </p>
+
+            <button id="confirmar-instalacion" type="button">
+                Instalar aplicación
+            </button>
+
+            <button id="ahora-no-instalacion" type="button">
+                Ahora no
+            </button>
+        </div>
+    </div>
+    
+<script>
         const anuncio = {
             activo: true, // CAMBIAR PARA ACTIVAR ANUNCIO
             titulo: "¡Novedades!",
@@ -246,24 +273,58 @@
         }
 
         function cerrarPopup() {
-            popup.hidden = true;
+    popup.hidden = true;
+
+    setTimeout(() => {
+        mostrarPopupInstalacion();
+    }, 400);
+}
+
+function mostrarPopupInstalacion() {
+    const instaladaComoApp =
+        window.matchMedia("(display-mode: standalone)").matches ||
+        window.navigator.standalone === true;
+
+    if (instaladaComoApp) return;
+
+    document.getElementById("popup-instalacion").hidden = false;
+};
+    
+const popupInstalacion = document.getElementById("popup-instalacion");
+const botonConfirmarInstalacion = document.getElementById("confirmar-instalacion");
+const botonAhoraNo = document.getElementById("ahora-no-instalacion");
+const mensajeInstalacion = document.getElementById("mensaje-instalacion");
+
+// Botón "Ahora no"
+botonAhoraNo.addEventListener("click", () => {
+    popupInstalacion.hidden = true;
+});
+
+// Botón "Instalar aplicación"
+botonConfirmarInstalacion.addEventListener("click", async () => {
+
+    if (instalacionPendiente) {
+        try {
+            await instalacionPendiente.prompt();
+
+            const resultado = await instalacionPendiente.userChoice;
+
+            instalacionPendiente = null;
+            popupInstalacion.hidden = true;
+
+        } catch (error) {
+            console.error("Error al solicitar la instalación:", error);
         }
 
-        document.getElementById("popup-cerrar")
-            .addEventListener("click", cerrarPopup);
+        return;
+    }
 
-        document.getElementById("popup-entendido")
-            .addEventListener("click", cerrarPopup);
+    const esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
 
-        popup.addEventListener("click", evento => {
-            if (evento.target === popup) cerrarPopup();
-        });
-
-        document.addEventListener("keydown", evento => {
-            if (evento.key === "Escape" && !popup.hidden) {
-                cerrarPopup();
-            }
-        });
+    mensajeInstalacion.textContent = esIOS
+        ? 'Para instalarla, tocá "Compartir" en Safari y luego "Agregar a pantalla de inicio".'
+        : 'Para instalarla, abrí el menú de tu navegador (⋮ o ⋯) y buscá "Instalar aplicación" o "Agregar a pantalla de inicio".';
+});  
     </script>
 
     <!-- Firebase Cloud Messaging -->
