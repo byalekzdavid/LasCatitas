@@ -34,7 +34,7 @@ button {
    ========================================================= */
 
 body.portada-elegante {
-   min-height: 100vh;
+    min-height: 100vh;
     min-height: 100svh;
     color: #fffaf0;
     background:
@@ -45,7 +45,6 @@ body.portada-elegante {
 .portada-elegante .portada {
     min-height: 100vh;
     min-height: 100svh;
-    min-height: 0;
     padding: 60px 20px;
     display: flex;
     flex-direction: column;
