@@ -31,7 +31,7 @@ export default async function handler(req, res) {
         }
 
         // Comprobar que el archivo pertenece a nuestra biblioteca.
-        const metadataURL = new URL(
+        /*const metadataURL = new URL(
             `https://www.googleapis.com/drive/v3/files/${fileId}`
         );
 
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
 
         const metadata = await metadataResponse.json();
 
-        /* if (
+        if (
             metadata.mimeType !== 'application/pdf' ||
             !metadata.parents?.includes(folderId)
         ) {
@@ -59,12 +59,39 @@ export default async function handler(req, res) {
                 error: 'El archivo no pertenece a la biblioteca'
             });
         } */
-        return res.status(200).json({
-    archivo: metadata.id,
-    tipo: metadata.mimeType,
-    carpetas: metadata.parents || null,
-    carpetaEsperada: folderId
+        
+const params = new URLSearchParams({
+    q: `'${folderId}' in parents and trashed = false`,
+    fields: 'files(id,mimeType)',
+    pageSize: '1000',
+    key: apiKey
 });
+
+const verificacion = await fetch(
+    `https://www.googleapis.com/drive/v3/files?${params}`
+);
+
+if (!verificacion.ok) {
+    return res.status(502).json({
+        error: 'No se pudo verificar la biblioteca en Google Drive'
+    });
+}
+
+const datos = await verificacion.json();
+
+const archivoValido = (datos.files || []).some(
+    archivo =>
+        archivo.id === fileId &&
+        archivo.mimeType === 'application/pdf'
+);
+
+if (!archivoValido) {
+    return res.status(403).json({
+        error: 'El archivo no pertenece a la biblioteca'
+    });
+}
+
+        
 
         // Obtener el contenido del PDF desde Drive.
         const headers = {};
