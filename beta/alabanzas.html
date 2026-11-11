@@ -77,8 +77,6 @@
         "https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js";
 </script>
     <script>
-    const PDF_URL = "https://byalekzdavid.github.io/LasCatitas/beta/El Jordán.pdf";
-
     const vistaListado = document.getElementById("vista-listado");
     const vistaVisor = document.getElementById("vista-visor");
     const listaPDF = document.getElementById("lista-pdf");
@@ -90,9 +88,10 @@
     let documentoPDF = null;
     let zoom = 1;
     let observador = null;
-        let dedos = new Map();
-let distanciaInicial = 0;
-let zoomInicial = 1;
+    let archivosPDF = [];
+    let dedos = new Map();
+    let distanciaInicial = 0;
+    let zoomInicial = 1;
 
 contenedorPDF.style.touchAction = "pan-x pan-y";
 contenedorPDF.style.overflowX = "auto";
@@ -159,34 +158,105 @@ function finalizarZoom(e) {
 contenedorPDF.addEventListener("pointerup", finalizarZoom);
 contenedorPDF.addEventListener("pointercancel", finalizarZoom);
 
-    // Mostrar el documento de prueba en el listado.
-    function mostrarListado() {
+    
+    // Obtener automáticamente las alabanzas desde Vercel.
+    async function mostrarListado() {
         listaPDF.innerHTML = `
-            <button type="button" class="elemento-pdf" id="abrir-pdf">
-                <span>📄</span>
-                <span>El Jordán</span>
-            </button>
+            <p class="mensaje-vacio">Cargando alabanzas...</p>
         `;
 
-        document.getElementById("abrir-pdf").addEventListener("click", abrirPDF);
+        try {
+            const respuesta = await fetch(
+                "https://lascatitas.vercel.app/api/listar-alabanzas"
+            );
+
+            if (!respuesta.ok) {
+                throw new Error("No se pudo consultar la biblioteca.");
+            }
+
+            const datos = await respuesta.json();
+            archivosPDF = datos.archivos || [];
+
+            dibujarListado();
+
+        } catch (error) {
+            listaPDF.innerHTML = `
+                <p class="mensaje-vacio">
+                    No se pudo cargar la biblioteca. Intentá nuevamente.
+                </p>
+            `;
+            console.error("Error al cargar alabanzas:", error);
+        }
     }
 
-    async function abrirPDF() {
+    // Mostrar los archivos y aplicar el buscador.
+    function dibujarListado() {
+        const busqueda = buscador.value.trim().toLowerCase();
+
+        const filtrados = archivosPDF.filter(archivo =>
+            archivo.name.toLowerCase().includes(busqueda)
+        );
+
+        listaPDF.innerHTML = "";
+
+        if (filtrados.length === 0) {
+            listaPDF.innerHTML = `
+                <p class="mensaje-vacio">
+                    No se encontraron alabanzas.
+                </p>
+            `;
+            return;
+        }
+
+        filtrados.forEach(archivo => {
+            const boton = document.createElement("button");
+            boton.type = "button";
+            boton.className = "elemento-pdf";
+
+            const nombre = archivo.name.replace(/\.pdf$/i, "");
+
+            const icono = document.createElement("span");
+            icono.textContent = "📄";
+
+            const texto = document.createElement("span");
+            texto.textContent = nombre;
+
+            boton.append(icono, texto);
+
+            boton.addEventListener("click", () => {
+                abrirPDF(archivo);
+            });
+
+            listaPDF.appendChild(boton);
+        });
+    }
+
+    // Abrir la alabanza seleccionada.
+    async function abrirPDF(archivo) {
         vistaListado.hidden = true;
         vistaVisor.hidden = false;
-        tituloPDF.textContent = "Cuadernillo cursiva con Klofkyna";
+
+        const nombre = archivo.name.replace(/\.pdf$/i, "");
+        tituloPDF.textContent = nombre;
+
         contenedorPDF.innerHTML = "<p>Cargando documento...</p>";
 
         try {
-            const carga = pdfjsLib.getDocument(PDF_URL);
+            const url = 
+                "https://lascatitas.vercel.app/api/abrir-alabanza?id=" +
+                encodeURIComponent(archivo.id);
+
+            const carga = pdfjsLib.getDocument(url);
             documentoPDF = await carga.promise;
 
             zoom = 1;
             actualizarZoom();
             mostrarPaginas();
+
         } catch (error) {
             contenedorPDF.innerHTML =
-                "<p>No se pudo cargar el PDF. Verificá que esté publicado correctamente.</p>";
+                "<p>No se pudo cargar el PDF. Intentá nuevamente.</p>";
+
             console.error("Error al cargar el PDF:", error);
         }
     }
@@ -285,16 +355,7 @@ contenedorPDF.addEventListener("pointercancel", finalizarZoom);
         contenedorPDF.innerHTML = "";
     });
 
-    buscador.addEventListener("input", () => {
-        const boton = document.getElementById("abrir-pdf");
-        if (boton) {
-            boton.style.display =
-                "cuadernillo cursiva con klofkyna".includes(
-                    buscador.value.toLowerCase()
-                ) ? "" : "none";
-        }
-    });
-
+    buscador.addEventListener("input", dibujarListado);
     mostrarListado();
 </script>
     
