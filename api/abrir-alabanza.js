@@ -1,4 +1,3 @@
-
 export default async function handler(req, res) {
     res.setHeader('Access-Control-Allow-Origin', '*');
     res.setHeader('Access-Control-Allow-Methods', 'GET, OPTIONS');
@@ -52,14 +51,20 @@ export default async function handler(req, res) {
 
         const metadata = await metadataResponse.json();
 
-        if (
+        /* if (
             metadata.mimeType !== 'application/pdf' ||
             !metadata.parents?.includes(folderId)
         ) {
             return res.status(403).json({
                 error: 'El archivo no pertenece a la biblioteca'
             });
-        }
+        } */
+        return res.status(200).json({
+    archivo: metadata.id,
+    tipo: metadata.mimeType,
+    carpetas: metadata.parents || null,
+    carpetaEsperada: folderId
+});
 
         // Obtener el contenido del PDF desde Drive.
         const headers = {};
