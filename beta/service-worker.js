@@ -1,4 +1,4 @@
-const CACHE_NAME = "las-catitas-v4";
+const CACHE_NAME = "las-catitas-v2";
 const BASE = "/LasCatitas/";
 
 const FILES = [
