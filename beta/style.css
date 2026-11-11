@@ -556,6 +556,15 @@ body.pagina-audios {
     line-height: 1.3;
 }
 
+.portada-elegante .botones-navegacion {
+    margin: 0;
+}
+
+.portada-elegante .botones-navegacion a {
+    width: auto;
+    max-width: 290px;
+}
+
 /* =========================================================
    5. POPUP DE ANUNCIOS — index.html
    ========================================================= */
