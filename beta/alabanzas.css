@@ -118,12 +118,97 @@ body.pagina-alabanzas {
     border-color: #d6b56d;
 }
 
-/* LISTADO */
+/* LISTADO DE PDF */
 
 .pagina-alabanzas .lista-pdf {
     display: flex;
     flex-direction: column;
     gap: 9px;
+
+    /* Limita la altura y permite desplazarse por los archivos */
+    max-height: 380px;
+    overflow-y: auto;
+    overflow-x: hidden;
+
+    /* Desplazamiento cómodo en celulares */
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: contain;
+
+    /* Espacio para que la barra no tape los botones */
+    padding: 3px 8px 3px 0;
+
+    /* Colores de la barra de desplazamiento */
+    scrollbar-width: thin;
+    scrollbar-color: #d6b56d #10243e;
+}
+
+/* Barra de desplazamiento en Chrome, Edge y Safari */
+
+.pagina-alabanzas .lista-pdf::-webkit-scrollbar {
+    width: 8px;
+}
+
+.pagina-alabanzas .lista-pdf::-webkit-scrollbar-track {
+    background: #10243e;
+    border-radius: 10px;
+}
+
+.pagina-alabanzas .lista-pdf::-webkit-scrollbar-thumb {
+    background: #b58d42;
+    border-radius: 10px;
+}
+
+.pagina-alabanzas .lista-pdf::-webkit-scrollbar-thumb:hover {
+    background: #f0d99a;
+}
+
+/* BOTONES DE CADA ARCHIVO */
+
+.pagina-alabanzas .elemento-pdf {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+    width: 100%;
+    min-height: 54px;
+    padding: 12px 15px;
+
+    border: 1px solid rgba(214, 181, 109, 0.35);
+    border-radius: 9px;
+
+    background: rgba(255, 255, 255, 0.045);
+    color: #fffaf0;
+
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+    text-align: left;
+
+    cursor: pointer;
+    transition:
+        background 0.2s ease,
+        border-color 0.2s ease,
+        transform 0.2s ease;
+}
+
+.pagina-alabanzas .elemento-pdf span:first-child {
+    flex-shrink: 0;
+    font-size: 19px;
+}
+
+.pagina-alabanzas .elemento-pdf span:last-child {
+    min-width: 0;
+    overflow-wrap: anywhere;
+}
+
+.pagina-alabanzas .elemento-pdf:hover {
+    border-color: #d6b56d;
+    background: rgba(214, 181, 109, 0.12);
+    transform: translateX(3px);
+}
+
+.pagina-alabanzas .elemento-pdf:focus-visible {
+    outline: 2px solid #f0d99a;
+    outline-offset: 2px;
 }
 
 .pagina-alabanzas .mensaje-vacio {
@@ -221,5 +306,16 @@ body.pagina-alabanzas {
 
     .pagina-alabanzas .barra-visor {
         flex-wrap: wrap;
+    }
+
+    .pagina-alabanzas .lista-pdf {
+        max-height: 330px;
+        padding-right: 5px;
+    }
+
+    .pagina-alabanzas .elemento-pdf {
+        min-height: 52px;
+        padding: 11px 12px;
+        font-size: 14px;
     }
 }
