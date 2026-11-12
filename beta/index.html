@@ -44,13 +44,13 @@
             🔔 Activar Avisos
         </button>
         
-        <button
+        <!---<button
             type="button"
             id="instalar-app"
             class="boton-superior-pwa"
             hidden>
             📲 Instalar App
-        </button>
+        </button>-->
     </main>
 
     <!-- Melodía DO - RE - MI antes de abrir las grabaciones -->
@@ -166,6 +166,26 @@
     </script>
 
 <script>
+    let instalacionPendiente = null;
+
+    window.addEventListener("beforeinstallprompt", evento => {
+        evento.preventDefault();
+        instalacionPendiente = evento;
+    });
+
+    window.addEventListener("appinstalled", () => {
+        instalacionPendiente = null;
+
+        const popupInstalacion =
+            document.getElementById("popup-instalacion");
+
+        if (popupInstalacion) {
+            popupInstalacion.hidden = true;
+        }
+    });
+</script>
+ <!-- Borrar lo de abajo si todo va bien -->
+<!--<script>
         let instalacionPendiente = null;
         const botonInstalar = document.getElementById("instalar-app");
 
@@ -213,7 +233,7 @@
             instalacionPendiente = null;
             document.getElementById("popup-instalacion").hidden = true;
         });
-    </script>
+    </script>-->
 
     <!-- Popup de anuncios -->
     <div id="popup-anuncio" hidden>
