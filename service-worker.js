@@ -1,5 +1,7 @@
 const CACHE_NAME = "las-catitas-v2";
-const BASE = "/LasCatitas/";
+const BASE = self.location.hostname === "byalekzdavid.github.io"
+  ? "/LasCatitas/"
+  : "/";
 
 const FILES = [
   BASE,
