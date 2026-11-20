@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Grabaciones | Las Catitas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="favicon.png">
+    <title>Grabaciones | Las Catitas</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="pagina-audios">
+
+    <main class="audios">
+        <div class="marco-audios">
+
+            <header class="encabezado-audios">
+                <div class="marca-audios">♫</div>
+                <p class="nombre-marca">Grabaciones</p>
+                <p class="subtitulo-marca">Alabanzas de los conjuntos</p>
+                <!-- <h1 class="titulo-pagina">Grabaciones</h1> -->
+                <p class="descripcion-pagina">
+                    Seleccioná una categoría y elegí qué escuchar.
+                </p>
+            </header>
+
+            <section class="reproductor-principal">
+                <div class="etiqueta-reproductor">REPRODUCCIÓN</div>
+
+                <div class="titulo-reproductor">
+                    <span class="icono-reproductor">♫</span>
+                    <div>
+                        <h2>Reproductor de audio</h2>
+                        <p id="nombre-audio">
+                            Seleccioná una grabación para escucharla.
+                        </p>
+                    </div>
+                </div>
+
+                <audio id="reproductor" controls preload="none">
+                    Tu navegador no puede reproducir este audio.
+                </audio>
+            </section>
+
+            <!-- CORO Y ORQUESTA -->
+            <details class="seccion coro">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Coro y Orquesta
+                        <small>Grabaciones del Coro y Orquesta</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
+
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Coro - Ensayo Abierto Viernes 25-09-2026 (Vispera)"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547789/Coro_y_Orquesta_-_Sabado.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026 (Vispera)</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Coro - Ensayo Abierto Viernes 25-09-2026 (Cena)"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547839/Domingo_-_Coro_y_Orquesta.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026 (Cena)</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
+
+            <!-- CONJUNTO MUJERES -->
+            <details class="seccion mujeres">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Conjunto Mujeres
+                        <small>Grabaciones del conjunto</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
+
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Conjunto Mujeres - Ensayo Abierto Viernes 25-09-2026"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547580/C-M_25-09-26.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
+
+            <!-- CONJUNTO VARONES -->
+            <details class="seccion varones">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Conjunto Varones
+                        <small>Grabaciones del conjunto</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
+
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Conjunto Varones - Ensayo Abierto Viernes 25-09-2026"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547463/C-V_25-09-26.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
+
+            <!-- CORO NIÑOS -->
+            <details class="seccion ninos">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Coro Niños
+                        <small>Grabaciones del Coro de niños</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
+
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Coro Niños - Ensayo Abierto Viernes 25-09-2026 (Vispera)"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547554/Coro_Ni%C3%B1os_-_Sabado.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026 (Vispera)</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
+
+            <!-- JÓVENES -->
+            <details class="seccion jovenes">
+                <summary>
+                    <span class="icono-seccion">♫</span>
+                    <span class="nombre-seccion">
+                        Jóvenes
+                        <small>Grabaciones de jóvenes</small>
+                    </span>
+                    <span class="flecha">⌄</span>
+                </summary>
+
+                <div class="lista-grabaciones">
+                    <button
+                        type="button"
+                        class="boton-grabacion"
+                        data-titulo="Conjunto Jóvenes - Ensayo Abierto Viernes 25-09-2026"
+                        data-audio="https://res.cloudinary.com/idzkszxl/video/upload/v1792547532/C-J_25-09-26.mp3">
+                        <span>♫</span>
+                        <span>Ensayo Abierto Viernes 25-09-2026</span>
+                        <span class="accion-audio">▶</span>
+                    </button>
+                </div>
+            </details>
+
+            <a href="index.html" class="volver">← Volver al inicio</a>
+
+        </div>
+    </main>
+
+    <script>
+        const reproductor = document.getElementById("reproductor");
+        const nombreAudio = document.getElementById("nombre-audio");
+
+        // Permitir que solo una categoría esté abierta a la vez.
+        const categorias = document.querySelectorAll(".seccion");
+
+        categorias.forEach(categoria => {
+            categoria.addEventListener("toggle", function () {
+                if (this.open) {
+                    categorias.forEach(otraCategoria => {
+                        if (otraCategoria !== this) {
+                            otraCategoria.open = false;
+                        }
+                    });
+                }
+            });
+        });
+
+        // Funcionamiento del reproductor.
+        document.querySelectorAll(".boton-grabacion").forEach(boton => {
+            boton.addEventListener("click", function () {
+                const titulo = this.dataset.titulo;
+                const archivo = this.dataset.audio;
+
+                nombreAudio.textContent = titulo;
+
+                if (reproductor.getAttribute("src") !== archivo) {
+                    reproductor.src = archivo;
+                    reproductor.load();
+                }
+
+                // Resaltar únicamente la grabación seleccionada.
+                document.querySelectorAll(".boton-grabacion")
+                    .forEach(elemento => {
+                        elemento.classList.remove("seleccionada");
+                    });
+
+                this.classList.add("seleccionada");
+
+                // El audio no comienza automáticamente.
+            });
+        });
+    </script>
+
+</body>
+</html>
+<body class="pagina-audios">
+
+    <main class="audios">
+        <div class="marco-audios">
+
+            <header class="encabezado-audios">
+                <div class="marca-audios">♫</div>
+                <p class="nombre-marca">Grabaciones</p>
+                <p class="subtitulo-marca">Alabanzas de los conjuntos</p>
+                <!-- <h1 class="titulo-pagina">Grabaciones</h1> -->
+                <p class="descripcion-pagina">
+                    Seleccioná una categoría y elegí qué escuchar.
+                </p>
+            </header>
+
+            <section class="reproductor-principal">
+                <div class="etiqueta-reproductor">REPRODUCCIÓN</div>
+
+                <div class="titulo-reproductor">
+                    <span class="icono-reproductor">♫</span>
+                    <div>
+                        <h2>Reproductor de audio</h2>
+                        <p id="nombre-audio">
+                            Seleccioná una grabación para escucharla.
+                        </p>
+                    </div>
+                </div>
+
+                <audio id="reproductor" controls controlsList="nodownload" preload="none">
+                    Tu navegador no puede reproducir este audio.
+                </audio>
+            </section>
+
+<!-- CATEGORÍAS CARGADAS AUTOMÁTICAMENTE DESDE GOOGLE DRIVE -->
+<div id="categorias-audios">
+    <p id="estado-audios">Cargando grabaciones...</p>
+</div>
+
+            <a href="index.html" class="volver">← Volver al inicio</a>
+
+        </div>
+    </main>
+
+<script>    
+const reproductor = document.getElementById("reproductor");
+const nombreAudio = document.getElementById("nombre-audio");
+const contenedor = document.getElementById("categorias-audios");
+
+const API_LISTAR = "https://lascatitas.vercel.app/api/listar-audios";
+const API_REPRODUCIR = "https://lascatitas.vercel.app/api/reproducir-audio";
+
+const informacionCategorias = {
+    "coro y orquesta": {
+        clase: "coro",
+        nombre: "Coro y Orquesta",
+        descripcion: "Grabaciones del Coro y Orquesta"
+    },
+    "conj mujeres": {
+        clase: "mujeres",
+        nombre: "Conjunto Mujeres",
+        descripcion: "Grabaciones del conjunto"
+    },
+    "conj varones": {
+        clase: "varones",
+        nombre: "Conjunto Varones",
+        descripcion: "Grabaciones del conjunto"
+    },
+    "coro niños": {
+        clase: "ninos",
+        nombre: "Coro Niños",
+        descripcion: "Grabaciones del Coro de niños"
+    },
+    "conj jóvenes": {
+        clase: "jovenes",
+        nombre: "Jóvenes",
+        descripcion: "Grabaciones de jóvenes"
+    }
+};
+
+function crearCategoria(categoria) {
+    const nombreOriginal = categoria.nombre.trim();
+    const clave = nombreOriginal.toLocaleLowerCase("es");
+
+    const informacion = informacionCategorias[clave] || {
+        clase: "",
+        nombre: nombreOriginal,
+        descripcion: "Grabaciones de la categoría"
+    };
+
+    const seccion = document.createElement("details");
+    seccion.className = "seccion " + informacion.clase;
+
+    const resumen = document.createElement("summary");
+
+    const icono = document.createElement("span");
+    icono.className = "icono-seccion";
+    icono.textContent = "♫";
+
+    const nombre = document.createElement("span");
+    nombre.className = "nombre-seccion";
+    nombre.append(document.createTextNode(informacion.nombre));
+
+    const descripcion = document.createElement("small");
+    descripcion.textContent = informacion.descripcion;
+    nombre.appendChild(descripcion);
+
+    const flecha = document.createElement("span");
+    flecha.className = "flecha";
+    flecha.textContent = "⌄";
+
+    resumen.append(icono, nombre, flecha);
+
+    const lista = document.createElement("div");
+    lista.className = "lista-grabaciones";
+
+    categoria.audios.forEach(audio => {
+        const boton = document.createElement("button");
+        boton.type = "button";
+        boton.className = "boton-grabacion";
+
+        const iconoAudio = document.createElement("span");
+        iconoAudio.textContent = "♫";
+
+        const titulo = document.createElement("span");
+        titulo.textContent = audio.nombre.replace(/\.mp3$/i, "");
+
+        const accion = document.createElement("span");
+        accion.className = "accion-audio";
+        accion.textContent = "▶";
+
+        boton.append(iconoAudio, titulo, accion);
+
+        boton.addEventListener("click", function () {
+            const archivo = API_REPRODUCIR + "?id=" +
+                encodeURIComponent(audio.id);
+
+            nombreAudio.textContent =
+                informacion.nombre + " - " +
+                audio.nombre.replace(/\.mp3$/i, "");
+
+            if (reproductor.getAttribute("src") !== archivo) {
+                reproductor.src = archivo;
+                reproductor.load();
+            }
+
+            document.querySelectorAll(".boton-grabacion")
+                .forEach(elemento => {
+                    elemento.classList.remove("seleccionada");
+                });
+
+            boton.classList.add("seleccionada");
+        });
+
+        lista.appendChild(boton);
+    });
+
+    seccion.append(resumen, lista);
+
+    seccion.addEventListener("toggle", function () {
+        if (this.open) {
+            contenedor.querySelectorAll(".seccion").forEach(otra => {
+                if (otra !== this) otra.open = false;
+            });
+        }
+    });
+
+    return seccion;
+}
+
+async function cargarAudios() {
+    try {
+        const respuesta = await fetch(API_LISTAR, {
+            cache: "no-store"
+        });
+
+        if (!respuesta.ok) {
+            throw new Error("No se pudieron consultar las grabaciones.");
+        }
+
+        const datos = await respuesta.json();
+
+        if (!datos.success || !Array.isArray(datos.categorias)) {
+            throw new Error("La respuesta de la API no es válida.");
+        }
+
+        contenedor.replaceChildren();
+
+        if (datos.categorias.length === 0) {
+            contenedor.textContent = "Todavía no hay categorías disponibles.";
+            return;
+        }
+
+        datos.categorias.forEach(categoria => {
+            contenedor.appendChild(crearCategoria(categoria));
+        });
+
+    } catch (error) {
+        console.error("Error al cargar los audios:", error);
+        contenedor.textContent =
+            "No se pudieron cargar las grabaciones. Intentá nuevamente más tarde.";
+    }
+}
+
+cargarAudios();
+</script>
+
+</body>
+</html>
