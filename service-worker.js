@@ -1,4 +1,4 @@
-const CACHE_NAME = "las-catitas-v3";
+const CACHE_NAME = "las-catitas-v1";
 const BASE = self.location.hostname === "byalekzdavid.github.io"
   ? "/LasCatitas/"
   : "/";
