@@ -604,3 +604,130 @@ main {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* =====================================
+   NUEVA IDENTIDAD VISUAL - LAS CATITAS
+   ===================================== */
+
+:root {
+  --fondo: #071426;
+  --azul-profundo: #102b4c;
+  --dorado: #d6b56d;
+  --dorado-claro: #f0d99a;
+  --blanco: #fffaf0;
+  --texto-suave: #b9c7d8;
+}
+
+body {
+  background:
+    radial-gradient(ellipse at 50% 0%, #244b7d 0%, transparent 48%),
+    linear-gradient(160deg, #071426, #102b4c 55%, #071426);
+}
+
+/* Encabezado */
+.logo {
+  filter: drop-shadow(0 0 8px rgba(214, 181, 109, .22));
+}
+
+.marca-separador {
+  background: linear-gradient(transparent, var(--dorado), transparent);
+}
+
+/* Portada */
+.hero {
+  min-height: 420px;
+}
+
+.hero-fondo {
+  background:
+    radial-gradient(ellipse at 85% 35%, rgba(36, 75, 125, .35), transparent 48%),
+    linear-gradient(100deg, #071426 0%, rgba(7, 20, 38, .88) 45%, rgba(7, 20, 38, .15) 100%);
+}
+
+.hero-linea {
+  background: var(--dorado);
+  box-shadow: 0 0 15px rgba(214, 181, 109, .3);
+}
+
+.hero-curva-azul {
+  border-top-color: #244b7d;
+  box-shadow: 0 -8px 18px rgba(36, 75, 125, .2);
+}
+
+.hero-curva-dorada {
+  border-top-color: var(--dorado-claro);
+  box-shadow: 0 -4px 18px rgba(214, 181, 109, .2);
+}
+
+/* Cita bíblica */
+.cita-biblica {
+  border-color: rgba(214, 181, 109, .45);
+  background:
+    radial-gradient(ellipse at 50% 0%, rgba(36, 75, 125, .4), transparent 70%),
+    linear-gradient(145deg, #102b4c, #071426);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
+}
+
+.cita-icono,
+.cita-etiqueta {
+  color: var(--dorado);
+}
+
+.cita-linea {
+  background: var(--dorado);
+  box-shadow: 0 0 12px rgba(214, 181, 109, .3);
+}
+
+/* Instalación */
+.instalacion {
+  border-color: rgba(214, 181, 109, .5);
+  background:
+    radial-gradient(ellipse at 0% 0%, rgba(36, 75, 125, .4), transparent 60%),
+    linear-gradient(120deg, #102b4c, #071426);
+}
+
+.boton-instalar {
+  background: linear-gradient(145deg, #f0d99a, #d6b56d);
+  color: #071426;
+}
+
+/* Navegación inferior */
+.navegacion {
+  border-color: rgba(214, 181, 109, .45);
+  background: linear-gradient(180deg, rgba(16, 43, 76, .98), rgba(7, 20, 38, .99));
+}
+
+.nav-item + .nav-item::before {
+  background: rgba(214, 181, 109, .2);
+}
+
+/* Adaptación para celulares */
+@media (max-width: 600px) {
+  .hero {
+    min-height: 290px;
+  }
+
+  .hero-microfono {
+    right: -10%;
+    width: 75%;
+  }
+
+  .hero-contenido {
+    width: 70%;
+  }
+
+  .hero h1 {
+    font-size: clamp(25px, 7vw, 32px);
+  }
+
+  .hero p {
+    font-size: 13px;
+  }
+
+  .cita-biblica h2 {
+    font-size: 19px;
+    line-height: 1.4;
+  }
+}
+
