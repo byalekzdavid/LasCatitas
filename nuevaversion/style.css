@@ -654,3 +654,189 @@ main {
     transition-duration: .01ms !important;
   }
 }
+
+
+/* AJUSTE GENERAL PARA TELÉFONOS */
+@media (max-width: 600px) {
+
+  body {
+    padding-bottom: 85px;
+  }
+
+  .encabezado {
+    min-height: 82px;
+    padding: 12px 16px 5px;
+  }
+
+  .logo {
+    width: 82px;
+    height: 55px;
+  }
+
+  .marca {
+    gap: 9px;
+  }
+
+  .marca-separador {
+    height: 48px;
+  }
+
+  .marca-texto strong {
+    font-size: 19px;
+  }
+
+  .marca-texto small {
+    font-size: 11px;
+    letter-spacing: 2px;
+  }
+
+  main {
+    padding: 0 13px;
+  }
+
+  .hero {
+    min-height: 330px;
+    margin: 0 -13px;
+    padding: 15px 18px 60px;
+  }
+
+  .hero-microfono {
+    right: -12%;
+    width: 78%;
+  }
+
+  .hero-contenido {
+    width: 68%;
+    padding-bottom: 5px;
+  }
+
+  .hero-etiqueta {
+    margin-bottom: 12px;
+    font-size: 11px;
+  }
+
+  .hero h1 {
+    font-size: clamp(25px, 7vw, 32px);
+    line-height: 1.08;
+  }
+
+  .hero-linea {
+    width: 105px;
+    height: 3px;
+    margin: 13px 0;
+  }
+
+  .hero p {
+    font-size: 14px;
+    line-height: 1.35;
+  }
+
+  .hero-curva {
+    bottom: 25px;
+    height: 45px;
+  }
+
+  .hero-curva-azul {
+    bottom: 31px;
+  }
+
+  .accesos {
+    gap: 10px;
+    margin-top: 0;
+  }
+
+  .tarjeta {
+    min-height: 255px;
+    padding: 20px 6px 38px;
+    border-radius: 23px;
+  }
+
+  .tarjeta-ilustracion {
+    width: 105px;
+    height: 100px;
+    margin-bottom: 5px;
+  }
+
+  .tarjeta h2 {
+    font-size: clamp(16px, 4.5vw, 20px);
+  }
+
+  .tarjeta p {
+    margin-top: 8px;
+    font-size: 12px;
+  }
+
+  .tarjeta-ondas {
+    top: 55px;
+    height: 75px;
+  }
+
+  .tarjeta-flecha {
+    right: 10px;
+    bottom: 10px;
+    width: 39px;
+    height: 39px;
+    font-size: 31px;
+  }
+
+  .instalacion {
+    min-height: 100px;
+    gap: 9px;
+    margin: 25px 0 18px;
+    padding: 10px;
+    border-radius: 21px;
+  }
+
+  .instalacion-icono {
+    flex-basis: 45px;
+    height: 65px;
+  }
+
+  .instalacion-icono svg {
+    width: 43px;
+    height: 60px;
+  }
+
+  .instalacion-separador {
+    height: 58px;
+  }
+
+  .instalacion h2 {
+    font-size: 12px;
+  }
+
+  .instalacion p {
+    margin-top: 4px;
+    font-size: 10px;
+  }
+
+  .boton-instalar {
+    min-height: 42px;
+    padding: 0 10px;
+    font-size: 11px;
+  }
+
+  .boton-instalar span {
+    font-size: 17px;
+  }
+
+  .navegacion {
+    min-height: 76px;
+    padding: 8px 8px 10px;
+    border-radius: 30px 30px 0 0;
+  }
+
+  .nav-item {
+    gap: 2px;
+    font-size: 11px;
+  }
+
+  .nav-icono {
+    font-size: 29px;
+  }
+
+  .nav-item.activo::after {
+    bottom: -5px;
+    height: 3px;
+  }
+}
