@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -15,107 +14,190 @@
 <body>
 
   <header class="encabezado">
-    <a href="index.html" class="marca">
-      <span class="marca-icono">♫</span>
-      <span>
+    <a href="index.html" class="marca" aria-label="Las Catitas - Inicio">
+      <svg class="logo-icono" viewBox="0 0 100 80" aria-hidden="true">
+        <path d="M8 55 Q28 25 48 48 T91 43" />
+        <path d="M5 65 Q28 38 48 58 T94 53" />
+        <path d="M48 42 V10 L70 4 V35" />
+        <ellipse cx="42" cy="45" rx="8" ry="5" />
+        <ellipse cx="64" cy="38" rx="8" ry="5" />
+      </svg>
+
+      <span class="marca-texto">
         <strong>LAS CATITAS</strong>
         <small>GRABACIONES</small>
       </span>
     </a>
-
-    <button class="menu-boton" aria-label="Abrir menú">
-      ☰
-    </button>
   </header>
 
   <main>
 
     <section class="bienvenida">
-      <div class="bienvenida-contenido">
-        <span class="etiqueta">BIENVENIDOS</span>
-        <h1>Un espacio para escuchar y compartir.</h1>
+      <div class="bienvenida-fondo"></div>
+
+      <div class="bienvenida-texto">
+        <span class="bienvenida-etiqueta">BIENVENIDOS</span>
+
+        <h1>Un espacio para escuchar, compartir y disfrutar de nuestras grabaciones.</h1>
+
         <p>
-          Encontrá nuestras grabaciones, alabanzas
-          y novedades en un solo lugar.
+          Encontrá nuestras grabaciones y alabanzas
+          en un solo lugar.
         </p>
-
-        <a href="audios.html" class="boton boton-dorado">
-          <span>♫</span>
-          ESCUCHAR GRABACIONES
-          <span>›</span>
-        </a>
       </div>
+
+      <svg class="microfono" viewBox="0 0 220 300" aria-hidden="true">
+        <defs>
+          <linearGradient id="metal" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#f7d98d"/>
+            <stop offset="35%" stop-color="#526b88"/>
+            <stop offset="65%" stop-color="#101e32"/>
+            <stop offset="100%" stop-color="#d6b56d"/>
+          </linearGradient>
+          <linearGradient id="cuerpo" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#14263d"/>
+            <stop offset="45%" stop-color="#64758a"/>
+            <stop offset="100%" stop-color="#101a2b"/>
+          </linearGradient>
+        </defs>
+
+        <ellipse cx="110" cy="278" rx="75" ry="10" fill="#d6b56d" opacity=".25"/>
+
+        <path d="M110 218 V260 M75 260 H145"
+          stroke="url(#metal)" stroke-width="10" stroke-linecap="round"/>
+
+        <rect x="66" y="15" width="88" height="205" rx="42"
+          fill="url(#cuerpo)" stroke="url(#metal)" stroke-width="5"/>
+
+        <rect x="77" y="27" width="66" height="85" rx="30"
+          fill="#091525" stroke="#9caec2" stroke-width="2"/>
+
+        <g stroke="#d6b56d" stroke-width="2" opacity=".85">
+          <path d="M84 38 V100 M94 31 V105 M104 29 V108 M114 29 V108 M124 31 V105 M134 38 V100"/>
+        </g>
+
+        <path d="M58 90 Q35 110 58 145 M162 90 Q185 110 162 145"
+          fill="none" stroke="url(#metal)" stroke-width="7"/>
+
+        <path d="M72 175 Q110 195 148 175"
+          fill="none" stroke="#d6b56d" stroke-width="4"/>
+
+        <circle cx="110" cy="153" r="9" fill="#d6b56d"/>
+      </svg>
+
+      <div class="onda-decorativa" aria-hidden="true"></div>
     </section>
 
-    <section class="seccion">
-      <div class="titulo-seccion">
-        <h2>Explorá nuestro contenido</h2>
-        <span></span>
-      </div>
+    <section class="contenido-principal" aria-label="Secciones principales">
 
-      <div class="tarjetas">
+      <a href="audios.html" class="tarjeta tarjeta-audios">
+        <div class="tarjeta-brillo"></div>
 
-        <a href="audios.html" class="tarjeta">
-          <span class="tarjeta-icono">♫</span>
-          <div>
-            <h3>Grabaciones</h3>
-            <p>Escuchá los audios disponibles.</p>
-          </div>
-          <span class="flecha">›</span>
-        </a>
+        <div class="icono-tarjeta">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M12 42 V58 M27 27 V73 M42 15 V85 M57 27 V73 M72 36 V64 M87 43 V57"
+              fill="none" stroke="currentColor" stroke-width="9"
+              stroke-linecap="round"/>
+          </svg>
+        </div>
 
-        <a href="alabanzas.html" class="tarjeta">
-          <span class="tarjeta-icono">▤</span>
-          <div>
-            <h3>Alabanzas</h3>
-            <p>Consultá letras y documentos.</p>
-          </div>
-          <span class="flecha">›</span>
-        </a>
+        <h2>Grabaciones</h2>
+        <p>Escuchá los audios disponibles.</p>
 
-      </div>
+        <span class="tarjeta-flecha" aria-hidden="true">›</span>
+      </a>
+
+      <a href="alabanzas.html" class="tarjeta tarjeta-alabanzas">
+        <div class="tarjeta-brillo"></div>
+
+        <div class="icono-tarjeta">
+          <svg viewBox="0 0 100 100" aria-hidden="true">
+            <path d="M12 22 Q35 12 50 27 Q65 12 88 22 V78 Q65 68 50 84 Q35 68 12 78 Z"
+              fill="none" stroke="currentColor" stroke-width="7"
+              stroke-linejoin="round"/>
+            <path d="M50 27 V84" fill="none"
+              stroke="currentColor" stroke-width="6"/>
+          </svg>
+        </div>
+
+        <h2>Alabanzas</h2>
+        <p>Consultá letras y documentos.</p>
+
+        <span class="tarjeta-flecha" aria-hidden="true">›</span>
+      </a>
+
     </section>
 
-    <section class="novedades">
-      <span class="novedades-icono">♧</span>
-      <div>
-        <h2>Novedades</h2>
-        <p>Enterate de los nuevos audios y avisos.</p>
+    <section class="instalacion" id="bloque-instalacion">
+      <div class="instalacion-icono" aria-hidden="true">
+        <svg viewBox="0 0 60 70">
+          <rect x="10" y="3" width="40" height="60" rx="7"
+            fill="none" stroke="currentColor" stroke-width="4"/>
+          <path d="M30 17 V40 M21 32 L30 41 L39 32 M22 52 H38"
+            fill="none" stroke="currentColor" stroke-width="4"
+            stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
       </div>
-      <a href="novedades.html" class="flecha">›</a>
-    </section>
 
-    <section class="instalacion">
-      <div>
-        <h3>Instalá nuestra aplicación</h3>
+      <div class="instalacion-texto">
+        <h2>Instalá nuestra aplicación</h2>
         <p>Accedé más rápido desde tu teléfono.</p>
       </div>
+
       <button id="instalar-app" class="boton-instalar" hidden>
-        ↓ Instalar
+        <span aria-hidden="true">↓</span>
+        Instalar
       </button>
     </section>
 
   </main>
 
-  <nav class="navegacion-inferior">
-    <a href="index.html" class="activo">
-      <span>⌂</span>
-      Inicio
+  <nav class="navegacion-inferior" aria-label="Navegación principal">
+
+    <a href="index.html" class="nav-item activo" aria-current="page">
+      <span class="nav-icono">⌂</span>
+      <span>Inicio</span>
     </a>
-    <a href="audios.html">
-      <span>♫</span>
-      Audios
+
+    <a href="audios.html" class="nav-item">
+      <span class="nav-icono">♫</span>
+      <span>Audios</span>
     </a>
-    <a href="alabanzas.html">
-      <span>▤</span>
-      Alabanzas
+
+    <a href="alabanzas.html" class="nav-item">
+      <span class="nav-icono">▤</span>
+      <span>Alabanzas</span>
     </a>
-    <a href="novedades.html">
-      <span>♧</span>
-      Novedades
-    </a>
+
   </nav>
+
+  <script>
+    let instalacionPendiente = null;
+
+    const botonInstalar = document.getElementById("instalar-app");
+
+    window.addEventListener("beforeinstallprompt", (evento) => {
+      evento.preventDefault();
+      instalacionPendiente = evento;
+      botonInstalar.hidden = false;
+    });
+
+    botonInstalar.addEventListener("click", async () => {
+      if (!instalacionPendiente) return;
+
+      instalacionPendiente.prompt();
+
+      await instalacionPendiente.userChoice;
+
+      instalacionPendiente = null;
+      botonInstalar.hidden = true;
+    });
+
+    window.addEventListener("appinstalled", () => {
+      botonInstalar.hidden = true;
+      instalacionPendiente = null;
+    });
+  </script>
 
 </body>
 </html>
-
