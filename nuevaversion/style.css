@@ -59,11 +59,12 @@ button {
 }
 
 .logo {
-  width: 115px;
-  height: 75px;
+  width: 64px;
+  height: 64px;
   flex: 0 0 auto;
-  color: var(--dorado);
-  filter: drop-shadow(0 0 9px rgba(245, 198, 83, .25));
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 8px rgba(245, 198, 83, .2));
 }
 
 .marca-separador {
@@ -514,10 +515,13 @@ main {
   }
 
   .logo {
-    width: 88px;
-    height: 65px;
-  }
-
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 8px rgba(245, 198, 83, .2));
+}
   .marca {
     gap: 10px;
   }
@@ -669,9 +673,13 @@ main {
   }
 
   .logo {
-    width: 82px;
-    height: 55px;
-  }
+  width: 64px;
+  height: 64px;
+  flex: 0 0 auto;
+  object-fit: contain;
+  border-radius: 50%;
+  filter: drop-shadow(0 0 8px rgba(245, 198, 83, .2));
+}
 
   .marca {
     gap: 9px;
