@@ -44,13 +44,6 @@
             🔔 Activar Avisos
         </button>
         
-        <!---<button
-            type="button"
-            id="instalar-app"
-            class="boton-superior-pwa"
-            hidden>
-            📲 Instalar App
-        </button>-->
     </main>
 
     <!-- Melodía DO - RE - MI antes de abrir las grabaciones -->
@@ -184,57 +177,7 @@
         }
     });
 </script>
- <!-- Borrar lo de abajo si todo va bien -->
-<!--<script>
-        let instalacionPendiente = null;
-        const botonInstalar = document.getElementById("instalar-app");
-
-        function verificarInstalacion() {
-            if (!botonInstalar) return;
-
-            const instaladaComoApp =
-                window.matchMedia("(display-mode: standalone)").matches ||
-                window.navigator.standalone === true;
-
-            if (instaladaComoApp) {
-                botonInstalar.hidden = true;
-            }
-        }
-
-        window.addEventListener("load", verificarInstalacion);
-        window.addEventListener("pageshow", verificarInstalacion);
-
-        window.addEventListener("beforeinstallprompt", evento => {
-            evento.preventDefault();
-            instalacionPendiente = evento;
-
-            const instaladaComoApp =
-                window.matchMedia("(display-mode: standalone)").matches ||
-                window.navigator.standalone === true;
-
-            if (botonInstalar) {
-    botonInstalar.hidden = true;
-}
-        });
-
-        if (botonInstalar) {
-            botonInstalar.addEventListener("click", async () => {
-                if (!instalacionPendiente) return;
-
-                instalacionPendiente.prompt();
-                await instalacionPendiente.userChoice;
-                instalacionPendiente = null;
-                botonInstalar.hidden = true;
-            });
-        }
-
-        window.addEventListener("appinstalled", () => {
-            if (botonInstalar) botonInstalar.hidden = true;
-            instalacionPendiente = null;
-            document.getElementById("popup-instalacion").hidden = true;
-        });
-    </script>-->
-
+ 
     <!-- Popup de anuncios -->
     <div id="popup-anuncio" hidden>
         <div class="popup-contenido"
@@ -258,13 +201,13 @@
              aria-labelledby="titulo-instalacion">
 
             <div class="popup-icono" aria-hidden="true">📲</div>
-            <h2 id="titulo-instalacion">¡Instalar APP!</h2>
-            <p id="mensaje-instalacion">En la aplicacion encontrar audios y las letras de las alabanzas.</p>
+            <h2 id="titulo-instalacion">¡Instalá nuestra APP!</h2>
+            <p id="mensaje-instalacion">Accedé más rápido desde tu teléfono.</p>
             <button id="confirmar-instalacion" type="button">
-                Instalar aplicación
+                INSTALAR !!
             </button>
             <button id="ahora-no-instalacion" type="button">
-                Ahora no
+                Anora no
             </button>
         </div>
     </div>
