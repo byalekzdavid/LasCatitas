@@ -789,3 +789,23 @@ main {
   box-shadow: none;
 }
 
+/* Integración de la imagen del micrófono */
+.hero-microfono {
+  -webkit-mask-image: radial-gradient(
+    ellipse at 65% 50%,
+    #000 35%,
+    rgba(0, 0, 0, .85) 52%,
+    rgba(0, 0, 0, .35) 72%,
+    transparent 100%
+  );
+
+  mask-image: radial-gradient(
+    ellipse at 65% 50%,
+    #000 35%,
+    rgba(0, 0, 0, .85) 52%,
+    rgba(0, 0, 0, .35) 72%,
+    transparent 100%
+  );
+
+  opacity: .85;
+}
