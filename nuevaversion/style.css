@@ -780,3 +780,50 @@ body {
       #071426 100%
     );
 }
+
+/* =====================================
+   MICRÓFONO COMO FONDO DE LA PORTADA
+   ===================================== */
+
+.hero {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+}
+
+/* Imagen integrada como fondo */
+.hero-microfono {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: 75% center;
+  opacity: .85;
+
+  -webkit-mask-image: radial-gradient(
+    ellipse at 72% 48%,
+    #000 25%,
+    rgba(0, 0, 0, .85) 48%,
+    rgba(0, 0, 0, .4) 72%,
+    transparent 100%
+  );
+
+  mask-image: radial-gradient(
+    ellipse at 72% 48%,
+    #000 25%,
+    rgba(0, 0, 0, .85) 48%,
+    rgba(0, 0, 0, .4) 72%,
+    transparent 100%
+  );
+}
+
+/* Texto por encima de la imagen */
+.hero-contenido {
+  position: relative;
+  z-index: 2;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
