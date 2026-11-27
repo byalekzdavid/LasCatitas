@@ -731,3 +731,52 @@ body {
   }
 }
 
+
+/* =====================================
+   INTEGRACIÓN RADIAL DEL MICRÓFONO
+   ===================================== */
+
+.hero-microfono {
+  opacity: 1;
+
+  -webkit-mask-image: radial-gradient(
+    ellipse at 62% 48%,
+    rgba(0, 0, 0, 1) 22%,
+    rgba(0, 0, 0, .95) 40%,
+    rgba(0, 0, 0, .65) 60%,
+    rgba(0, 0, 0, .25) 80%,
+    transparent 100%
+  );
+
+  mask-image: radial-gradient(
+    ellipse at 62% 48%,
+    rgba(0, 0, 0, 1) 22%,
+    rgba(0, 0, 0, .95) 40%,
+    rgba(0, 0, 0, .65) 60%,
+    rgba(0, 0, 0, .25) 80%,
+    transparent 100%
+  );
+}
+
+/* El contenido no debe parecer un recuadro */
+.hero-contenido {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+}
+
+/* Fondo continuo, sin una división marcada */
+.hero-fondo {
+  background:
+    radial-gradient(
+      ellipse at 72% 45%,
+      rgba(36, 75, 125, .24),
+      transparent 68%
+    ),
+    linear-gradient(
+      180deg,
+      #071426 0%,
+      #0a1d35 55%,
+      #071426 100%
+    );
+}
