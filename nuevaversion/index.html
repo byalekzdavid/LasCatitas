@@ -97,7 +97,9 @@
                 <span aria-hidden="true">↓</span>
                 Instalar
             </button>
-
+<p id="mensaje-app-instalada" hidden>
+    Nuestra APP ya está instalada en el teléfono.
+</p>
         </section>
 
     </main>
@@ -169,14 +171,20 @@
     let instalacionPendiente = null;
 
     const botonInstalar = document.getElementById("instalar-app");
+    const mensajeAppInstalada = document.getElementById("mensaje-app-instalada");
 
-    const instaladaComoApp =
-        window.matchMedia("(display-mode: standalone)").matches ||
-        window.navigator.standalone === true;
+    function verificarAppInstalada() {
+        const instaladaComoApp =
+            window.matchMedia("(display-mode: standalone)").matches ||
+            window.navigator.standalone === true ||
+            localStorage.getItem("las-catitas-app-instalada") === "true";
 
-    if (instaladaComoApp) {
-        botonInstalar.hidden = true;
+        mensajeAppInstalada.hidden = !instaladaComoApp;
     }
+
+    verificarAppInstalada();
+
+    window.addEventListener("pageshow", verificarAppInstalada);
 
     window.addEventListener("beforeinstallprompt", evento => {
         evento.preventDefault();
@@ -184,6 +192,12 @@
     });
 
     botonInstalar.addEventListener("click", async () => {
+
+        verificarAppInstalada();
+
+        if (!mensajeAppInstalada.hidden) {
+            return;
+        }
 
         if (instalacionPendiente) {
             instalacionPendiente.prompt();
@@ -193,7 +207,7 @@
             instalacionPendiente = null;
 
             if (resultado.outcome === "accepted") {
-                botonInstalar.hidden = true;
+                mensajeAppInstalada.hidden = false;
             }
 
             return;
@@ -210,7 +224,10 @@
 
     window.addEventListener("appinstalled", () => {
         instalacionPendiente = null;
-        botonInstalar.hidden = true;
+
+        localStorage.setItem("las-catitas-app-instalada", "true");
+
+        mensajeAppInstalada.hidden = false;
     });
 </script>
 
