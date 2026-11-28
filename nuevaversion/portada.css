@@ -584,3 +584,44 @@ main {
     height: 3px;
   }
 }
+
+/* POPUP: APP YA INSTALADA */
+
+.popup-app-instalada {
+    width: min(90%, 360px);
+    padding: 0;
+    border: 1px solid #d6b56d;
+    border-radius: 18px;
+    background: #102b4c;
+    color: #fffaf0;
+    text-align: center;
+}
+
+.popup-app-instalada::backdrop {
+    background: rgba(0, 0, 0, 0.75);
+}
+
+.contenido-popup-instalacion {
+    padding: 28px 22px;
+}
+
+.contenido-popup-instalacion h3 {
+    color: #f0d99a;
+    margin-top: 0;
+}
+
+.contenido-popup-instalacion p {
+    color: #fffaf0;
+    line-height: 1.5;
+}
+
+.contenido-popup-instalacion button {
+    margin-top: 12px;
+    padding: 11px 25px;
+    border: none;
+    border-radius: 10px;
+    background: #d6b56d;
+    color: #071426;
+    font-weight: bold;
+    cursor: pointer;
+}
