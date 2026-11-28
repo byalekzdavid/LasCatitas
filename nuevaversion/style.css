@@ -1,10 +1,16 @@
+
+/* =========================================
+   LAS CATITAS - ESTILO GENERAL
+   ========================================= */
+
 :root {
-  --fondo: #03132e;
-  --azul-profundo: #061c3d;
-  --dorado: #f5c653;
-  --dorado-claro: #ffe39a;
-  --blanco: #f8faff;
-  --texto-suave: #dce8fa;
+  --fondo: #071426;
+  --azul-profundo: #102b4c;
+  --azul-iluminado: #244b7d;
+  --dorado: #d6b56d;
+  --dorado-claro: #f0d99a;
+  --blanco: #fffaf0;
+  --texto-suave: #b9c7d8;
 }
 
 * {
@@ -24,10 +30,19 @@ body {
   overflow-x: hidden;
   color: var(--blanco);
   font-family: "Segoe UI", Arial, sans-serif;
-  background:
-    radial-gradient(ellipse at 50% -10%, #0755a0 0%, transparent 42%),
-    radial-gradient(ellipse at 100% 55%, rgba(10, 65, 139, .24), transparent 42%),
-    linear-gradient(160deg, #041a3b, #020a1c 75%);
+
+  /* ÚNICO FONDO DE TODA LA PÁGINA */
+  background-color: var(--fondo);
+  background-image:
+    linear-gradient(
+      rgba(7, 20, 38, .28),
+      rgba(7, 20, 38, .38)
+    ),
+    url("img/fondo-las-catitas.png");
+
+  background-position: center top;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 a {
@@ -39,7 +54,10 @@ button {
   font: inherit;
 }
 
-/* ENCABEZADO Y LOGOTIPO */
+
+/* =========================================
+   ENCABEZADO
+   ========================================= */
 
 .encabezado {
   width: 100%;
@@ -61,13 +79,17 @@ button {
   flex: 0 0 auto;
   object-fit: contain;
   border-radius: 50%;
-  filter: drop-shadow(0 0 8px rgba(245, 198, 83, .2));
+  filter: drop-shadow(0 0 8px rgba(214, 181, 109, .22));
 }
 
 .marca-separador {
   width: 2px;
   height: 70px;
-  background: linear-gradient(transparent, var(--dorado), transparent);
+  background: linear-gradient(
+    transparent,
+    var(--dorado),
+    transparent
+  );
 }
 
 .marca-texto strong {
@@ -86,7 +108,10 @@ button {
   letter-spacing: 3px;
 }
 
-/* CONTENIDO PRINCIPAL */
+
+/* =========================================
+   CONTENIDO PRINCIPAL
+   ========================================= */
 
 main {
   width: 100%;
@@ -95,45 +120,20 @@ main {
   padding: 0 20px;
 }
 
-/* BIENVENIDA Y MICRÓFONO */
+
+/* =========================================
+   PORTADA
+   ========================================= */
 
 .hero {
-  position: relative;
-  min-height: 515px;
+  min-height: 420px;
   display: flex;
   align-items: center;
-  overflow: hidden;
-  isolation: isolate;
   margin: 0 -20px;
-  padding: 25px 25px 85px;
-}
-
-.hero-fondo {
-  position: absolute;
-  z-index: -3;
-  inset: 0;
-  background:
-    radial-gradient(ellipse at 85% 35%, rgba(0, 108, 213, .3), transparent 45%),
-    linear-gradient(100deg, #03132e 0%, rgba(3, 19, 46, .88) 42%, rgba(3, 19, 46, .12) 100%);
-}
-
-.hero-microfono {
-  position: absolute;
-  z-index: -2;
-  top: 0;
-  right: -5%;
-  width: 77%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 65% center;
-  opacity: .95;
-  -webkit-mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.15) 18%, black 48%);
-  mask-image: linear-gradient(90deg, transparent 0%, rgba(0,0,0,.15) 18%, black 48%);
+  padding: 25px;
 }
 
 .hero-contenido {
-  position: relative;
-  z-index: 2;
   width: 68%;
   max-width: 430px;
   padding-bottom: 20px;
@@ -153,7 +153,7 @@ main {
   line-height: 1.08;
   font-weight: 850;
   letter-spacing: -.7px;
-  text-shadow: 0 3px 15px rgba(0,0,0,.3);
+  text-shadow: 0 3px 15px rgba(0, 0, 0, .4);
 }
 
 .hero-linea {
@@ -163,7 +163,7 @@ main {
   margin: 20px 0;
   border-radius: 5px;
   background: var(--dorado);
-  box-shadow: 0 0 15px rgba(245, 198, 83, .4);
+  box-shadow: 0 0 15px rgba(214, 181, 109, .3);
 }
 
 .hero p {
@@ -172,55 +172,39 @@ main {
   font-size: clamp(16px, 4.3vw, 22px);
   font-style: italic;
   line-height: 1.45;
-  text-shadow: 0 2px 10px #03132e;
+  text-shadow: 0 2px 10px rgba(7, 20, 38, .8);
 }
 
-/* CURVAS DECORATIVAS */
 
-.hero-curva {
-  position: absolute;
-  z-index: 3;
-  right: -12%;
-  bottom: 35px;
-  left: -12%;
-  height: 72px;
-  border-radius: 50%;
-  pointer-events: none;
-  transform: rotate(-2deg);
-}
-
-.hero-curva-azul {
-  bottom: 43px;
-  border-top: 5px solid #0876d2;
-  box-shadow: 0 -8px 18px rgba(0, 104, 209, .25);
-}
-
-.hero-curva-dorada {
-  border-top: 7px solid var(--dorado-claro);
-  box-shadow: 0 -4px 18px rgba(245, 198, 83, .28);
-}
-
-/* CITA BÍBLICA */
+/* =========================================
+   CITA BÍBLICA
+   ========================================= */
 
 .cita-biblica {
   position: relative;
   min-height: 190px;
   margin: 25px 0 35px;
   padding: 28px 20px;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+
   overflow: hidden;
   text-align: center;
-  border: 1px solid rgba(245, 198, 83, .55);
+
+  border: 1px solid rgba(214, 181, 109, .4);
   border-radius: 26px;
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(20, 83, 151, .45), transparent 70%),
-    linear-gradient(145deg, #0b2346, #03132b);
+
+  background: rgba(7, 20, 38, .72);
+
   box-shadow:
-    inset 0 1px 8px rgba(255,255,255,.08),
-    0 10px 25px rgba(0,0,0,.25);
+    inset 0 1px 8px rgba(255, 255, 255, .05),
+    0 10px 25px rgba(0, 0, 0, .2);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .cita-biblica::before,
@@ -229,7 +213,7 @@ main {
   position: absolute;
   width: 150px;
   height: 150px;
-  border: 1px solid rgba(245, 198, 83, .12);
+  border: 1px solid rgba(214, 181, 109, .12);
   border-radius: 50%;
   pointer-events: none;
 }
@@ -248,14 +232,7 @@ main {
   margin-bottom: 12px;
   color: var(--dorado);
   font-size: 30px;
-  text-shadow: 0 0 15px rgba(245, 198, 83, .45);
-}
-
-.cita-etiqueta {
-  color: var(--dorado);
-  font-size: 11px;
-  font-weight: 800;
-  letter-spacing: 3px;
+  text-shadow: 0 0 15px rgba(214, 181, 109, .45);
 }
 
 .cita-biblica h2 {
@@ -263,6 +240,7 @@ main {
   color: var(--blanco);
   font-size: 25px;
   font-weight: 750;
+  line-height: 1.4;
 }
 
 .cita-linea {
@@ -271,28 +249,38 @@ main {
   margin-top: 16px;
   border-radius: 5px;
   background: var(--dorado);
-  box-shadow: 0 0 12px rgba(245, 198, 83, .4);
+  box-shadow: 0 0 12px rgba(214, 181, 109, .3);
 }
 
-/* BANNER DE INSTALACIÓN */
+
+/* =========================================
+   BANNER DE INSTALACIÓN
+   ========================================= */
 
 .instalacion {
   position: relative;
   min-height: 135px;
+
   display: flex;
   align-items: center;
   gap: 15px;
+
   margin: 42px 0 25px;
   padding: 17px;
+
   overflow: hidden;
-  border: 2px solid rgba(61, 135, 220, .85);
+
+  border: 1px solid rgba(214, 181, 109, .5);
   border-radius: 30px;
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(22, 104, 183, .38), transparent 55%),
-    linear-gradient(120deg, #0b2346, #03132b);
+
+  background: rgba(7, 20, 38, .78);
+
   box-shadow:
-    inset 0 1px 5px rgba(255,255,255,.13),
-    0 12px 25px rgba(0,0,0,.25);
+    inset 0 1px 5px rgba(255, 255, 255, .08),
+    0 12px 25px rgba(0, 0, 0, .2);
+
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 .instalacion-icono {
@@ -337,13 +325,20 @@ main {
   flex: 0 0 auto;
   min-height: 58px;
   padding: 0 17px;
-  border: 1px solid rgba(255,255,255,.35);
+
+  border: 1px solid rgba(255, 255, 255, .35);
   border-radius: 35px;
-  background: linear-gradient(145deg, #ffe18b, #e9a52b);
-  color: #071426;
+
+  background: linear-gradient(
+    145deg,
+    var(--dorado-claro),
+    var(--dorado)
+  );
+
+  color: var(--fondo);
   font-size: 15px;
   font-weight: 850;
-  box-shadow: 0 5px 15px rgba(0,0,0,.28);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, .28);
 }
 
 .boton-instalar span {
@@ -355,7 +350,10 @@ main {
   display: none;
 }
 
-/* NAVEGACIÓN INFERIOR */
+
+/* =========================================
+   NAVEGACIÓN INFERIOR
+   ========================================= */
 
 .navegacion {
   position: fixed;
@@ -363,30 +361,37 @@ main {
   right: 0;
   bottom: 0;
   left: 0;
+
   width: 100%;
   max-width: 720px;
   min-height: 105px;
   margin: auto;
   padding: 13px 10px 15px;
+
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  border: 2px solid rgba(32, 112, 205, .85);
+
+  border: 1px solid rgba(214, 181, 109, .4);
   border-bottom: 0;
   border-radius: 45px 45px 0 0;
-  background:
-    linear-gradient(180deg, rgba(8, 35, 70, .97), rgba(2, 13, 31, .99));
-  box-shadow: 0 -8px 25px rgba(0,0,0,.3);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+
+  background: rgba(7, 20, 38, .94);
+
+  box-shadow: 0 -8px 25px rgba(0, 0, 0, .3);
+
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
 }
 
 .nav-item {
   position: relative;
+
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 4px;
+
   color: #e4eaf5;
   font-size: 15px;
   font-weight: 700;
@@ -399,7 +404,7 @@ main {
   bottom: 12px;
   left: 0;
   width: 2px;
-  background: rgba(68, 126, 194, .35);
+  background: rgba(214, 181, 109, .2);
 }
 
 .nav-icono {
@@ -420,10 +425,13 @@ main {
   height: 5px;
   border-radius: 8px;
   background: var(--dorado);
-  box-shadow: 0 0 12px rgba(245, 198, 83, .55);
+  box-shadow: 0 0 12px rgba(214, 181, 109, .45);
 }
 
-/* ADAPTACIÓN PARA TELÉFONOS */
+
+/* =========================================
+   ADAPTACIÓN PARA TELÉFONOS
+   ========================================= */
 
 @media (max-width: 600px) {
 
@@ -468,13 +476,8 @@ main {
     padding: 15px 18px 60px;
   }
 
-  .hero-microfono {
-    right: -12%;
-    width: 78%;
-  }
-
   .hero-contenido {
-    width: 68%;
+    width: 70%;
     padding-bottom: 5px;
   }
 
@@ -485,7 +488,6 @@ main {
 
   .hero h1 {
     font-size: clamp(25px, 7vw, 32px);
-    line-height: 1.08;
   }
 
   .hero-linea {
@@ -497,15 +499,6 @@ main {
   .hero p {
     font-size: 14px;
     line-height: 1.35;
-  }
-
-  .hero-curva {
-    bottom: 25px;
-    height: 45px;
-  }
-
-  .hero-curva-azul {
-    bottom: 31px;
   }
 
   .cita-biblica {
@@ -520,13 +513,10 @@ main {
     font-size: 25px;
   }
 
-  .cita-etiqueta {
-    font-size: 10px;
-  }
-
   .cita-biblica h2 {
     margin-top: 9px;
-    font-size: 21px;
+    font-size: 19px;
+    line-height: 1.4;
   }
 
   .cita-linea {
@@ -593,190 +583,4 @@ main {
     bottom: -5px;
     height: 3px;
   }
-}
-
-/* ACCESIBILIDAD: REDUCIR MOVIMIENTO */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    transition-duration: .01ms !important;
-  }
-}
-
-
-/* =====================================
-   NUEVA IDENTIDAD VISUAL - LAS CATITAS
-   ===================================== */
-
-:root {
-  --fondo: #071426;
-  --azul-profundo: #102b4c;
-  --dorado: #d6b56d;
-  --dorado-claro: #f0d99a;
-  --blanco: #fffaf0;
-  --texto-suave: #b9c7d8;
-}
-
-body {
-  background:
-    radial-gradient(ellipse at 50% 0%, #244b7d 0%, transparent 48%),
-    linear-gradient(160deg, #071426, #102b4c 55%, #071426);
-}
-
-/* Encabezado */
-.logo {
-  filter: drop-shadow(0 0 8px rgba(214, 181, 109, .22));
-}
-
-.marca-separador {
-  background: linear-gradient(transparent, var(--dorado), transparent);
-}
-
-/* Portada */
-.hero {
-  min-height: 420px;
-}
-
-.hero-fondo {
-  background:
-    radial-gradient(ellipse at 85% 35%, rgba(36, 75, 125, .35), transparent 48%),
-    linear-gradient(100deg, #071426 0%, rgba(7, 20, 38, .88) 45%, rgba(7, 20, 38, .15) 100%);
-}
-
-.hero-linea {
-  background: var(--dorado);
-  box-shadow: 0 0 15px rgba(214, 181, 109, .3);
-}
-
-.hero-curva-azul {
-  border-top-color: #244b7d;
-  box-shadow: 0 -8px 18px rgba(36, 75, 125, .2);
-}
-
-.hero-curva-dorada {
-  border-top-color: var(--dorado-claro);
-  box-shadow: 0 -4px 18px rgba(214, 181, 109, .2);
-}
-
-/* Cita bíblica */
-.cita-biblica {
-  border-color: rgba(214, 181, 109, .45);
-  background:
-    radial-gradient(ellipse at 50% 0%, rgba(36, 75, 125, .4), transparent 70%),
-    linear-gradient(145deg, #102b4c, #071426);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, .2);
-}
-
-.cita-icono,
-.cita-etiqueta {
-  color: var(--dorado);
-}
-
-.cita-linea {
-  background: var(--dorado);
-  box-shadow: 0 0 12px rgba(214, 181, 109, .3);
-}
-
-/* Instalación */
-.instalacion {
-  border-color: rgba(214, 181, 109, .5);
-  background:
-    radial-gradient(ellipse at 0% 0%, rgba(36, 75, 125, .4), transparent 60%),
-    linear-gradient(120deg, #102b4c, #071426);
-}
-
-.boton-instalar {
-  background: linear-gradient(145deg, #f0d99a, #d6b56d);
-  color: #071426;
-}
-
-/* Navegación inferior */
-.navegacion {
-  border-color: rgba(214, 181, 109, .45);
-  background: linear-gradient(180deg, rgba(16, 43, 76, .98), rgba(7, 20, 38, .99));
-}
-
-.nav-item + .nav-item::before {
-  background: rgba(214, 181, 109, .2);
-}
-
-/* Adaptación para celulares */
-@media (max-width: 600px) {
-  .hero {
-    min-height: 290px;
-  }
-
-  .hero-microfono {
-    right: -10%;
-    width: 75%;
-  }
-
-  .hero-contenido {
-    width: 70%;
-  }
-
-  .hero h1 {
-    font-size: clamp(25px, 7vw, 32px);
-  }
-
-  .hero p {
-    font-size: 13px;
-  }
-
-  .cita-biblica h2 {
-    font-size: 19px;
-    line-height: 1.4;
-  }
-}
-
-
-/* =====================================
-   INTEGRACIÓN RADIAL DEL MICRÓFONO
-   ===================================== */
-
-.hero-microfono {
-  opacity: 1;
-
-  -webkit-mask-image: radial-gradient(
-    ellipse at 62% 48%,
-    rgba(0, 0, 0, 1) 22%,
-    rgba(0, 0, 0, .95) 40%,
-    rgba(0, 0, 0, .65) 60%,
-    rgba(0, 0, 0, .25) 80%,
-    transparent 100%
-  );
-
-  mask-image: radial-gradient(
-    ellipse at 62% 48%,
-    rgba(0, 0, 0, 1) 22%,
-    rgba(0, 0, 0, .95) 40%,
-    rgba(0, 0, 0, .65) 60%,
-    rgba(0, 0, 0, .25) 80%,
-    transparent 100%
-  );
-}
-
-/* El contenido no debe parecer un recuadro */
-.hero-contenido {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-}
-
-/* Fondo continuo, sin una división marcada */
-.hero-fondo {
-  background:
-    radial-gradient(
-      ellipse at 72% 45%,
-      rgba(36, 75, 125, .24),
-      transparent 68%
-    ),
-    linear-gradient(
-      180deg,
-      #071426 0%,
-      #0a1d35 55%,
-      #071426 100%
-    );
 }
