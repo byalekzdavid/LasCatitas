@@ -367,25 +367,6 @@ body.pagina-audios {
 }
 
 /* =========================================================
-   6. POPUP DE Index — index.html
-   ========================================================= */
-
-#popup-instalacion[hidden] {
-    display: none !important;
-}
-
-#popup-instalacion {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(3, 12, 26, 0.78);
-}
-
-/* =========================================================
    7. ADAPTACIÓN PARA CELULARES
    ========================================================= */
 @media (max-width: 480px) {
@@ -448,25 +429,16 @@ body.pagina-audios {
         width: 29px;
         height: 29px;
     }
-
-    .botones-navegacion {
-        gap: 8px;
-    }
-
-    .botones-navegacion a {
-        padding: 10px 8px;
-        font-size: 13px;
-    }
 }
 
 /* =========================================================
-   7. ACCESIBILIDAD: REDUCIR MOVIMIENTO
+   ACCESIBILIDAD: REDUCIR MOVIMIENTO
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
     .pagina-audios *,
     .pagina-audios *::before,
-    .pagina-audios *::after,{
+    .pagina-audios *::after {
         scroll-behavior: auto !important;
         animation: none !important;
         transition: none !important;
