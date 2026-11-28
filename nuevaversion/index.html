@@ -10,7 +10,7 @@
     <link rel="manifest" href="manifest.json">
     <meta name="theme-color" content="#071426">
     <link rel="apple-touch-icon" href="icons/icon-192.png">
-    <link rel="stylesheet" href="portada.css">
+    <link rel="stylesheet" href="nuevaversion/portada.css">
 
     <meta name="description" content="Las Catitas: grabaciones y alabanzas.">
 
@@ -26,7 +26,7 @@
 
             <img
                 class="logo"
-                src="img/logo-las-catitas.png"
+                src="nuevaversion/img/logo-las-catitas.png"
                 alt="Logo de Las Catitas">
 
             <span class="marca-separador"></span>
@@ -97,9 +97,15 @@
                 <span aria-hidden="true">↓</span>
                 Instalar
             </button>
-<p id="mensaje-app-instalada" hidden>
-    Nuestra APP ya está instalada en el teléfono.
-</p>
+<dialog id="popup-app-instalada" class="popup-app-instalada">
+    <div class="contenido-popup-instalacion">
+        <h3>¡Nuestra APP ya está instalada!</h3>
+        <p>Nuestra APP ya está instalada en el teléfono.</p>
+        <button type="button" id="cerrar-popup-instalada">
+            Entendido
+        </button>
+    </div>
+</dialog>
         </section>
 
     </main>
@@ -171,20 +177,16 @@
     let instalacionPendiente = null;
 
     const botonInstalar = document.getElementById("instalar-app");
-    const mensajeAppInstalada = document.getElementById("mensaje-app-instalada");
+    const popupAppInstalada = document.getElementById("popup-app-instalada");
+    const cerrarPopupInstalada = document.getElementById("cerrar-popup-instalada");
 
     function verificarAppInstalada() {
-        const instaladaComoApp =
+        return (
             window.matchMedia("(display-mode: standalone)").matches ||
             window.navigator.standalone === true ||
-            localStorage.getItem("las-catitas-app-instalada") === "true";
-
-        mensajeAppInstalada.hidden = !instaladaComoApp;
+            localStorage.getItem("las-catitas-app-instalada") === "true"
+        );
     }
-
-    verificarAppInstalada();
-
-    window.addEventListener("pageshow", verificarAppInstalada);
 
     window.addEventListener("beforeinstallprompt", evento => {
         evento.preventDefault();
@@ -193,9 +195,8 @@
 
     botonInstalar.addEventListener("click", async () => {
 
-        verificarAppInstalada();
-
-        if (!mensajeAppInstalada.hidden) {
+        if (verificarAppInstalada()) {
+            popupAppInstalada.showModal();
             return;
         }
 
@@ -205,10 +206,6 @@
             const resultado = await instalacionPendiente.userChoice;
 
             instalacionPendiente = null;
-
-            if (resultado.outcome === "accepted") {
-                mensajeAppInstalada.hidden = false;
-            }
 
             return;
         }
@@ -222,15 +219,17 @@
         );
     });
 
+    cerrarPopupInstalada.addEventListener("click", () => {
+        popupAppInstalada.close();
+    });
+
     window.addEventListener("appinstalled", () => {
         instalacionPendiente = null;
 
         localStorage.setItem("las-catitas-app-instalada", "true");
-
-        mensajeAppInstalada.hidden = false;
     });
 </script>
-
+    
     <!-- FIREBASE CLOUD MESSAGING -->
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
