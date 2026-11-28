@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>Las Catitas | Grabaciones</title>
+
+    <link rel="icon" type="image/png" href="favicon.png">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#071426">
+    <link rel="apple-touch-icon" href="icons/icon-192.png">
+    <link rel="stylesheet" href="portada.css">
+
+    <meta name="description" content="Las Catitas: grabaciones y alabanzas.">
+
+    <meta name="google-site-verification"
+          content="pQMq-683FjbEJwTVSkE0yGTZrfJ89ELk6pMtQ3Ei-Q4">
+</head>
+
+<body class="portada-elegante">
+
+    <!-- ENCABEZADO -->
+    <header class="encabezado">
+        <a href="index.html" class="marca" aria-label="Las Catitas - Inicio">
+
+            <img
+                class="logo"
+                src="img/logo-las-catitas.png"
+                alt="Logo de Las Catitas">
+
+            <span class="marca-separador"></span>
+
+            <span class="marca-texto">
+                <strong>Audios Conjuntos</strong>
+                <small>GRABACIONES</small>
+            </span>
+
+        </a>
+    </header>
+
+
+    <main>
+
+        <!-- PORTADA -->
+               <section class="hero">
+            <div class="hero-contenido">
+                <span class="hero-etiqueta">
+                    UN ESPACIO PARA ALABAR
+                </span>
+                <h1>Bienvenidos</h1>
+                <span class="hero-linea"></span>
+                <p>
+                    Grabaciones y alabanzas para compartir la Palabra de Dios.
+                </p>
+            </div>
+        </section>
+
+        <!-- CITA BÍBLICA -->
+        <section class="cita-biblica">
+            <div class="cita-icono" aria-hidden="true">✦</div>
+            <h2>"Todo lo que respira alabe a Jehová. Aleluya."</h2>
+                <h4></h4>Sal. 150:6</h4>
+            <span class="cita-linea"></span>
+        </section>
+
+
+        <!-- INSTALACIÓN DE LA APLICACIÓN -->
+        <section class="instalacion" id="bloque-instalacion">
+
+            <div class="instalacion-icono" aria-hidden="true">
+                <svg viewBox="0 0 70 85">
+                    <rect x="10" y="3" width="50" height="78" rx="9"
+                        fill="none" stroke="currentColor" stroke-width="5"/>
+
+                    <path d="M35 20 V49 M24 39 L35 50 L46 39"
+                        fill="none" stroke="currentColor" stroke-width="5"
+                        stroke-linecap="round" stroke-linejoin="round"/>
+
+                    <path d="M25 67 H45"
+                        stroke="currentColor" stroke-width="4"
+                        stroke-linecap="round"/>
+                </svg>
+            </div>
+
+            <span class="instalacion-separador"></span>
+
+            <div class="instalacion-texto">
+                <h2>Instalá nuestra aplicación</h2>
+                <p>Accedé más rápido desde tu teléfono.</p>
+            </div>
+
+            <button
+                type="button"
+                id="instalar-app"
+                class="boton-instalar">
+                <span aria-hidden="true">↓</span>
+                Instalar
+            </button>
+<p id="mensaje-app-instalada" hidden>
+    Nuestra APP ya está instalada en el teléfono.
+</p>
+        </section>
+
+    </main>
+
+
+    <!-- NAVEGACIÓN INFERIOR -->
+    <nav class="navegacion" aria-label="Navegación principal">
+
+        <a href="index.html"
+           class="nav-item activo"
+           aria-current="page">
+
+            <span class="nav-icono" aria-hidden="true">⌂</span>
+            <span>Inicio</span>
+
+        </a>
+
+        <a href="audios.html" class="nav-item">
+
+            <span class="nav-icono" aria-hidden="true">♫</span>
+            <span>Audios</span>
+
+        </a>
+
+        <a href="alabanzas.html" class="nav-item">
+
+            <span class="nav-icono" aria-hidden="true">▤</span>
+            <span>Alabanzas</span>
+
+        </a>
+
+    </nav>
+
+
+    <!-- BOTÓN PARA ACTIVAR NOTIFICACIONES -->
+    <button
+        type="button"
+        id="btn-activar-notificaciones"
+        class="boton-superior-pwa"
+        hidden>
+        🔔 Activar Avisos
+    </button>
+
+
+    <!-- REGISTRO DEL SERVICE WORKER -->
+    <script>
+        if ("serviceWorker" in navigator) {
+            window.addEventListener("load", async () => {
+                try {
+                    const registro = await navigator.serviceWorker.register(
+                        "./service-worker.js"
+                    );
+
+                    await registro.update();
+
+                } catch (error) {
+                    console.error(
+                        "Error al registrar o actualizar el service worker:",
+                        error
+                    );
+                }
+            });
+        }
+    </script>
+
+
+    <!-- INSTALACIÓN DE LA APLICACIÓN -->
+<script>
+    let instalacionPendiente = null;
+
+    const botonInstalar = document.getElementById("instalar-app");
+    const mensajeAppInstalada = document.getElementById("mensaje-app-instalada");
+
+    function verificarAppInstalada() {
+        const instaladaComoApp =
+            window.matchMedia("(display-mode: standalone)").matches ||
+            window.navigator.standalone === true ||
+            localStorage.getItem("las-catitas-app-instalada") === "true";
+
+        mensajeAppInstalada.hidden = !instaladaComoApp;
+    }
+
+    verificarAppInstalada();
+
+    window.addEventListener("pageshow", verificarAppInstalada);
+
+    window.addEventListener("beforeinstallprompt", evento => {
+        evento.preventDefault();
+        instalacionPendiente = evento;
+    });
+
+    botonInstalar.addEventListener("click", async () => {
+
+        verificarAppInstalada();
+
+        if (!mensajeAppInstalada.hidden) {
+            return;
+        }
+
+        if (instalacionPendiente) {
+            instalacionPendiente.prompt();
+
+            const resultado = await instalacionPendiente.userChoice;
+
+            instalacionPendiente = null;
+
+            if (resultado.outcome === "accepted") {
+                mensajeAppInstalada.hidden = false;
+            }
+
+            return;
+        }
+
+        const esIOS = /iphone|ipad|ipod/i.test(navigator.userAgent);
+
+        alert(
+            esIOS
+                ? 'Para instalarla, tocá "Compartir" en Safari y luego "Agregar a pantalla de inicio".'
+                : 'Para instalarla, abrí el menú de tu navegador (⋮ o ⋯) y buscá "Instalar aplicación" o "Agregar a pantalla de inicio".'
+        );
+    });
+
+    window.addEventListener("appinstalled", () => {
+        instalacionPendiente = null;
+
+        localStorage.setItem("las-catitas-app-instalada", "true");
+
+        mensajeAppInstalada.hidden = false;
+    });
+</script>
+
+    <!-- FIREBASE CLOUD MESSAGING -->
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-messaging-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+
+    <script>
+        firebase.initializeApp({
+            apiKey: "AIzaSyCX3vKQbWOEO4IP0ppPlHsIuiHN4sy0qTc",
+            authDomain: "las-catitas.firebaseapp.com",
+            projectId: "las-catitas",
+            storageBucket: "las-catitas.firebasestorage.app",
+            messagingSenderId: "69962715074",
+            appId: "1:69962715074:web:b88edad813c0674e29505b"
+        });
+
+        const messaging = firebase.messaging();
+        const db = firebase.firestore();
+
+        const btnActivarNotif =
+            document.getElementById("btn-activar-notificaciones");
+
+
+        function verificarEstadoNotificaciones() {
+            if (!btnActivarNotif) return;
+
+            if (
+                Notification.permission === "granted" ||
+                Notification.permission === "denied"
+            ) {
+                btnActivarNotif.hidden = true;
+            } else {
+                btnActivarNotif.hidden = false;
+            }
+        }
+
+
+        verificarEstadoNotificaciones();
+
+
+        async function solicitarYRegistrarNotificaciones() {
+            try {
+                const permission =
+                    await Notification.requestPermission();
+
+                verificarEstadoNotificaciones();
+
+                if (permission !== "granted") {
+                    console.log(
+                        "Permiso de notificaciones no concedido."
+                    );
+                    return;
+                }
+
+
+                const registration =
+                    await navigator.serviceWorker.ready;
+
+
+                const token = await messaging.getToken({
+                    vapidKey: "BO8Lsey5dJS2eGtn8wKTXKbNJPwnR4Iasx2x7kapzAiSLjOMA-z6klZdfAy2c1ziZubXTNHLmcwEUvqvr2VsyrM",
+                    serviceWorkerRegistration: registration
+                });
+
+
+                if (!token) {
+                    console.warn(
+                        "No se pudo obtener el token de registro."
+                    );
+                    return;
+                }
+
+
+                await db.collection("fcm_tokens").doc(token).set({
+                    token: token,
+                    fechaRegistro:
+                        firebase.firestore.FieldValue.serverTimestamp(),
+                    dispositivo: navigator.userAgent
+                }, { merge: true });
+
+
+                console.log(
+                    "Token FCM guardado correctamente."
+                );
+
+            } catch (error) {
+                console.error(
+                    "Error al registrar notificaciones:",
+                    error
+                );
+            }
+        }
+
+
+        if (btnActivarNotif) {
+            btnActivarNotif.addEventListener("click", () => {
+                solicitarYRegistrarNotificaciones();
+            });
+        }
+
+
+        // RECEPCIÓN DE NOTIFICACIONES EN PRIMER PLANO
+        messaging.onMessage(async payload => {
+
+            console.log(
+                "[Las Catitas] Mensaje recibido en primer plano."
+            );
+
+
+            if (Notification.permission !== "granted") {
+                console.warn(
+                    "Las notificaciones no tienen permiso."
+                );
+                return;
+            }
+
+
+            const titulo =
+                payload.notification?.title ||
+                payload.data?.title ||
+                "Las Catitas";
+
+
+            const cuerpo =
+                payload.notification?.body ||
+                payload.data?.body ||
+                "";
+
+
+            try {
+                const registration =
+                    await navigator.serviceWorker.ready;
+
+
+                const destino =
+                    payload.fcmOptions?.link ||
+                    "https://byalekzdavid.github.io/LasCatitas/index.html";
+
+
+                await registration.showNotification(titulo, {
+                    body: cuerpo,
+                    icon: "./icons/icon-192.png",
+                    data: {
+                        notificacionLasCatitas: true,
+                        url: destino
+                    }
+                });
+
+
+                console.log(
+                    "[Las Catitas] Notificación de primer plano mostrada."
+                );
+
+            } catch (error) {
+                console.error(
+                    "No se pudo mostrar la notificación en primer plano:",
+                    error
+                );
+            }
+
+        });
+
+    </script>
+
+</body>
+</html>
