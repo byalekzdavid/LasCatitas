@@ -30,171 +30,7 @@ button {
 }
 
 /* =========================================================
-   2. PORTADA — index.html
-   ========================================================= */
-
-body.portada-elegante {
-    min-height: 100vh;
-    min-height: 100svh;
-    color: #fffaf0;
-    background:
-        radial-gradient(ellipse at center, #244b7d, transparent 65%),
-        linear-gradient(135deg, #071426, #102b4c, #071426);
-}
-
-.portada-elegante .portada {
-    min-height: 100vh;
-    min-height: 100svh;
-    padding: 60px 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    position: relative;
-    overflow: hidden;
-    isolation: isolate;
-}
-
-.portada-elegante .portada::before {
-    content: "";
-    position: absolute;
-    inset: 22px;
-    border: 1px solid #c6a45c;
-    border-radius: 18px;
-    pointer-events: none;
-    z-index: -1;
-}
-
-.portada-elegante .portada::after {
-    content: "";
-    position: absolute;
-    width: 260px;
-    height: 260px;
-    border: 1px solid rgba(218, 181, 105, 0.16);
-    border-radius: 50%;
-    box-shadow:
-        0 0 0 24px rgba(218, 181, 105, 0.035),
-        0 0 0 50px rgba(218, 181, 105, 0.025);
-    z-index: -1;
-    pointer-events: none;
-}
-
-.portada-elegante h1 {
-    margin: 0;
-    color: #fffaf0;
-    font-size: clamp(42px, 8vw, 72px);
-    font-weight: 600;
-    letter-spacing: 2px;
-    text-shadow: 0 4px 24px rgba(0, 0, 0, 0.28);
-}
-
-.portada-elegante .linea {
-    width: 100px;
-    height: 2px;
-    margin: 25px;
-    background: linear-gradient(
-        90deg,
-        transparent,
-        #e4c47e,
-        transparent
-    );
-}
-
-.portada-elegante .boton {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    gap: 10px;
-    min-height: 58px;
-    max-width: 100%;
-    padding: 17px 28px;
-    border: 1px solid #e1c17b;
-    border-radius: 9px;
-    background: linear-gradient(135deg, #e4c984, #c6a45c);
-    color: #10233b;
-    text-decoration: none;
-    font-size: 16px;
-    font-weight: bold;
-    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.22);
-    transition: transform 0.2s, box-shadow 0.2s;
-}
-
-.portada-elegante .boton:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
-}
-
-.portada-elegante .boton:focus-visible {
-    outline: 3px solid #fff;
-    outline-offset: 5px;
-}
-
-/* Botones superiores: avisos e instalación */
-.boton-superior-pwa {
-    position: fixed;
-    top: 12px;
-    z-index: 1000;
-    min-height: 34px;
-    padding: 6px 12px;
-    border: 1px solid #d6b56d;
-    border-radius: 6px;
-    background: #10243e;
-    color: #fff;
-    font-family: inherit;
-    font-size: 11px;
-    line-height: normal;
-    cursor: pointer;
-    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.2);
-    transition: background 0.2s, transform 0.2s;
-}
-
-#btn-activar-notificaciones {
-    left: 12px;
-}
-
-.boton-superior-pwa:hover {
-    background: #1b3c61;
-    transform: translateY(-1px);
-}
-
-.boton-superior-pwa:focus-visible {
-    outline: 2px solid #f0d99a;
-    outline-offset: 3px;
-}
-
-.boton-superior-pwa[hidden] {
-    display: none !important;
-}
-
-/* Enlace discreto al panel de administración */
-.enlace-admin {
-    position: fixed;
-    bottom: max(12px, env(safe-area-inset-bottom));
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 900;
-    width: max-content;
-    max-width: calc(100% - 24px);
-    box-sizing: border-box;
-    font-family: inherit;
-    font-size: 11px;
-    font-weight: normal;
-    line-height: 1.4;
-    text-align: center;
-    color: inherit;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    opacity: 0.75;
-    transition: opacity 0.2s ease;
-}
-
-.enlace-admin:hover {
-    opacity: 1;
-}
-
-/* =========================================================
-   3. GRABACIONES — audios.html
+   2. GRABACIONES — audios.html
    ========================================================= */
 
 body.pagina-audios {
@@ -531,139 +367,6 @@ body.pagina-audios {
 }
 
 /* =========================================================
-   4. BOTONES DE NAVEGACIÓN COMPARTIDOS
-   ========================================================= */
-
-.botones-navegacion {
-    display: flex;
-    justify-content: center;
-    align-items: stretch;
-    gap: 12px;
-    width: 100%;
-    max-width: 600px;
-    margin: 25px auto;
-}
-
-.botones-navegacion a {
-    flex: 1;
-    min-width: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    min-height: 48px;
-    padding: 12px 16px;
-    line-height: 1.3;
-}
-
-.portada-elegante .botones-navegacion {
-    margin: 0;
-}
-
-.portada-elegante .botones-navegacion a {
-    width: auto;
-    max-width: 290px;
-}
-
-/* =========================================================
-   5. POPUP DE ANUNCIOS — index.html
-   ========================================================= */
-
-#popup-anuncio[hidden] {
-    display: none !important;
-}
-
-#popup-anuncio {
-    position: fixed;
-    inset: 0;
-    z-index: 2000;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background: rgba(3, 12, 26, 0.78);
-}
-
-.popup-contenido {
-    position: relative;
-    width: 100%;
-    max-width: 360px;
-    padding: 28px 22px 22px;
-    border: 1px solid #d6b56d;
-    border-radius: 16px;
-    background: linear-gradient(145deg, #10243e, #183b63);
-    color: #fff;
-    text-align: center;
-    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.35);
-    animation: popup-aparecer 0.25s ease-out;
-}
-
-#popup-cerrar {
-    position: absolute;
-    top: 7px;
-    right: 10px;
-    width: 32px;
-    height: 32px;
-    padding: 0;
-    border: none;
-    background: transparent;
-    color: #fff;
-    font-size: 27px;
-    cursor: pointer;
-}
-
-.popup-icono {
-    margin-bottom: 10px;
-    color: #e6c477;
-    font-size: 32px;
-}
-
-#popup-titulo {
-    margin: 0 18px 14px;
-    color: #e6c477;
-    font-size: 23px;
-    line-height: 1.3;
-}
-
-#popup-mensaje {
-    margin: 0 0 22px;
-    color: #fff;
-    font-size: 16px;
-    line-height: 1.6;
-    overflow-wrap: anywhere;
-    white-space: pre-line;
-}
-
-#popup-entendido {
-    padding: 11px 25px;
-    border: 1px solid #f0d58f;
-    border-radius: 8px;
-    background: #d6b56d;
-    color: #10243e;
-    font-size: 15px;
-    font-weight: bold;
-    cursor: pointer;
-}
-
-#popup-cerrar:focus-visible,
-#popup-entendido:focus-visible {
-    outline: 2px solid #fff;
-    outline-offset: 3px;
-}
-
-@keyframes popup-aparecer {
-    from {
-        opacity: 0;
-        transform: translateY(10px) scale(0.98);
-    }
-
-    to {
-        opacity: 1;
-        transform: translateY(0) scale(1);
-    }
-}
-
-/* =========================================================
    6. POPUP DE Index — index.html
    ========================================================= */
 
@@ -685,44 +388,8 @@ body.pagina-audios {
 /* =========================================================
    7. ADAPTACIÓN PARA CELULARES
    ========================================================= */
-
-@media (max-width: 600px) {
-    .boton-superior-pwa {
-        top: 10px;
-        padding: 6px 9px;
-        font-size: 10px;
-    }
-
-    #btn-activar-notificaciones {
-        left: 10px;
-    }
-
-    #instalar-app {
-        right: 10px;
-    }
-}
-
 @media (max-width: 480px) {
-    .portada-elegante .portada {
-        padding: 45px 24px;
-    }
-
-    .portada-elegante .portada::before {
-        inset: 12px;
-        border-radius: 14px;
-    }
-
-    .portada-elegante .boton {
-        width: min(100%, 290px);
-        padding: 15px 20px;
-        font-size: 15px;
-    }
-
-    .enlace-admin {
-        font-size: 10px;
-    }
-
-    body.pagina-audios {
+   body.pagina-audios {
         padding: 14px 10px;
     }
 
@@ -792,39 +459,19 @@ body.pagina-audios {
     }
 }
 
-@media (max-width: 400px) {
-    .popup-contenido {
-        max-width: 330px;
-        padding: 26px 18px 20px;
-    }
-
-    #popup-titulo {
-        font-size: 21px;
-    }
-
-    #popup-mensaje {
-        font-size: 15px;
-    }
-}
-
 /* =========================================================
    7. ACCESIBILIDAD: REDUCIR MOVIMIENTO
    ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-    .portada-elegante .boton,
     .pagina-audios *,
     .pagina-audios *::before,
-    .pagina-audios *::after,
-    .popup-contenido,
-    .enlace-admin,
-    .boton-superior-pwa {
+    .pagina-audios *::after,{
         scroll-behavior: auto !important;
         animation: none !important;
         transition: none !important;
     }
 
-    .portada-elegante .boton:hover,
     .pagina-audios .volver:hover {
         transform: none;
     }
